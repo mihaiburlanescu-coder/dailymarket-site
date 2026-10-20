@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daily Market</title>
+<meta name="description" content="Daily Market – raport zilnic de piață: SP500, WTI, DAX, GOLD, SILVER, EUR/USD.">
+<meta name="robots" content="noindex">
+<style>
+  :root{--bg:#f3f4f6;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#1d4ed8;--accent-ink:#fff;
+        --err:#b91c1c;--errbg:#fee2e2;--ok:#15803d;--okbg:#dcfce7;--warnbg:#fffbeb;--warnline:#fcd34d}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1115;--card:#171a21;--ink:#e5e7eb;--muted:#9ca3af;--line:#2a2f3a;
+        --accent:#60a5fa;--accent-ink:#0b1220;--err:#f87171;--errbg:#3a1616;--ok:#4ade80;--okbg:#12301f;--warnbg:#2a2210;--warnline:#8a6a1a}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Segoe UI,Arial,sans-serif;font-size:15px;line-height:1.5}
+  header{background:var(--card);border-bottom:1px solid var(--line)}
+  .bar{max-width:1080px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .logo{font-weight:800;font-size:20px;letter-spacing:-.3px}
+  .logo span{color:var(--accent)}
+  .spacer{flex:1}
+  .who{color:var(--muted);font-size:13px}
+  main{max-width:1080px;margin:0 auto;padding:20px 16px 48px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .auth{max-width:440px;margin:24px auto}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 18px}
+  label{display:block;font-size:13px;font-weight:600;margin:12px 0 4px}
+  input[type=text],input[type=email],input[type=password],input[type=number]{width:100%;padding:10px 12px;border:1px solid var(--line);
+        border-radius:10px;font-size:15px;background:var(--bg);color:var(--ink)}
+  input:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .check{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-top:14px;color:var(--ink)}
+  .check input{margin-top:3px}
+  button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px}
+  button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;width:100%;margin-top:18px;padding:11px}
+  button:disabled{opacity:.6;cursor:default}
+  .link{background:none;border:none;color:var(--accent);padding:0;font-size:13px;text-decoration:underline}
+  .tabs{display:flex;gap:6px;margin-bottom:16px}
+  .tabs button{flex:1}
+  .tabs button.on{background:var(--ink);color:var(--card);border-color:var(--ink);font-weight:700}
+  .msg{padding:10px 12px;border-radius:10px;font-size:13px;margin-top:14px;display:none}
+  .msg.err{display:block;background:var(--errbg);color:var(--err)}
+  .msg.ok{display:block;background:var(--okbg);color:var(--ok)}
+  .row{display:flex;justify-content:space-between;margin-top:10px}
+  .disc{background:var(--warnbg);border:1px solid var(--warnline);border-radius:12px;padding:12px 14px;font-size:12px;color:var(--muted);margin-top:18px;line-height:1.55}
+  .disc b{color:var(--ink)}
+  .layout{display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:start}
+  .list{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;max-height:75vh;overflow:auto}
+  .list button{display:block;width:100%;text-align:left;border:none;border-radius:8px;padding:8px 10px;font-size:14px}
+  .list button.on{background:var(--ink);color:var(--card);font-weight:700}
+  .list .lt{color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;padding:6px 10px}
+  .frame{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:70vh}
+  iframe{width:100%;border:0;display:block;min-height:70vh;background:#f3f4f6}
+  .empty{padding:40px 20px;text-align:center;color:var(--muted)}
+  select{display:none;width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:15px;margin-bottom:12px}
+  @media (max-width:720px){.layout{grid-template-columns:1fr}.list{display:none}select{display:block}}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="logo">Daily <span>Market</span></div>
+  <div class="spacer"></div>
+  <div class="who" id="who" hidden></div>
+  <button id="logout" hidden>Ieșire</button>
+</div></header>
+
+<main>
+  <!-- AUTENTIFICARE -->
+  <section id="auth" class="auth card" hidden>
+    <h1 id="authTitle">Intră în cont</h1>
+    <p class="sub">Raport zilnic: SP500 · WTI · DAX · GOLD · SILVER · EUR/USD</p>
+    <div class="tabs">
+      <button id="tLogin" class="on" type="button">Autentificare</button>
+      <button id="tSignup" type="button">Cont nou</button>
+    </div>
+
+    <form id="fLogin" autocomplete="on">
+      <label for="lEmail">Email</label>
+      <input id="lEmail" type="email" required autocomplete="email">
+      <label for="lPass">Parolă</label>
+      <input id="lPass" type="password" required autocomplete="current-password">
+      <button class="primary" type="submit">Intră</button>
+      <div class="row"><button class="link" type="button" id="forgot">Am uitat parola</button></div>
+    </form>
+
+    <form id="fSignup" hidden autocomplete="on">
+      <label for="sName">Nume și prenume</label>
+      <input id="sName" type="text" required minlength="2" maxlength="120" autocomplete="name">
+      <label for="sAge">Vârsta</label>
+      <input id="sAge" type="number" required min="18" max="120" inputmode="numeric">
+      <label for="sEmail">Email</label>
+      <input id="sEmail" type="email" required autocomplete="email">
+      <label for="sPass">Parolă (minim 8 caractere)</label>
+      <input id="sPass" type="password" required minlength="8" autocomplete="new-password">
+      <div class="check"><input id="sTerms" type="checkbox" required>
+        <label for="sTerms" style="margin:0;font-weight:400">Am cel puțin 18 ani, am citit disclaimer-ul de mai jos și accept ca numele,
+        vârsta și emailul meu să fie folosite doar pentru accesul la acest raport.</label></div>
+      <button class="primary" type="submit">Creează contul</button>
+    </form>
+
+    <form id="fReset" hidden>
+      <label for="rPass">Parolă nouă (minim 8 caractere)</label>
+      <input id="rPass" type="password" required minlength="8" autocomplete="new-password">
+      <button class="primary" type="submit">Salvează parola</button>
+    </form>
+
+    <div id="msg" class="msg"></div>
+
+    <div class="disc"><b>Disclaimer.</b> Daily Market are scop exclusiv informativ și educațional. Nu reprezintă consultanță de investiții,
+      recomandare de cumpărare sau vânzare și nici ofertă de a tranzacționa. Tranzacționarea CFD-urilor, futures și opțiunilor implică
+      risc ridicat de pierdere, inclusiv a întregului capital. Autorul nu își asumă nicio răspundere pentru deciziile sau pierderile
+      rezultate din utilizarea acestor informații.
+      <br><br><b>Date personale.</b> Păstrăm doar numele, vârsta și emailul, exclusiv pentru accesul la raport. Nu le transmitem terților.
+      <span id="contact"></span></div>
+  </section>
+
+  <!-- RAPOARTE -->
+  <section id="app" hidden>
+    <select id="pick" aria-label="Alege raportul"></select>
+    <div class="layout">
+      <nav class="list" id="list" aria-label="Arhiva rapoartelor"></nav>
+      <div class="frame"><iframe id="view" title="Raport Daily Market" sandbox="allow-popups allow-popups-to-escape-sandbox"></iframe>
+        <div class="empty" id="empty" hidden>Încă nu există rapoarte. Primul apare după următoarea rulare de dimineață.</div></div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const SUPABASE_URL = "https://atlxahrvzhzrzfhmwwen.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0bHhhaHJ2emh6cnpmaG13d2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0ODk2MTUsImV4cCI6MjEwODA2NTYxNX0.1lOoTQP6CYoT-qDg2oGx6EbtJP9ag2CaCxmV3Bj3DhQ";
+const CONTACT_EMAIL = "";   // ex. "contact@sale.ro" - pentru cereri de stergere a datelor
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const $ = id => document.getElementById(id);
+const ZILE = ["Duminică","Luni","Marți","Miercuri","Joi","Vineri","Sâmbătă"];
+if (CONTACT_EMAIL) $("contact").textContent = " Pentru ștergerea contului scrie la " + CONTACT_EMAIL + ".";
+
+function msg(text, ok) { const m = $("msg"); m.className = "msg " + (ok ? "ok" : "err"); m.textContent = text; }
+function clearMsg() { $("msg").className = "msg"; }
+function showForm(which) {
+  for (const f of ["fLogin","fSignup","fReset"]) $(f).hidden = f !== which;
+  $("tLogin").classList.toggle("on", which === "fLogin");
+  $("tSignup").classList.toggle("on", which === "fSignup");
+  $("authTitle").textContent = which === "fSignup" ? "Cont nou" : which === "fReset" ? "Parolă nouă" : "Intră în cont";
+  clearMsg();
+}
+function ro(err) {
+  const t = (err && err.message) || String(err);
+  if (/Invalid login credentials/i.test(t)) return "Email sau parolă greșită.";
+  if (/Email not confirmed/i.test(t)) return "Confirmă întâi adresa de email (verifică inboxul și Spam).";
+  if (/already registered|already exists/i.test(t)) return "Există deja un cont cu acest email.";
+  if (/18 ani/i.test(t)) return "Trebuie să ai cel puțin 18 ani pentru a crea un cont.";
+  if (/termenii/i.test(t)) return "Trebuie să accepți termenii și disclaimer-ul.";
+  if (/rate limit|too many/i.test(t)) return "Prea multe încercări. Mai încearcă peste câteva minute.";
+  if (/Password should be/i.test(t)) return "Parola trebuie să aibă cel puțin 8 caractere.";
+  if (/Database error saving new user/i.test(t)) return "Contul nu a putut fi creat. Verifică vârsta (minim 18) și acceptarea termenilor.";
+  return t;
+}
+function busy(form, on) { form.querySelectorAll("button").forEach(b => b.disabled = on); }
+
+$("tLogin").onclick = () => showForm("fLogin");
+$("tSignup").onclick = () => showForm("fSignup");
+
+$("fLogin").onsubmit = async e => {
+  e.preventDefault(); busy(e.target, true); clearMsg();
+  const { error } = await sb.auth.signInWithPassword({ email: $("lEmail").value.trim(), password: $("lPass").value });
+  busy(e.target, false);
+  if (error) msg(ro(error));
+};
+
+$("fSignup").onsubmit = async e => {
+  e.preventDefault();
+  const age = parseInt($("sAge").value, 10);
+  if (!(age >= 18)) return msg("Trebuie să ai cel puțin 18 ani pentru a crea un cont.");
+  if (!$("sTerms").checked) return msg("Trebuie să accepți termenii și disclaimer-ul.");
+  busy(e.target, true); clearMsg();
+  const { data, error } = await sb.auth.signUp({
+    email: $("sEmail").value.trim(), password: $("sPass").value,
+    options: { emailRedirectTo: location.origin + location.pathname,
+               data: { full_name: $("sName").value.trim(), age: age, accepted_terms: true } }
+  });
+  busy(e.target, false);
+  if (error) return msg(ro(error));
+  if (data.session) return;  // confirmarea emailului dezactivata -> intra direct
+  showForm("fLogin");
+  msg("Cont creat. Ți-am trimis un email de confirmare – apasă linkul din el, apoi intră în cont.", true);
+};
+
+$("forgot").onclick = async () => {
+  const email = $("lEmail").value.trim();
+  if (!email) return msg("Scrie întâi emailul în câmpul de mai sus.");
+  const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+  if (error) return msg(ro(error));
+  msg("Dacă există un cont cu acest email, ți-am trimis un link pentru resetarea parolei.", true);
+};
+
+$("fReset").onsubmit = async e => {
+  e.preventDefault(); busy(e.target, true);
+  const { error } = await sb.auth.updateUser({ password: $("rPass").value });
+  busy(e.target, false);
+  if (error) return msg(ro(error));
+  history.replaceState(null, "", location.pathname);
+  recovering = false;
+  const { data } = await sb.auth.getSession();
+  render(data.session, "SIGNED_IN");
+};
+
+$("logout").onclick = async () => { await sb.auth.signOut(); };
+
+function label(d) {
+  const dt = new Date(d + "T12:00:00");
+  return `${ZILE[dt.getDay()]} ${d.slice(8,10)}.${d.slice(5,7)}.${d.slice(0,4)}`;
+}
+
+async function show(date) {
+  document.querySelectorAll("#list button").forEach(b => b.classList.toggle("on", b.dataset.d === date));
+  $("pick").value = date;
+  const { data, error } = await sb.from("reports").select("html").eq("session_date", date).single();
+  if (error) { $("view").srcdoc = "<p style='font-family:sans-serif;padding:20px'>Raportul nu a putut fi încărcat.</p>"; return; }
+  // linkurile din raport se deschid in tab nou
+  $("view").srcdoc = data.html.replace("<head>", "<head><base target='_blank'>");
+}
+
+async function loadApp() {
+  $("auth").hidden = true; $("app").hidden = false;
+  const { data, error } = await sb.from("reports").select("session_date").order("session_date", { ascending: false }).limit(250);
+  const list = $("list"), pick = $("pick");
+  list.innerHTML = '<div class="lt">Sesiuni SUA</div>'; pick.innerHTML = "";
+  if (error || !data || !data.length) { $("empty").hidden = false; $("view").hidden = true; return; }
+  $("empty").hidden = true; $("view").hidden = false;
+  for (const r of data) {
+    const b = document.createElement("button"); b.dataset.d = r.session_date; b.textContent = label(r.session_date);
+    b.onclick = () => show(r.session_date); list.appendChild(b);
+    const o = document.createElement("option"); o.value = r.session_date; o.textContent = label(r.session_date); pick.appendChild(o);
+  }
+  pick.onchange = () => show(pick.value);
+  show(data[0].session_date);
+}
+
+let recovering = false;
+function render(session, event) {
+  if (event === "PASSWORD_RECOVERY") recovering = true;
+  if (recovering) { $("auth").hidden = false; $("app").hidden = true; showForm("fReset"); return; }
+  const on = !!session;
+  $("logout").hidden = !on; $("who").hidden = !on;
+  if (on) {
+    $("who").textContent = (session.user.user_metadata && session.user.user_metadata.full_name) || session.user.email;
+    loadApp();
+  } else {
+    $("app").hidden = true; $("auth").hidden = false;
+    if ($("fReset").hidden === false) return;
+    showForm("fLogin");
+  }
+}
+let lastUser;
+sb.auth.onAuthStateChange((event, session) => {
+  const u = session ? session.user.id : null;
+  if (event !== "PASSWORD_RECOVERY" && event !== "INITIAL_SESSION" && u === lastUser && !recovering) return;  // ex. refresh de token
+  lastUser = u;
+  setTimeout(() => render(session, event), 0);
+});
+</script>
+</body>
+</html>
