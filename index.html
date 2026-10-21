@@ -58,15 +58,23 @@
   .dots span{width:7px;height:7px;border-radius:50%;background:var(--line)}
   .dots span.on{background:var(--ink)}
   .hint{color:var(--muted);font-size:11.5px;text-align:center;margin-top:8px}
-  .news h2{font-size:15px;margin:2px 0 8px}
-  .news ol{margin:0;padding:0 0 0 20px;font-size:14px;line-height:1.45}
-  .news li{padding:4px 0}
+  .news h2{font-size:15px;margin:2px 0 6px}
+  .nhead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .nnav{display:flex;align-items:center;gap:6px;flex:0 0 auto;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+  .nnav button{width:30px;height:30px;padding:0;border-radius:50%;font-size:16px;line-height:1;display:grid;place-items:center}
+  .nnav button:disabled{opacity:.35;cursor:default}
+  .nview{overflow:hidden;touch-action:pan-y}
+  .ntrack{display:flex;transition:transform .25s ease}
+  .npage{flex:0 0 100%;min-width:0}
+  .news ol{margin:0;padding:0 0 0 22px;font-size:13.5px;line-height:1.4}
+  .news li{padding:3px 0}
+  @media (prefers-reduced-motion:reduce){.ntrack{transition:none}}
   .news a{color:var(--ink);font-weight:600;text-decoration:none}
   .news a:hover{text-decoration:underline}
   .news .src{color:var(--muted);font-size:12px;white-space:nowrap}
   .news .none{color:var(--muted);font-size:13.5px}
   .news .foot{color:var(--muted);font-size:11px;margin-top:6px}
-  .pubdisc{margin:0 0 16px}
+  .pubdisc{margin:16px 0 0}
   @media (max-width:760px){.top{grid-template-columns:minmax(0,1fr)}.day .d{font-size:17px}}
   .layout{display:block}
   .frame{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:88vh}
@@ -135,11 +143,6 @@
 
   <!-- RAPOARTE -->
   <section id="app" hidden>
-    <div class="disc pubdisc" id="pubDisc" hidden><b>Disclaimer.</b> Daily Market are scop exclusiv informativ și educațional și se
-      adresează persoanelor de peste 18 ani. Nu reprezintă consultanță de investiții, recomandare de cumpărare sau vânzare și nici
-      ofertă de a tranzacționa. Tranzacționarea CFD-urilor, futures și opțiunilor implică risc ridicat de pierdere, inclusiv a
-      întregului capital. Autorul nu își asumă nicio răspundere pentru deciziile sau pierderile rezultate din utilizarea acestor
-      informații.</div>
     <div class="top">
       <section class="panel" aria-labelledby="sesT">
         <div class="eyebrow" id="sesT">Ședințe de tranzacționare</div>
@@ -152,13 +155,24 @@
         <div class="hint">Glisează sau folosește săgețile pentru zilele anterioare</div>
       </section>
       <section class="panel news" aria-labelledby="newsT">
-        <div class="eyebrow">Din ziua ședinței</div>
-        <h2 id="newsT">Știrile financiare ale zilei</h2>
-        <div id="newsBody"></div>
+        <div class="nhead">
+          <div><div class="eyebrow">Din ziua ședinței</div><h2 id="newsT">Știrile financiare ale zilei</h2></div>
+          <div class="nnav" id="nnav" hidden>
+            <button type="button" id="nPrev" aria-label="Știrile anterioare">‹</button>
+            <span id="nPage" aria-live="polite"></span>
+            <button type="button" id="nNext" aria-label="Știrile următoare">›</button>
+          </div>
+        </div>
+        <div class="nview" id="nview"><div class="ntrack" id="newsBody"></div></div>
       </section>
     </div>
     <div class="frame"><iframe id="view" title="Raport Daily Market" sandbox="allow-popups allow-popups-to-escape-sandbox"></iframe>
       <div class="empty" id="empty" hidden>Încă nu există rapoarte. Primul apare după următoarea rulare de dimineață.</div></div>
+    <div class="disc pubdisc" id="pubDisc" hidden><b>Disclaimer.</b> Daily Market are scop exclusiv informativ și educațional și se
+      adresează persoanelor de peste 18 ani. Nu reprezintă consultanță de investiții, recomandare de cumpărare sau vânzare și nici
+      ofertă de a tranzacționa. Tranzacționarea CFD-urilor, futures și opțiunilor implică risc ridicat de pierdere, inclusiv a
+      întregului capital. Autorul nu își asumă nicio răspundere pentru deciziile sau pierderile rezultate din utilizarea acestor
+      informații.</div>
   </section>
 </main>
 
@@ -253,12 +267,39 @@ function label(d) {
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 let DAYS = [], idx = 0, loadSeq = 0;   // DAYS[0] = ultima sedinta
-function renderNews(news) {
-  if (!news || !news.length) { $("newsBody").innerHTML = '<div class="none">Pentru această ședință nu avem știri salvate.</div>'; return; }
-  $("newsBody").innerHTML = "<ol>" + news.slice(0, 5).map(n =>
-    `<li><a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}</a> <span class="src">— ${esc(n.source)}</span></li>`).join("") +
-    '</ol><div class="foot">Titlurile apar în limba sursei. Click pe titlu pentru articol.</div>';
+const NEWS_PER_PAGE = 3;
+let nPage = 0, nPages = 1;
+function newsGo(k) {
+  nPage = Math.max(0, Math.min(nPages - 1, k));
+  $("newsBody").style.transform = `translateX(-${nPage * 100}%)`;
+  $("nPage").textContent = `${nPage + 1} / ${nPages}`;
+  $("nPrev").disabled = nPage === 0;
+  $("nNext").disabled = nPage === nPages - 1;
 }
+function renderNews(news) {
+  nPage = 0; $("newsBody").style.transform = "";
+  if (!news || !news.length) {
+    nPages = 1; $("nnav").hidden = true;
+    $("newsBody").innerHTML = '<div class="npage"><div class="none">Pentru această ședință nu avem știri salvate.</div></div>';
+    return;
+  }
+  const items = news.slice(0, 9), pages = [];
+  for (let i = 0; i < items.length; i += NEWS_PER_PAGE) pages.push(items.slice(i, i + NEWS_PER_PAGE));
+  nPages = pages.length;
+  $("newsBody").innerHTML = pages.map((pg, k) => `<div class="npage"><ol start="${k * NEWS_PER_PAGE + 1}">` + pg.map(n =>
+    `<li><a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}</a> <span class="src">— ${esc(n.source)}</span></li>`).join("") +
+    '</ol></div>').join("");
+  $("nnav").hidden = nPages < 2;
+  newsGo(0);
+}
+$("nPrev").onclick = () => newsGo(nPage - 1);
+$("nNext").onclick = () => newsGo(nPage + 1);
+let nx0 = null;  // glisare pe stiri: spre stanga = urmatoarele
+$("nview").addEventListener("touchstart", e => { nx0 = e.touches[0].clientX; }, { passive: true });
+$("nview").addEventListener("touchend", e => {
+  if (nx0 === null) return; const dx = e.changedTouches[0].clientX - nx0; nx0 = null;
+  if (Math.abs(dx) > 40) newsGo(dx < 0 ? nPage + 1 : nPage - 1);
+});
 async function show(i) {
   if (!DAYS.length) return;
   idx = Math.max(0, Math.min(DAYS.length - 1, i));
@@ -269,7 +310,8 @@ async function show(i) {
   $("next").disabled = idx === 0;
   const n = Math.min(DAYS.length, 12);
   $("dots").innerHTML = Array.from({ length: n }, (_, k) => `<span class="${k === Math.min(idx, n - 1) ? "on" : ""}"></span>`).reverse().join("");
-  $("newsBody").innerHTML = '<div class="none">Se încarcă…</div>';
+  $("nnav").hidden = true; $("newsBody").style.transform = "";
+  $("newsBody").innerHTML = '<div class="npage"><div class="none">Se încarcă…</div></div>';
   const { data, error } = await sb.from("reports").select("html,news").eq("session_date", date).single();
   if (seq !== loadSeq) return;  // s-a ales intre timp alta zi
   if (error) { $("view").srcdoc = "<p style='font-family:sans-serif;padding:20px'>Raportul nu a putut fi încărcat.</p>"; renderNews(null); return; }
