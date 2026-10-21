@@ -80,6 +80,13 @@
   .frame{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:88vh}
   iframe{width:100%;border:0;display:block;height:88vh;background:#f3f4f6}
   .empty{padding:40px 20px;text-align:center;color:var(--muted)}
+  .subbtn{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+  .modal{position:fixed;inset:0;background:rgba(17,24,39,.55);display:grid;place-items:center;z-index:50;
+         padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+  .mcard{position:relative;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:22px;
+         width:100%;max-width:420px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+  .mcard h2{font-size:19px;margin:0 30px 4px 0}
+  .mclose{position:absolute;top:10px;right:10px;width:34px;height:34px;padding:0;border-radius:50%;font-size:20px;line-height:1}
   [hidden]{display:none!important}
 </style>
 </head>
@@ -87,9 +94,27 @@
 <header><div class="bar">
   <div class="logo">Daily <span>Market</span></div>
   <div class="spacer"></div>
+  <button type="button" id="subBtn" class="subbtn">Abonează-te</button>
   <div class="who" id="who" hidden></div>
   <button id="logout" hidden>Ieșire</button>
 </div></header>
+
+<div class="modal" id="subModal" hidden role="dialog" aria-modal="true" aria-labelledby="subT">
+  <div class="mcard">
+    <button type="button" class="mclose" id="subClose" aria-label="Închide">×</button>
+    <h2 id="subT">Primește Daily Market pe email</h2>
+    <p class="sub">Lasă adresa de email ca să primești raportul zilnic Daily Market.</p>
+    <form id="fSub" novalidate>
+      <label for="subEmail">Email</label>
+      <input id="subEmail" type="email" required autocomplete="email" maxlength="254" placeholder="nume@exemplu.ro">
+      <div class="check"><input id="subOk" type="checkbox" required>
+        <label for="subOk" style="margin:0;font-weight:400">Am cel puțin 18 ani și sunt de acord ca adresa mea de email să fie folosită
+        doar pentru trimiterea raportului Daily Market. Mă pot dezabona oricând.</label></div>
+      <button class="primary" type="submit">Abonează-mă</button>
+      <div id="subMsg" class="msg"></div>
+    </form>
+  </div>
+</div>
 
 <main>
   <!-- AUTENTIFICARE -->
@@ -259,6 +284,28 @@ $("fReset").onsubmit = async e => {
 };
 
 $("logout").onclick = async () => { await sb.auth.signOut(); };
+
+// --- abonare la email ---
+function subMsg(text, ok) { const m = $("subMsg"); m.className = "msg " + (ok ? "ok" : "err"); m.textContent = text; }
+function openSub() { $("subModal").hidden = false; $("subMsg").className = "msg"; setTimeout(() => $("subEmail").focus(), 30); }
+function closeSub() { $("subModal").hidden = true; $("subBtn").focus(); }
+$("subBtn").onclick = openSub;
+$("subClose").onclick = closeSub;
+$("subModal").addEventListener("click", e => { if (e.target === $("subModal")) closeSub(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("subModal").hidden) closeSub(); });
+$("fSub").onsubmit = async e => {
+  e.preventDefault();
+  const email = $("subEmail").value.trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return subMsg("Scrie o adresă de email validă.");
+  if (!$("subOk").checked) return subMsg("Bifează acordul ca să te putem abona.");
+  busy(e.target, true);
+  const { error } = await sb.from("subscribers").insert({ email, consent: true, source: "site" });
+  busy(e.target, false);
+  if (error && (error.code === "23505" || /duplicate/i.test(error.message))) return subMsg("Adresa aceasta este deja abonată.", true);
+  if (error) return subMsg("Nu am putut salva adresa. Mai încearcă o dată peste câteva minute.");
+  e.target.reset();
+  subMsg("Gata, adresa ta a fost înregistrată. Mulțumim!", true);
+};
 
 function label(d) {
   const dt = new Date(d + "T12:00:00");
