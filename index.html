@@ -30,6 +30,7 @@
   input:focus{outline:2px solid var(--accent);outline-offset:1px}
   .check{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-top:14px;color:var(--ink)}
   .check input{margin-top:3px}
+  button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px}
   button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;width:100%;margin-top:18px;padding:11px}
   button:disabled{opacity:.6;cursor:default}
@@ -43,16 +44,34 @@
   .row{display:flex;justify-content:space-between;margin-top:10px}
   .disc{background:var(--warnbg);border:1px solid var(--warnline);border-radius:12px;padding:12px 14px;font-size:12px;color:var(--muted);margin-top:18px;line-height:1.55}
   .disc b{color:var(--ink)}
-  .layout{display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:start}
-  .list{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;max-height:75vh;overflow:auto}
-  .list button{display:block;width:100%;text-align:left;border:none;border-radius:8px;padding:8px 10px;font-size:14px}
-  .list button.on{background:var(--ink);color:var(--card);font-weight:700}
-  .list .lt{color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;padding:6px 10px}
+  .top{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:16px;margin-bottom:16px;align-items:stretch}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0}
+  .eyebrow{color:var(--muted);font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+  .pager{display:flex;align-items:center;gap:10px;margin-top:10px;touch-action:pan-y;user-select:none}
+  .pager button{flex:0 0 auto;width:40px;height:40px;padding:0;border-radius:50%;font-size:20px;line-height:1;display:grid;place-items:center}
+  .pager button:disabled{opacity:.35;cursor:default}
+  .day{flex:1;min-width:0;text-align:center}
+  .day .d{font-size:19px;font-weight:800;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .day .t{font-size:12px;color:var(--muted)}
+  .day .t b{color:var(--accent);font-weight:700}
+  .dots{display:flex;justify-content:center;gap:6px;margin-top:12px;flex-wrap:wrap}
+  .dots span{width:7px;height:7px;border-radius:50%;background:var(--line)}
+  .dots span.on{background:var(--ink)}
+  .hint{color:var(--muted);font-size:11.5px;text-align:center;margin-top:8px}
+  .news h2{font-size:15px;margin:2px 0 8px}
+  .news ol{margin:0;padding:0 0 0 20px;font-size:14px;line-height:1.45}
+  .news li{padding:4px 0}
+  .news a{color:var(--ink);font-weight:600;text-decoration:none}
+  .news a:hover{text-decoration:underline}
+  .news .src{color:var(--muted);font-size:12px;white-space:nowrap}
+  .news .none{color:var(--muted);font-size:13.5px}
+  .news .foot{color:var(--muted);font-size:11px;margin-top:6px}
+  .pubdisc{margin:0 0 16px}
+  @media (max-width:760px){.top{grid-template-columns:minmax(0,1fr)}.day .d{font-size:17px}}
+  .layout{display:block}
   .frame{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:88vh}
-  iframe{width:100%;border:0;display:block;min-height:88vh;background:#f3f4f6}
+  iframe{width:100%;border:0;display:block;height:88vh;background:#f3f4f6}
   .empty{padding:40px 20px;text-align:center;color:var(--muted)}
-  select{display:none;width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:15px;margin-bottom:12px}
-  @media (max-width:720px){.layout{grid-template-columns:1fr}.list{display:none}select{display:block}}
   [hidden]{display:none!important}
 </style>
 </head>
@@ -116,12 +135,30 @@
 
   <!-- RAPOARTE -->
   <section id="app" hidden>
-    <select id="pick" aria-label="Alege raportul"></select>
-    <div class="layout">
-      <nav class="list" id="list" aria-label="Arhiva rapoartelor"></nav>
-      <div class="frame"><iframe id="view" title="Raport Daily Market" sandbox="allow-popups allow-popups-to-escape-sandbox"></iframe>
-        <div class="empty" id="empty" hidden>Încă nu există rapoarte. Primul apare după următoarea rulare de dimineață.</div></div>
+    <div class="disc pubdisc" id="pubDisc" hidden><b>Disclaimer.</b> Daily Market are scop exclusiv informativ și educațional și se
+      adresează persoanelor de peste 18 ani. Nu reprezintă consultanță de investiții, recomandare de cumpărare sau vânzare și nici
+      ofertă de a tranzacționa. Tranzacționarea CFD-urilor, futures și opțiunilor implică risc ridicat de pierdere, inclusiv a
+      întregului capital. Autorul nu își asumă nicio răspundere pentru deciziile sau pierderile rezultate din utilizarea acestor
+      informații.</div>
+    <div class="top">
+      <section class="panel" aria-labelledby="sesT">
+        <div class="eyebrow" id="sesT">Ședințe de tranzacționare</div>
+        <div class="pager" id="pager">
+          <button type="button" id="prev" aria-label="Ședința anterioară">‹</button>
+          <div class="day" aria-live="polite"><div class="d" id="dayD">…</div><div class="t" id="dayT"></div></div>
+          <button type="button" id="next" aria-label="Ședința următoare">›</button>
+        </div>
+        <div class="dots" id="dots" aria-hidden="true"></div>
+        <div class="hint">Glisează sau folosește săgețile pentru zilele anterioare</div>
+      </section>
+      <section class="panel news" aria-labelledby="newsT">
+        <div class="eyebrow">Din ziua ședinței</div>
+        <h2 id="newsT">Știrile financiare ale zilei</h2>
+        <div id="newsBody"></div>
+      </section>
     </div>
+    <div class="frame"><iframe id="view" title="Raport Daily Market" sandbox="allow-popups allow-popups-to-escape-sandbox"></iframe>
+      <div class="empty" id="empty" hidden>Încă nu există rapoarte. Primul apare după următoarea rulare de dimineață.</div></div>
   </section>
 </main>
 
@@ -129,6 +166,7 @@
 <script>
 const SUPABASE_URL = "https://atlxahrvzhzrzfhmwwen.supabase.co";
 const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0bHhhaHJ2emh6cnpmaG13d2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0ODk2MTUsImV4cCI6MjEwODA2NTYxNX0.1lOoTQP6CYoT-qDg2oGx6EbtJP9ag2CaCxmV3Bj3DhQ";
+const LOGIN_REQUIRED = false;  // true = rapoartele se vad doar dupa autentificare (conturile raman salvate)
 const CONTACT_EMAIL = "";   // ex. "contact@sale.ro" - pentru cereri de stergere a datelor
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
@@ -212,30 +250,55 @@ function label(d) {
   const dt = new Date(d + "T12:00:00");
   return `${ZILE[dt.getDay()]} ${d.slice(8,10)}.${d.slice(5,7)}.${d.slice(0,4)}`;
 }
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-async function show(date) {
-  document.querySelectorAll("#list button").forEach(b => b.classList.toggle("on", b.dataset.d === date));
-  $("pick").value = date;
-  const { data, error } = await sb.from("reports").select("html").eq("session_date", date).single();
-  if (error) { $("view").srcdoc = "<p style='font-family:sans-serif;padding:20px'>Raportul nu a putut fi încărcat.</p>"; return; }
+let DAYS = [], idx = 0, loadSeq = 0;   // DAYS[0] = ultima sedinta
+function renderNews(news) {
+  if (!news || !news.length) { $("newsBody").innerHTML = '<div class="none">Pentru această ședință nu avem știri salvate.</div>'; return; }
+  $("newsBody").innerHTML = "<ol>" + news.slice(0, 5).map(n =>
+    `<li><a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}</a> <span class="src">— ${esc(n.source)}</span></li>`).join("") +
+    '</ol><div class="foot">Titlurile apar în limba sursei. Click pe titlu pentru articol.</div>';
+}
+async function show(i) {
+  if (!DAYS.length) return;
+  idx = Math.max(0, Math.min(DAYS.length - 1, i));
+  const date = DAYS[idx], seq = ++loadSeq;
+  $("dayD").textContent = label(date);
+  $("dayT").innerHTML = idx === 0 ? "<b>Ultima ședință</b>" : `acum ${idx} ${idx === 1 ? "ședință" : "ședințe"}`;
+  $("prev").disabled = idx === DAYS.length - 1;
+  $("next").disabled = idx === 0;
+  const n = Math.min(DAYS.length, 12);
+  $("dots").innerHTML = Array.from({ length: n }, (_, k) => `<span class="${k === Math.min(idx, n - 1) ? "on" : ""}"></span>`).reverse().join("");
+  $("newsBody").innerHTML = '<div class="none">Se încarcă…</div>';
+  const { data, error } = await sb.from("reports").select("html,news").eq("session_date", date).single();
+  if (seq !== loadSeq) return;  // s-a ales intre timp alta zi
+  if (error) { $("view").srcdoc = "<p style='font-family:sans-serif;padding:20px'>Raportul nu a putut fi încărcat.</p>"; renderNews(null); return; }
+  renderNews(data.news);
   // linkurile din raport se deschid in tab nou
   $("view").srcdoc = data.html.replace("<head>", "<head><base target='_blank'>");
 }
+$("prev").onclick = () => show(idx + 1);   // mai veche
+$("next").onclick = () => show(idx - 1);   // mai noua
+document.addEventListener("keydown", e => {
+  if ($("app").hidden || e.target.closest("input,select,textarea")) return;
+  if (e.key === "ArrowLeft") show(idx + 1);
+  if (e.key === "ArrowRight") show(idx - 1);
+});
+let x0 = null;  // glisare pe telefon: spre dreapta = ziua anterioara
+$("pager").addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, { passive: true });
+$("pager").addEventListener("touchend", e => {
+  if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null;
+  if (Math.abs(dx) > 40) show(dx > 0 ? idx + 1 : idx - 1);
+});
 
 async function loadApp() {
   $("auth").hidden = true; $("app").hidden = false;
+  $("pubDisc").hidden = LOGIN_REQUIRED;
   const { data, error } = await sb.from("reports").select("session_date").order("session_date", { ascending: false }).limit(250);
-  const list = $("list"), pick = $("pick");
-  list.innerHTML = '<div class="lt">Sesiuni SUA</div>'; pick.innerHTML = "";
-  if (error || !data || !data.length) { $("empty").hidden = false; $("view").hidden = true; return; }
+  if (error || !data || !data.length) { $("empty").hidden = false; $("view").hidden = true; $("dayD").textContent = "–"; renderNews(null); return; }
   $("empty").hidden = true; $("view").hidden = false;
-  for (const r of data) {
-    const b = document.createElement("button"); b.dataset.d = r.session_date; b.textContent = label(r.session_date);
-    b.onclick = () => show(r.session_date); list.appendChild(b);
-    const o = document.createElement("option"); o.value = r.session_date; o.textContent = label(r.session_date); pick.appendChild(o);
-  }
-  pick.onchange = () => show(pick.value);
-  show(data[0].session_date);
+  DAYS = data.map(r => r.session_date);
+  show(0);
 }
 
 let recovering = false;
@@ -253,6 +316,9 @@ function render(session, event) {
     showForm("fLogin");
   }
 }
+if (!LOGIN_REQUIRED) {
+  loadApp();
+} else {
 let lastUser;
 sb.auth.onAuthStateChange((event, session) => {
   const u = session ? session.user.id : null;
@@ -260,6 +326,7 @@ sb.auth.onAuthStateChange((event, session) => {
   lastUser = u;
   setTimeout(() => render(session, event), 0);
 });
+}
 </script>
 </body>
 </html>
