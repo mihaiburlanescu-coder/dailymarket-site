@@ -181,7 +181,7 @@
       </section>
       <section class="panel news" aria-labelledby="newsT">
         <div class="nhead">
-          <div><div class="eyebrow">Din ziua ședinței</div><h2 id="newsT">Știrile financiare ale zilei</h2></div>
+          <div><div class="eyebrow">Din ziua raportului</div><h2 id="newsT">Știrile financiare ale zilei</h2></div>
           <div class="nnav" id="nnav" hidden>
             <button type="button" id="nPrev" aria-label="Știrile anterioare">‹</button>
             <span id="nPage" aria-live="polite"></span>
@@ -327,7 +327,7 @@ function renderNews(news) {
   nPage = 0; $("newsBody").style.transform = "";
   if (!news || !news.length) {
     nPages = 1; $("nnav").hidden = true;
-    $("newsBody").innerHTML = '<div class="npage"><div class="none">Pentru această ședință nu avem știri salvate.</div></div>';
+    $("newsBody").innerHTML = '<div class="npage"><div class="none">Pentru acest raport nu avem știri salvate.</div></div>';
     return;
   }
   const items = news.slice(0, 9), pages = [];
@@ -352,7 +352,7 @@ async function show(i) {
   idx = Math.max(0, Math.min(DAYS.length - 1, i));
   const date = DAYS[idx], seq = ++loadSeq;
   $("dayD").textContent = label(date);
-  $("dayT").innerHTML = idx === 0 ? "<b>Ultima ședință</b>" : `acum ${idx} ${idx === 1 ? "ședință" : "ședințe"}`;
+  $("dayT").innerHTML = idx === 0 ? "<b>Raportul zilei</b>" : `acum ${idx} ${idx === 1 ? "raport" : "rapoarte"}`;
   $("prev").disabled = idx === DAYS.length - 1;
   $("next").disabled = idx === 0;
   const n = Math.min(DAYS.length, 12);
