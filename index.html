@@ -122,6 +122,38 @@
   .tape .it i{width:7px;height:7px;border-radius:50%;display:inline-block;align-self:center}
   @keyframes tape{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @media (prefers-reduced-motion:reduce){.tape{overflow-x:auto}.tape .run{animation:none}}
+  .pfbtn{background:transparent;color:var(--gold);border:1px solid var(--gold);font-weight:700;border-radius:999px;padding:8px 16px}
+  .pfbtn.on,.pfbtn:hover{background:rgba(217,164,65,.14)}
+  .pf{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+  .pf h2{font-size:clamp(24px,4vw,32px);font-stretch:75%;line-height:1.1;margin:0 0 6px}
+  .pf .lead{color:var(--muted);margin:0 0 16px;max-width:70ch}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border:1px solid var(--line);border-radius:12px;margin:0 0 18px}
+  .kpi{padding:12px 14px;border-left:1px solid var(--line)}
+  .kpi:first-child{border-left:0}
+  .kpi > span{display:block;color:var(--muted);font-size:13px}
+  .kpi b{display:block;font-size:24px;font-stretch:85%;font-variant-numeric:tabular-nums}
+  .pf h3{font-size:16px;margin:18px 0 8px}
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+  .pf table{border-collapse:collapse;width:100%;font-size:14px;min-width:760px}
+  .pf th{text-align:right;color:var(--muted);font-weight:600;font-size:12.5px;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .pf td{text-align:right;padding:10px 12px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pf tr:last-child td{border-bottom:0}
+  .pf th:first-child,.pf td:first-child,.pf th:nth-child(2),.pf td:nth-child(2){text-align:left}
+  .pf .up{color:var(--up);font-weight:700}.pf .dn{color:var(--down);font-weight:700}
+  .pf .side{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:999px}
+  .pf .side.l{background:rgba(26,127,75,.12);color:var(--up)}.pf .side.s{background:rgba(194,54,47,.12);color:var(--down)}
+  .pf .note{color:var(--muted);font-size:12.5px;margin-top:14px;line-height:1.55;max-width:80ch}
+  .pf .none{color:var(--muted);padding:14px}
+  @media (max-width:640px){.pf{padding:16px 14px}.kpi b{font-size:20px}
+    .logo{font-size:16px;gap:8px}.logo svg{width:22px;height:22px}
+    .pfbtn,.subbtn{padding:6px 10px!important;font-size:13px!important}
+    .tw{border:0;overflow:visible}.pf table,.pf tbody{display:block;width:100%;min-width:0}.pf thead{display:none}
+    .pf tr{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+    .pf td{display:flex;justify-content:space-between;gap:8px;border:0;padding:3px 0;text-align:right;min-width:0;white-space:normal}
+    .pf td::before{content:attr(data-l);color:var(--muted);font-size:12.5px;text-align:left}
+    .pf td:first-child,.pf td:nth-child(2){grid-column:span 1}
+    .pf td:first-child::before,.pf td:nth-child(2)::before{content:none}
+    .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi:nth-child(3){border-left:0}.kpi:nth-child(n+3){border-top:1px solid var(--line)}}
   .board{margin:4px 0 18px}
   .bdate{font-size:clamp(30px,5.2vw,48px);line-height:1.05;font-weight:700;font-stretch:72%;letter-spacing:-.5px;margin:6px 0 6px}
   .lede{color:var(--muted);margin:0 0 16px;max-width:62ch}
@@ -161,6 +193,7 @@
     <button type="button" id="nDaily" class="on">Raport zilnic</button>
     <button type="button" id="nWeekly">Weekly View</button>
   </nav>
+  <button type="button" id="pfBtn" class="pfbtn">Portofoliu</button>
   <button type="button" id="subBtn" class="subbtn">Abonează-te</button>
   <div class="who" id="who" hidden></div>
   <button id="logout" hidden>Ieșire</button>
@@ -267,7 +300,9 @@
     <div class="vtabs" role="tablist">
       <button type="button" id="vDaily" class="on" role="tab" aria-selected="true">Raport zilnic</button>
       <button type="button" id="vWeekly" role="tab" aria-selected="false">Weekly View</button>
+      <button type="button" id="vPf" role="tab" aria-selected="false">Portofoliu</button>
     </div>
+    <section id="pf" class="pf" hidden aria-labelledby="pfT"></section>
     <div class="frame"><iframe id="view" title="Raport Daily Market" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
       <div class="empty" id="empty" hidden>Încă nu există rapoarte. Primul apare după următoarea rulare de dimineață.</div></div>
     <div class="disc pubdisc" id="pubDisc" hidden><b>Disclaimer.</b> Daily Market are scop exclusiv informativ și educațional și se
@@ -475,6 +510,9 @@ $("nview").addEventListener("touchend", e => {
 });
 function setMode(m) {
   $("nDaily").classList.toggle("on", m === "daily"); $("nWeekly").classList.toggle("on", m === "weekly");
+  $("pfBtn").classList.toggle("on", m === "pf"); $("vPf").classList.toggle("on", m === "pf");
+  $("vPf").setAttribute("aria-selected", m === "pf");
+  $("pf").hidden = m !== "pf"; document.querySelector(".frame").hidden = m === "pf";
   $("vDaily").classList.toggle("on", m === "daily"); $("vWeekly").classList.toggle("on", m === "weekly");
   $("vDaily").setAttribute("aria-selected", m === "daily"); $("vWeekly").setAttribute("aria-selected", m === "weekly");
 }
@@ -491,6 +529,56 @@ $("vWeekly").onclick = async () => {
   }
   $("view").srcdoc = frameHtml(data[0].html);
 };
+
+// ---------------- Portofoliul Daily Market ----------------
+const nf = (v, d = 2) => Number(v).toLocaleString("ro-RO", { minimumFractionDigits: d, maximumFractionDigits: d });
+const pxf = v => { v = Number(v); return nf(v, Math.abs(v) >= 1000 ? 0 : Math.abs(v) >= 10 ? 2 : 4); };
+const sgn = (v, d = 2, suf = "") => `<span class="${v > 0 ? "up" : v < 0 ? "dn" : ""}">${v > 0 ? "+" : v < 0 ? "−" : ""}${nf(Math.abs(v), d)}${suf}</span>`;
+const dmy = d => d ? `${d.slice(8,10)}.${d.slice(5,7)}` : "–";
+async function showPf() {
+  setMode("pf"); ++loadSeq;
+  const box = $("pf");
+  box.innerHTML = "<div class='none'>Se încarcă portofoliul…</div>";
+  const [pr, dr] = await Promise.all([
+    sb.from("portfolio_positions").select("*").order("entry_date", { ascending: false }).limit(200),
+    sb.from("portfolio_daily").select("day,value,cash").order("day", { ascending: false }).limit(1)]);
+  const pos = (pr && pr.data) || [], day = dr && dr.data && dr.data[0];
+  const open = pos.filter(p => p.status === "open"), closed = pos.filter(p => p.status === "closed");
+  const START = 10000, value = day ? Number(day.value) : START, cash = day ? Number(day.cash) : START, res = value - START;
+  const rows = open.map(p => {
+    const e = Number(p.entry_price), m = Number(p.last_price || e), n = Number(p.notional), d = n * p.side * (m / e - 1);
+    return `<tr><td data-l="Instrument"><b>${esc(p.label)}</b></td><td data-l="Direcție"><span class="side ${p.side > 0 ? "l" : "s"}">${p.side > 0 ? "Cumpărare" : "Vânzare"}</span></td>`
+      + `<td data-l="Cantitate">${nf(p.qty, Number(p.qty) >= 100 ? 0 : 4)}</td><td data-l="Preț achiziție">${pxf(e)}</td><td data-l="Preț piață">${pxf(m)}</td><td data-l="Diferență">${sgn(d)}</td><td data-l="Diferență %">${sgn(100 * d / n, 2, "%")}</td>`
+      + `<td data-l="Valoare">${nf(n + d)}</td><td data-l="Țintă / stop">${p.target ? pxf(p.target) : "–"} / ${p.stop ? pxf(p.stop) : "–"}</td><td data-l="Șansă">${p.p_win ? Math.round(100 * p.p_win) + "%" : "–"}</td></tr>`;
+  }).join("");
+  const crow = closed.slice(0, 30).map(p => {
+    const n = Number(p.notional), d = Number(p.pnl || 0);
+    return `<tr><td data-l="Instrument"><b>${esc(p.label)}</b></td><td data-l="Direcție"><span class="side ${p.side > 0 ? "l" : "s"}">${p.side > 0 ? "Cumpărare" : "Vânzare"}</span></td>`
+      + `<td data-l="Intrare">${dmy(p.entry_date)} · ${pxf(p.entry_price)}</td><td data-l="Ieșire">${dmy(p.exit_date)} · ${pxf(p.exit_price)}</td><td data-l="Motiv">${esc(p.exit_reason || "")}</td>`
+      + `<td data-l="Rezultat">${sgn(d)}</td><td data-l="Rezultat %">${sgn(100 * d / n, 2, "%")}</td></tr>`;
+  }).join("");
+  box.innerHTML = `<h2 id="pfT">Portofoliul Daily Market</h2>
+    <p class="lead">Un portofoliu virtual de 10.000 care pune în practică scenariile din Weekly View. În fiecare sâmbătă alegem cele 5 scenarii
+    cu cea mai mare șansă ca prețul să atingă ținta înaintea stopului. Pozițiile se închid oricând în timpul săptămânii, dacă ating ținta sau stopul.</p>
+    <div class="kpis">
+      <div class="kpi"><span>Valoarea la zi</span><b>${nf(value)}</b></div>
+      <div class="kpi"><span>Rezultat de la început</span><b>${sgn(res)}</b></div>
+      <div class="kpi"><span>Randament</span><b>${sgn(100 * res / START, 2, "%")}</b></div>
+      <div class="kpi"><span>Numerar disponibil</span><b>${nf(cash)}</b></div>
+    </div>
+    <h3>Poziții deschise${day ? ` · prețuri la închiderea din ${dmy(day.day)}` : ""}</h3>
+    <div class="tw">${rows ? `<table><thead><tr><th>Instrument</th><th>Direcție</th><th>Cantitate</th><th>Preț achiziție</th><th>Preț piață</th>
+      <th>Diferență</th><th>Diferență %</th><th>Valoare</th><th>Țintă / stop</th><th>Șansă</th></tr></thead><tbody>${rows}</tbody></table>`
+      : `<div class="none">Primele poziții se deschid sâmbătă, odată cu Weekly View.</div>`}</div>
+    ${crow ? `<h3>Poziții închise</h3><div class="tw"><table><thead><tr><th>Instrument</th><th>Direcție</th><th>Intrare</th><th>Ieșire</th>
+      <th>Motiv</th><th>Rezultat</th><th>Rezultat %</th></tr></thead><tbody>${crow}</tbody></table></div>` : ""}
+    <p class="note">Sumele sunt virtuale; fiecare poziție are aproximativ o cincime din portofoliu, fără levier, cu prețul de intrare egal cu
+    închiderea de vineri. „Șansa” este probabilitatea, calibrată pe istoric, ca prețul să atingă ținta înaintea stopului în următoarele 5 zile.
+    Portofoliul arată cum s-ar fi descurcat scenariile noastre; nu este o recomandare de investiții, iar testele pe 2007–2026 nu au arătat
+    că direcția pieței poate fi prezisă. Rezultatele trecute nu garantează rezultate viitoare.</p>`;
+}
+$("pfBtn").onclick = () => { showPf(); $("pf").scrollIntoView({ behavior: "smooth", block: "start" }); };
+$("vPf").onclick = showPf;
 async function show(i) {
   setMode("daily");
   if (!DAYS.length) return;
