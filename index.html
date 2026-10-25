@@ -108,6 +108,8 @@
   .nav{display:flex;gap:2px}
   .nav button{background:none;border:none;color:#C9D5E6;font-weight:600;padding:8px 12px;border-radius:8px}
   .nav button:hover{color:#fff;background:rgba(255,255,255,.08)}
+  .nav .navlink{color:#C9D5E6;font-weight:600;padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center}
+  .nav .navlink:hover{color:#fff;background:rgba(255,255,255,.08)}
   .nav button.on{color:#fff;box-shadow:inset 0 -2px 0 var(--gold);border-radius:0}
   header #logout{background:transparent;color:#C9D5E6;border-color:#33465f}
   .tape{background:#0E1A2C;color:#E9EEF6;border-top:1px solid #22344f;overflow:hidden;white-space:nowrap;position:relative}
@@ -162,7 +164,7 @@
     .logo{font-size:18px}
     .subbtn{padding:7px 13px;font-size:14px}
     .nav{order:5;flex:1 0 100%;display:flex;gap:0;margin:2px -4px 0}
-    .nav button{flex:1;padding:9px 6px;font-size:14px}
+    .nav button,.nav .navlink{flex:1;padding:9px 6px;font-size:14px;justify-content:center}
     main{padding:14px 12px 36px}
     .bdate{font-size:30px;margin:2px 0 4px}
     .lede{font-size:14px;margin-bottom:12px}
@@ -192,6 +194,7 @@
   <nav class="nav" aria-label="Rapoarte">
     <button type="button" id="nDaily" class="on">Raport zilnic</button>
     <button type="button" id="nWeekly">Weekly View</button>
+    <a class="navlink" href="despre.html">Despre noi</a>
   </nav>
   <button type="button" id="pfBtn" class="pfbtn">Portofoliu</button>
   <button type="button" id="subBtn" class="subbtn">Abonează-te</button>
@@ -314,6 +317,7 @@
 </main>
 <footer><div class="in">
   <div class="cp">© 2026 Daily Market · informativ, nu este consultanță de investiții</div>
+  <a href="despre.html">Despre noi</a>
   <a href="termeni.html">Termeni și condiții</a>
   <a href="confidentialitate.html">Confidențialitate</a>
   <a id="fContact" href="#" hidden>Contact</a>
