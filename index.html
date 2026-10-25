@@ -4,21 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Daily Market</title>
-<meta name="description" content="Daily Market – raport zilnic de piață: SP500, WTI, DAX, GOLD, SILVER, EUR/USD.">
+<meta name="description" content="Daily Market: raport zilnic în limba română despre indici, mărfuri, valute și acțiuni – tehnic, opțiuni, sentiment, știri și expirări.">
+<meta name="theme-color" content="#13223A">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Daily Market – piețele zilei, explicate în română">
+<meta property="og:description" content="Raport zilnic despre indici, mărfuri, valute și acțiuni: tehnic, opțiuni, sentiment și Weekly View.">
+<meta property="og:url" content="https://dailymarket.sale.ro/">
+<meta property="og:image" content="https://dailymarket.sale.ro/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
 <meta name="robots" content="noindex">
 <style>
-  :root{--bg:#f3f4f6;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#1d4ed8;--accent-ink:#fff;
-        --err:#b91c1c;--errbg:#fee2e2;--ok:#15803d;--okbg:#dcfce7;--warnbg:#fffbeb;--warnline:#fcd34d}
-  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1115;--card:#171a21;--ink:#e5e7eb;--muted:#9ca3af;--line:#2a2f3a;
-        --accent:#60a5fa;--accent-ink:#0b1220;--err:#f87171;--errbg:#3a1616;--ok:#4ade80;--okbg:#12301f;--warnbg:#2a2210;--warnline:#8a6a1a}}
+  :root{--bg:#EEF1F5;--card:#fff;--ink:#13223A;--muted:#5A6B82;--line:#D5DCE6;--accent:#B7791F;--accent-ink:#fff;
+        --navy:#13223A;--navy-ink:#E9EEF6;--gold:#D9A441;--up:#1A7F4B;--down:#C2362F;
+        --err:#b91c1c;--errbg:#fee2e2;--ok:#15803d;--okbg:#dcfce7;--warnbg:#fbf6ea;--warnline:#e7cf98}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1420;--card:#131F31;--ink:#E7EDF5;--muted:#93A3B8;--line:#24344C;
+        --accent:#E0A845;--accent-ink:#13223A;--navy:#0A1220;--up:#4CC38A;--down:#F0776E;
+        --err:#f87171;--errbg:#3a1616;--ok:#4ade80;--okbg:#12301f;--warnbg:#221c10;--warnline:#6b5420}}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Segoe UI,Arial,sans-serif;font-size:15px;line-height:1.5}
-  header{background:var(--card);border-bottom:1px solid var(--line)}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Archivo',-apple-system,Segoe UI,Arial,sans-serif;font-variation-settings:'wdth' 100;font-size:15px;line-height:1.5}
+  header{background:var(--navy);color:var(--navy-ink)}
   .bar{max-width:1080px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .logo{font-weight:800;font-size:20px;letter-spacing:-.3px}
-  .logo span{color:var(--accent)}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px;letter-spacing:-.2px;font-stretch:125%;color:#fff;text-decoration:none}
+  .logo svg{flex:0 0 auto}
   .spacer{flex:1}
-  .who{color:var(--muted);font-size:13px}
+  .who{color:#AFC0D6;font-size:13px}
   main{max-width:1080px;margin:0 auto;padding:20px 16px 48px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
   .auth{max-width:440px;margin:24px auto}
@@ -49,7 +61,7 @@
   .vtabs button{border-radius:999px;font-weight:700;font-size:14px;padding:9px 16px}
   .vtabs button.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
   .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0}
-  .eyebrow{color:var(--muted);font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+  .eyebrow{color:var(--muted);font-size:12.5px;font-weight:600}
   .pager{display:flex;align-items:center;gap:10px;margin-top:10px;touch-action:pan-y;user-select:none}
   .pager button{flex:0 0 auto;width:40px;height:40px;padding:0;border-radius:50%;font-size:20px;line-height:1;display:grid;place-items:center}
   .pager button:disabled{opacity:.35;cursor:default}
@@ -83,7 +95,7 @@
   .frame{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:88vh}
   iframe{width:100%;border:0;display:block;height:88vh;background:#f3f4f6}
   .empty{padding:40px 20px;text-align:center;color:var(--muted)}
-  .subbtn{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+  .subbtn{background:var(--gold);color:#13223A;border-color:var(--gold);font-weight:700;border-radius:999px;padding:8px 16px}
   .modal{position:fixed;inset:0;background:rgba(17,24,39,.55);display:grid;place-items:center;z-index:50;
          padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
   .mcard{position:relative;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:22px;
@@ -91,12 +103,49 @@
   .mcard h2{font-size:19px;margin:0 30px 4px 0}
   .mclose{position:absolute;top:10px;right:10px;width:34px;height:34px;padding:0;border-radius:50%;font-size:20px;line-height:1}
   [hidden]{display:none!important}
+
+  .nav{display:flex;gap:2px}
+  .nav button{background:none;border:none;color:#C9D5E6;font-weight:600;padding:8px 12px;border-radius:8px}
+  .nav button:hover{color:#fff;background:rgba(255,255,255,.08)}
+  .nav button.on{color:#fff;box-shadow:inset 0 -2px 0 var(--gold);border-radius:0}
+  header #logout{background:transparent;color:#C9D5E6;border-color:#33465f}
+  .board{margin:4px 0 22px}
+  .bdate{font-size:clamp(30px,5.2vw,48px);line-height:1.05;font-weight:700;font-stretch:72%;letter-spacing:-.5px;margin:6px 0 6px}
+  .lede{color:var(--muted);margin:0 0 16px;max-width:62ch}
+  .groups{background:var(--card);border:1px solid var(--line);border-radius:12px}
+  .grp{display:grid;grid-template-columns:110px minmax(0,1fr);border-top:1px solid var(--line)}
+  .grp:first-child{border-top:0}
+  .grp h2{margin:0;padding:14px 14px;font-size:14px;font-weight:700;color:var(--muted);font-stretch:85%}
+  .cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .cell{padding:12px 14px;border-left:1px solid var(--line);min-width:0}
+  .cell .nm{display:block;font-weight:700;font-size:13.5px;font-stretch:90%}
+  .cell .px{display:block;font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.3px;font-stretch:85%}
+  .cell .ch{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+  .cell .ch.up{color:var(--up)}.cell .ch.dn{color:var(--down)}.cell .ch.flat{color:var(--muted)}
+  .cell .sg{display:block;font-size:12px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cell .sg i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:0}
+  @media (max-width:640px){.grp{grid-template-columns:minmax(0,1fr)}.grp h2{padding:12px 14px 0}
+    .cells{grid-template-columns:repeat(2,minmax(0,1fr))}.cell{border-left:0;border-top:1px solid var(--line)}
+    .cell:nth-child(2n){border-left:1px solid var(--line)}.nav{display:none}}
+  footer{border-top:1px solid var(--line);margin-top:28px;color:var(--muted);font-size:13px}
+  footer .in{max-width:1080px;margin:0 auto;padding:18px 16px 32px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  footer a{color:var(--ink);text-decoration:none;font-weight:600}
+  footer a:hover{text-decoration:underline}
+  footer .cp{flex:1;min-width:200px}
 </style>
 </head>
 <body>
 <header><div class="bar">
-  <div class="logo">Daily <span>Market</span></div>
+  <a class="logo" href="./" aria-label="Daily Market – pagina principală">
+    <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#D9A441"/>
+      <rect x="7" y="13" width="4" height="12" rx="1" fill="#13223A"/><rect x="14" y="7" width="4" height="18" rx="1" fill="#13223A"/>
+      <rect x="21" y="16" width="4" height="9" rx="1" fill="#13223A"/></svg>
+    Daily Market</a>
   <div class="spacer"></div>
+  <nav class="nav" aria-label="Rapoarte">
+    <button type="button" id="nDaily" class="on">Raport zilnic</button>
+    <button type="button" id="nWeekly">Weekly View</button>
+  </nav>
   <button type="button" id="subBtn" class="subbtn">Abonează-te</button>
   <div class="who" id="who" hidden></div>
   <button id="logout" hidden>Ieșire</button>
@@ -171,6 +220,11 @@
 
   <!-- RAPOARTE -->
   <section id="app" hidden>
+    <section class="board" aria-labelledby="bDate">
+      <h1 class="bdate" id="bDate">Piețele zilei</h1>
+      <p class="lede" id="bLede">Indici, mărfuri, valute și acțiuni: tehnic, opțiuni, sentiment și știri, într-un singur raport.</p>
+      <div class="groups" id="bGroups" hidden></div>
+    </section>
     <div class="top">
       <section class="panel" aria-labelledby="sesT">
         <div class="eyebrow" id="sesT">Ședințe de tranzacționare</div>
@@ -207,6 +261,12 @@
       informații.</div>
   </section>
 </main>
+<footer><div class="in">
+  <div class="cp">© 2026 Daily Market · informativ, nu este consultanță de investiții</div>
+  <a href="termeni.html">Termeni și condiții</a>
+  <a href="confidentialitate.html">Confidențialitate</a>
+  <a id="fContact" href="#" hidden>Contact</a>
+</div></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
@@ -218,7 +278,40 @@ const CONTACT_EMAIL = "";   // ex. "contact@sale.ro" - pentru cereri de stergere
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 const $ = id => document.getElementById(id);
 const ZILE = ["Duminică","Luni","Marți","Miercuri","Joi","Vineri","Sâmbătă"];
-if (CONTACT_EMAIL) $("contact").textContent = " Pentru ștergerea contului scrie la " + CONTACT_EMAIL + ".";
+if (CONTACT_EMAIL) {
+  $("contact").textContent = " Pentru ștergerea contului scrie la " + CONTACT_EMAIL + ".";
+  $("fContact").href = "mailto:" + CONTACT_EMAIL; $("fContact").hidden = false;
+}
+const LUNI = ["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"];
+const FONT_CSS = "<link href='https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap' rel='stylesheet'>"
+  + "<style>body,body *{font-family:'Archivo',-apple-system,Segoe UI,Arial,sans-serif!important}</style>";
+const frameHtml = h => h.replace("<head>", "<head><base target='_blank'>" + FONT_CSS);
+function longDate(d) {
+  const dt = new Date(d + "T12:00:00");
+  return `${ZILE[dt.getDay()]}, ${dt.getDate()} ${LUNI[dt.getMonth()]} ${dt.getFullYear()}`;
+}
+function prevSession(d) {   // ziua de tranzactionare dinaintea raportului
+  const dt = new Date(d + "T12:00:00");
+  do { dt.setDate(dt.getDate() - 1); } while (dt.getDay() === 0 || dt.getDay() === 6);
+  return `${ZILE[dt.getDay()].toLowerCase()}, ${dt.getDate()} ${LUNI[dt.getMonth()]}`;
+}
+const FGCOL = v => v == null ? "transparent" : v < 25 ? "#dc2626" : v < 45 ? "#f97316" : v < 55 ? "#a3a3a3" : v < 75 ? "#84cc16" : "#16a34a";
+function renderBoard(date, summary) {
+  $("bDate").textContent = longDate(date);
+  $("bLede").textContent = `Raportul zilei, cu datele de la închiderea bursei americane de ${prevSession(date)}.`;
+  const g = $("bGroups");
+  if (!summary || !summary.length) { g.hidden = true; return; }
+  const order = ["Indici", "Mărfuri", "Valute", "Acțiuni"], by = {};
+  for (const x of summary) (by[x.g || "Altele"] = by[x.g || "Altele"] || []).push(x);
+  const fmt = v => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(2).replace(".", ",") + "%";
+  g.innerHTML = order.concat(Object.keys(by).filter(k => !order.includes(k))).filter(k => by[k]).map(k =>
+    `<div class="grp"><h2>${esc(k)}</h2><div class="cells">` + by[k].map(x =>
+      `<div class="cell"><span class="nm">${esc(x.l)}</span><span class="px">${esc(x.c)}</span>`
+      + `<span class="ch ${x.ch > 0 ? "up" : x.ch < 0 ? "dn" : "flat"}">${fmt(x.ch)}</span>`
+      + `<span class="sg">${x.fg != null ? `<i style="background:${FGCOL(x.fg)}"></i>sentiment ${x.fg} · ${esc(x.fgl)}` : (x.k === "VIX" ? "indicele fricii pe SP500" : "")}</span></div>`
+    ).join("") + `</div></div>`).join("");
+  g.hidden = false;
+}
 
 function msg(text, ok) { const m = $("msg"); m.className = "msg " + (ok ? "ok" : "err"); m.textContent = text; }
 function clearMsg() { $("msg").className = "msg"; }
@@ -355,10 +448,13 @@ $("nview").addEventListener("touchend", e => {
   if (Math.abs(dx) > 40) newsGo(dx < 0 ? nPage + 1 : nPage - 1);
 });
 function setMode(m) {
+  $("nDaily").classList.toggle("on", m === "daily"); $("nWeekly").classList.toggle("on", m === "weekly");
   $("vDaily").classList.toggle("on", m === "daily"); $("vWeekly").classList.toggle("on", m === "weekly");
   $("vDaily").setAttribute("aria-selected", m === "daily"); $("vWeekly").setAttribute("aria-selected", m === "weekly");
 }
 $("vDaily").onclick = () => show(idx);
+$("nDaily").onclick = () => { show(idx); $("app").scrollIntoView({ behavior: "smooth" }); };
+$("nWeekly").onclick = () => { $("vWeekly").click(); $("vWeekly").scrollIntoView({ behavior: "smooth", block: "start" }); };
 $("vWeekly").onclick = async () => {
   setMode("weekly"); ++loadSeq;
   $("empty").hidden = true; $("view").hidden = false;
@@ -367,7 +463,7 @@ $("vWeekly").onclick = async () => {
   if (error || !data || !data.length) {
     $("view").srcdoc = "<p style='font-family:sans-serif;padding:20px'>Primul Weekly View apare sâmbătă dimineață.</p>"; return;
   }
-  $("view").srcdoc = data[0].html.replace("<head>", "<head><base target='_blank'>");
+  $("view").srcdoc = frameHtml(data[0].html);
 };
 async function show(i) {
   setMode("daily");
@@ -382,12 +478,13 @@ async function show(i) {
   $("dots").innerHTML = Array.from({ length: n }, (_, k) => `<span class="${k === Math.min(idx, n - 1) ? "on" : ""}"></span>`).reverse().join("");
   $("nnav").hidden = true; $("newsBody").style.transform = "";
   $("newsBody").innerHTML = '<div class="npage"><div class="none">Se încarcă…</div></div>';
-  const { data, error } = await sb.from("reports").select("html,news").eq("session_date", date).single();
+  const { data, error } = await sb.from("reports").select("html,news,summary").eq("session_date", date).single();
   if (seq !== loadSeq) return;  // s-a ales intre timp alta zi
   if (error) { $("view").srcdoc = "<p style='font-family:sans-serif;padding:20px'>Raportul nu a putut fi încărcat.</p>"; renderNews(null); return; }
   renderNews(data.news);
   // linkurile din raport se deschid in tab nou
-  $("view").srcdoc = data.html.replace("<head>", "<head><base target='_blank'>");
+  renderBoard(date, data.summary);
+  $("view").srcdoc = frameHtml(data.html);
 }
 $("prev").onclick = () => show(idx + 1);   // mai veche
 $("next").onclick = () => show(idx - 1);   // mai noua
