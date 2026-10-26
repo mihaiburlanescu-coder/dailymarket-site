@@ -1,0 +1,36 @@
+name: Pagini pentru Google
+
+# Dupa raportul de dimineata (si sambata dupa Weekly View) genereaza paginile statice
+# /en/ si /ro/ + sitemap.xml, apoi le publica (commit in acest depozit -> GitHub Pages).
+on:
+  schedule:
+    - cron: "45 5 * * 1-5"   # dupa raportul de la 05:00 UTC
+    - cron: "40 8 * * 1-5"   # a doua trecere, daca raportul a intarziat
+    - cron: "50 6 * * 6"     # sambata, dupa Weekly View
+    - cron: "40 9 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python build_pages.py
+      - name: Publica paginile noi
+        run: |
+          git config user.name "daily-market-bot"
+          git config user.email "daily-market-bot@users.noreply.github.com"
+          git add -A en ro sitemap.xml index.html
+          git diff --cached --quiet || git commit -m "Pagini noi pentru Google $(date -u +%Y-%m-%d)"
+          git push
