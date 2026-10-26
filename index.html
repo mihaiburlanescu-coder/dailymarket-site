@@ -321,7 +321,7 @@
       <button type="button" id="vWeekly" role="tab" aria-selected="false">Weekly View</button>
       <button type="button" id="vPf" role="tab" aria-selected="false" data-ro="Portofoliu">Portfolio</button>
     </div>
-    <p class="rolang" id="roNote" hidden>The detailed report below is currently published in Romanian. An English edition is on the way.</p>
+    <p class="rolang" id="roNote" hidden>This report is only available in Romanian.</p>
     <section id="pf" class="pf" hidden aria-labelledby="pfT"></section>
     <div class="frame"><iframe id="view" title="Daily Market report" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
       <div class="empty" id="empty" hidden data-ro="Încă nu există rapoarte. Primul apare după următoarea rulare de dimineață.">No reports yet. The first one appears after the next morning run.</div></div>
@@ -373,7 +373,7 @@ if (RO) {
   $("view").title = "Raport Daily Market";
   const cn = document.querySelector("link[rel=canonical]"); if (cn) cn.href = "https://dailymarketlab.com/?lang=ro";
 }
-$("roNote").hidden = RO;
+const showRoNote = on => { $("roNote").hidden = !on; };
 $("langBtn").onclick = () => {
   const nl = RO ? "en" : "ro";
   try { localStorage.setItem("dm_lang", nl); } catch (e) {}
@@ -426,7 +426,7 @@ function renderBoard(date, summary) {
   const fmt = v => (v > 0 ? "▲ +" : v < 0 ? "▼ −" : "") + (RO ? Math.abs(v).toFixed(2).replace(".", ",") : Math.abs(v).toFixed(2)) + "%";
   const one = summary.map(x =>
     `<span class="it">${x.fg != null ? `<i style="background:${FGCOL(x.fg)}" title="sentiment ${x.fg}"></i>` : ""}<b>${esc(x.l)}</b>`
-    + `<span class="p">${esc(x.c)}</span><span class="${x.ch > 0 ? "up" : x.ch < 0 ? "dn" : "fl"}">${fmt(x.ch)}</span></span>`).join("");
+    + `<span class="p">${x.v != null ? esc(pxf(x.v)) : esc(x.c)}</span><span class="${x.ch > 0 ? "up" : x.ch < 0 ? "dn" : "fl"}">${fmt(x.ch)}</span></span>`).join("");
   run.innerHTML = one + one;   // dublat: banda se misca la nesfarsit fara salt
   t.hidden = false;
   requestAnimationFrame(() => { run.style.setProperty("--dur", Math.max(25, run.scrollWidth / 2 / 45) + "s"); });
@@ -578,7 +578,7 @@ function setMode(m) {
   $("pfBtn").classList.toggle("on", m === "pf"); $("vPf").classList.toggle("on", m === "pf");
   $("vPf").setAttribute("aria-selected", m === "pf");
   $("pf").hidden = m !== "pf"; document.querySelector(".frame").hidden = m === "pf";
-  $("roNote").hidden = RO || m === "pf";
+  $("roNote").hidden = true;
   $("vDaily").classList.toggle("on", m === "daily"); $("vWeekly").classList.toggle("on", m === "weekly");
   $("vDaily").setAttribute("aria-selected", m === "daily"); $("vWeekly").setAttribute("aria-selected", m === "weekly");
 }
@@ -590,11 +590,12 @@ $("vWeekly").onclick = async () => {
   setMode("weekly"); ++loadSeq;
   $("empty").hidden = true; $("view").hidden = false;
   $("view").srcdoc = framePara(LOADING);
-  const { data, error } = await sb.from("weekly_views").select("html").order("week_start", { ascending: false }).limit(1);
+  const { data, error } = await sb.from("weekly_views").select("html,html_en").order("week_start", { ascending: false }).limit(1);
   if (error || !data || !data.length) {
     $("view").srcdoc = framePara(L("The first Weekly View comes out on Saturday morning.", "Primul Weekly View apare sâmbătă dimineață.")); return;
   }
-  $("view").srcdoc = frameHtml(data[0].html);
+  showRoNote(!RO && !data[0].html_en);
+  $("view").srcdoc = frameHtml((!RO && data[0].html_en) || data[0].html);
 };
 
 // ---------------- Portofoliul Daily Market ----------------
@@ -682,13 +683,14 @@ async function show(i) {
   $("dots").innerHTML = Array.from({ length: n }, (_, k) => `<span class="${k === Math.min(idx, n - 1) ? "on" : ""}"></span>`).reverse().join("");
   $("nnav").hidden = true; $("newsBody").style.transform = "";
   $("newsBody").innerHTML = `<div class="npage"><div class="none">${LOADING}</div></div>`;
-  const { data, error } = await sb.from("reports").select("html,news,summary").eq("session_date", date).single();
+  const { data, error } = await sb.from("reports").select("html,html_en,news,summary").eq("session_date", date).single();
   if (seq !== loadSeq) return;  // s-a ales intre timp alta zi
   if (error) { $("view").srcdoc = framePara(L("The report could not be loaded.", "Raportul nu a putut fi încărcat.")); renderNews(null); return; }
   renderNews(data.news);
   // linkurile din raport se deschid in tab nou
   renderBoard(date, data.summary);
-  $("view").srcdoc = frameHtml(data.html);
+  showRoNote(!RO && !data.html_en);
+  $("view").srcdoc = frameHtml((!RO && data.html_en) || data.html);
 }
 $("prev").onclick = () => show(idx + 1);   // mai veche
 $("next").onclick = () => show(idx - 1);   // mai noua
