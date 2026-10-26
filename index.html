@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="ro">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Daily Market – piețele zilei explicate în română</title>
-<meta name="description" content="Daily Market: raport zilnic în limba română despre indici, mărfuri, valute și acțiuni – tehnic, opțiuni, sentiment, știri și expirări.">
+<title>Daily Market – the markets of the day, clearly explained</title>
+<meta name="description" content="Daily Market: a daily report on indices, commodities, currencies and stocks – technicals, options, sentiment, news and expiries.">
 <meta name="theme-color" content="#13223A">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Daily Market – piețele zilei, explicate în română">
-<meta property="og:description" content="Raport zilnic despre indici, mărfuri, valute și acțiuni: tehnic, opțiuni, sentiment și Weekly View.">
+<meta property="og:title" content="Daily Market – the markets of the day, clearly explained">
+<meta property="og:description" content="A daily report on indices, commodities, currencies and stocks: technicals, options, sentiment and the Weekly View.">
 <meta property="og:url" content="https://dailymarketlab.com/">
 <meta property="og:image" content="https://dailymarketlab.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -16,6 +16,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
 <link rel="canonical" href="https://dailymarketlab.com/">
+<link rel="alternate" hreflang="en" href="https://dailymarketlab.com/">
+<link rel="alternate" hreflang="ro" href="https://dailymarketlab.com/?lang=ro">
+<link rel="alternate" hreflang="x-default" href="https://dailymarketlab.com/">
 <style>
   :root{--bg:#EEF1F5;--card:#fff;--ink:#13223A;--muted:#5A6B82;--line:#D5DCE6;--accent:#B7791F;--accent-ink:#fff;
         --navy:#13223A;--navy-ink:#E9EEF6;--gold:#D9A441;--up:#1A7F4B;--down:#C2362F;
@@ -124,6 +127,9 @@
   .tape .it i{width:7px;height:7px;border-radius:50%;display:inline-block;align-self:center}
   @keyframes tape{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @media (prefers-reduced-motion:reduce){.tape{overflow-x:auto}.tape .run{animation:none}}
+  .langbtn{background:transparent;color:#C9D5E6;border:1px solid rgba(255,255,255,.28);font-weight:700;border-radius:999px;padding:7px 11px;font-size:13px;letter-spacing:.4px}
+  .langbtn:hover{color:#fff;border-color:#fff}
+  .rolang{font-size:12.5px;color:var(--muted);margin:0 0 8px}
   .pfbtn{background:transparent;color:var(--gold);border:1px solid var(--gold);font-weight:700;border-radius:999px;padding:8px 16px}
   .pfbtn.on,.pfbtn:hover{background:rgba(217,164,65,.14)}
   .pf{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
@@ -163,7 +169,9 @@
     .bar{padding:10px 14px;gap:8px}
     .logo{font-size:18px}
     .subbtn{padding:7px 13px;font-size:14px}
-    .nav{order:5;flex:1 0 100%;display:flex;gap:0;margin:2px -4px 0}
+    .nav{order:5;flex:1 0 calc(100% - 56px);display:flex;gap:0;margin:2px -4px 0}
+    .langbtn{order:6;padding:6px 9px;font-size:12px}
+    .nav button,.nav .navlink{white-space:nowrap}
     .nav button,.nav .navlink{flex:1;padding:9px 6px;font-size:14px;justify-content:center}
     main{padding:14px 12px 36px}
     .bdate{font-size:30px;margin:2px 0 4px}
@@ -181,41 +189,44 @@
   footer a{color:var(--ink);text-decoration:none;font-weight:600}
   footer a:hover{text-decoration:underline}
   footer .cp{flex:1;min-width:200px}
+  @media (max-width:380px){.nav button,.nav .navlink{font-size:13px;padding:9px 3px}.logo{font-size:16px}.pfbtn,.subbtn{padding:6px 9px!important;font-size:12.5px!important}}
 </style>
 </head>
 <body>
 <header><div class="bar">
-  <a class="logo" href="./" aria-label="Daily Market – pagina principală">
+  <a class="logo" href="./" aria-label="Daily Market – home" data-ro-aria="Daily Market – pagina principală">
     <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#D9A441"/>
       <rect x="7" y="13" width="4" height="12" rx="1" fill="#13223A"/><rect x="14" y="7" width="4" height="18" rx="1" fill="#13223A"/>
       <rect x="21" y="16" width="4" height="9" rx="1" fill="#13223A"/></svg>
     Daily Market</a>
   <div class="spacer"></div>
-  <nav class="nav" aria-label="Rapoarte">
-    <button type="button" id="nDaily" class="on">Raport zilnic</button>
+  <nav class="nav" aria-label="Reports" data-ro-aria="Rapoarte">
+    <button type="button" id="nDaily" class="on" data-ro="Raport zilnic">Daily Report</button>
     <button type="button" id="nWeekly">Weekly View</button>
-    <a class="navlink" href="despre.html">Despre noi</a>
+    <a class="navlink" href="about.html" data-ro-href="despre.html" data-ro="Despre noi">About us</a>
   </nav>
-  <button type="button" id="pfBtn" class="pfbtn">Portofoliu</button>
-  <button type="button" id="subBtn" class="subbtn">Abonează-te</button>
+  <button type="button" id="pfBtn" class="pfbtn" data-ro="Portofoliu">Portfolio</button>
+  <button type="button" id="subBtn" class="subbtn" data-ro="Abonează-te">Subscribe</button>
+  <button type="button" id="langBtn" class="langbtn" title="Română" aria-label="Schimbă limba în română" data-ro-aria="Switch language to English" data-ro-title="English" data-ro="EN">RO</button>
   <div class="who" id="who" hidden></div>
-  <button id="logout" hidden>Ieșire</button>
+  <button id="logout" hidden data-ro="Ieșire">Log out</button>
 </div>
-<div class="tape" id="tape" hidden aria-label="Cotațiile zilei"><div class="run" id="tapeRun"></div></div>
+<div class="tape" id="tape" hidden aria-label="Today's quotes" data-ro-aria="Cotațiile zilei"><div class="run" id="tapeRun"></div></div>
 </header>
 
 <div class="modal" id="subModal" hidden role="dialog" aria-modal="true" aria-labelledby="subT">
   <div class="mcard">
-    <button type="button" class="mclose" id="subClose" aria-label="Închide">×</button>
-    <h2 id="subT">Primește Daily Market pe email</h2>
-    <p class="sub">Lasă adresa de email ca să primești raportul zilnic Daily Market.</p>
+    <button type="button" class="mclose" id="subClose" aria-label="Close" data-ro-aria="Închide">×</button>
+    <h2 id="subT" data-ro="Primește Daily Market pe email">Get Daily Market by email</h2>
+    <p class="sub" data-ro="Lasă adresa de email ca să primești raportul zilnic Daily Market.">Leave your email address to receive the Daily Market report every morning.</p>
     <form id="fSub" novalidate>
       <label for="subEmail">Email</label>
-      <input id="subEmail" type="email" required autocomplete="email" maxlength="254" placeholder="nume@exemplu.ro">
+      <input id="subEmail" type="email" required autocomplete="email" maxlength="254" placeholder="name@example.com" data-ro-ph="nume@exemplu.ro">
       <div class="check"><input id="subOk" type="checkbox" required>
-        <label for="subOk" style="margin:0;font-weight:400">Am cel puțin 18 ani și sunt de acord ca adresa mea de email să fie folosită
-        doar pentru trimiterea raportului Daily Market. Mă pot dezabona oricând.</label></div>
-      <button class="primary" type="submit">Abonează-mă</button>
+        <label for="subOk" style="margin:0;font-weight:400" data-ro="Am cel puțin 18 ani și sunt de acord ca adresa mea de email să fie folosită
+        doar pentru trimiterea raportului Daily Market. Mă pot dezabona oricând.">I am at least 18 years old and agree that my email address will be used
+        only to send me the Daily Market report. I can unsubscribe at any time.</label></div>
+      <button class="primary" type="submit" data-ro="Abonează-mă">Subscribe me</button>
       <div id="subMsg" class="msg"></div>
     </form>
   </div>
@@ -224,102 +235,111 @@
 <main>
   <!-- AUTENTIFICARE -->
   <section id="auth" class="auth card" hidden>
-    <h1 id="authTitle">Intră în cont</h1>
-    <p class="sub">Raport zilnic: SP500 · DAX · VIX · WTI · GOLD · SILVER · EUR/USD · GBP/USD · USD/JPY · NVIDIA · GOOGLE · MICROSOFT</p>
+    <h1 id="authTitle">Sign in</h1>
+    <p class="sub" data-ro="Raport zilnic: SP500 · DAX · VIX · WTI · GOLD · SILVER · EUR/USD · GBP/USD · USD/JPY · NVIDIA · GOOGLE · MICROSOFT">Daily report: SP500 · DAX · VIX · WTI · GOLD · SILVER · EUR/USD · GBP/USD · USD/JPY · NVIDIA · GOOGLE · MICROSOFT</p>
     <div class="tabs">
-      <button id="tLogin" class="on" type="button">Autentificare</button>
-      <button id="tSignup" type="button">Cont nou</button>
+      <button id="tLogin" class="on" type="button" data-ro="Autentificare">Sign in</button>
+      <button id="tSignup" type="button" data-ro="Cont nou">New account</button>
     </div>
 
     <form id="fLogin" autocomplete="on">
       <label for="lEmail">Email</label>
       <input id="lEmail" type="email" required autocomplete="email">
-      <label for="lPass">Parolă</label>
+      <label for="lPass" data-ro="Parolă">Password</label>
       <input id="lPass" type="password" required autocomplete="current-password">
-      <button class="primary" type="submit">Intră</button>
-      <div class="row"><button class="link" type="button" id="forgot">Am uitat parola</button></div>
+      <button class="primary" type="submit" data-ro="Intră">Sign in</button>
+      <div class="row"><button class="link" type="button" id="forgot" data-ro="Am uitat parola">Forgot password</button></div>
     </form>
 
     <form id="fSignup" hidden autocomplete="on">
-      <label for="sName">Nume și prenume</label>
+      <label for="sName" data-ro="Nume și prenume">Full name</label>
       <input id="sName" type="text" required minlength="2" maxlength="120" autocomplete="name">
-      <label for="sAge">Vârsta</label>
+      <label for="sAge" data-ro="Vârsta">Age</label>
       <input id="sAge" type="number" required min="18" max="120" inputmode="numeric">
       <label for="sEmail">Email</label>
       <input id="sEmail" type="email" required autocomplete="email">
-      <label for="sPass">Parolă (minim 8 caractere)</label>
+      <label for="sPass" data-ro="Parolă (minim 8 caractere)">Password (at least 8 characters)</label>
       <input id="sPass" type="password" required minlength="8" autocomplete="new-password">
       <div class="check"><input id="sTerms" type="checkbox" required>
-        <label for="sTerms" style="margin:0;font-weight:400">Am cel puțin 18 ani, am citit disclaimer-ul de mai jos și accept ca numele,
-        vârsta și emailul meu să fie folosite doar pentru accesul la acest raport.</label></div>
-      <button class="primary" type="submit">Creează contul</button>
+        <label for="sTerms" style="margin:0;font-weight:400" data-ro="Am cel puțin 18 ani, am citit disclaimer-ul de mai jos și accept ca numele,
+        vârsta și emailul meu să fie folosite doar pentru accesul la acest raport.">I am at least 18 years old, I have read the disclaimer below and I agree that my name,
+        age and email will be used only to give me access to this report.</label></div>
+      <button class="primary" type="submit" data-ro="Creează contul">Create account</button>
     </form>
 
     <form id="fReset" hidden>
-      <label for="rPass">Parolă nouă (minim 8 caractere)</label>
+      <label for="rPass" data-ro="Parolă nouă (minim 8 caractere)">New password (at least 8 characters)</label>
       <input id="rPass" type="password" required minlength="8" autocomplete="new-password">
-      <button class="primary" type="submit">Salvează parola</button>
+      <button class="primary" type="submit" data-ro="Salvează parola">Save password</button>
     </form>
 
     <div id="msg" class="msg"></div>
 
-    <div class="disc"><b>Disclaimer.</b> Daily Market are scop exclusiv informativ și educațional. Nu reprezintă consultanță de investiții,
+    <div class="disc"><span data-ro="<b>Disclaimer.</b> Daily Market are scop exclusiv informativ și educațional. Nu reprezintă consultanță de investiții,
       recomandare de cumpărare sau vânzare și nici ofertă de a tranzacționa. Tranzacționarea CFD-urilor, futures și opțiunilor implică
       risc ridicat de pierdere, inclusiv a întregului capital. Autorul nu își asumă nicio răspundere pentru deciziile sau pierderile
       rezultate din utilizarea acestor informații.
-      <br><br><b>Date personale.</b> Păstrăm doar numele, vârsta și emailul, exclusiv pentru accesul la raport. Nu le transmitem terților.
+      <br><br><b>Date personale.</b> Păstrăm doar numele, vârsta și emailul, exclusiv pentru accesul la raport. Nu le transmitem terților."><b>Disclaimer.</b>
+      Daily Market is for information and education only. It is not investment advice, a recommendation to buy or sell, or an offer to trade.
+      Trading CFDs, futures and options carries a high risk of loss, including the loss of all your capital. The author accepts no liability
+      for decisions or losses resulting from the use of this information.
+      <br><br><b>Personal data.</b> We keep only your name, age and email, solely to give you access to the report. We do not share them with third parties.</span>
       <span id="contact"></span></div>
   </section>
 
   <!-- RAPOARTE -->
   <section id="app" hidden>
     <section class="board" aria-labelledby="bDate">
-      <h1 class="bdate" id="bDate">Piețele zilei</h1>
-      <p class="lede" id="bLede">Indici, mărfuri, valute și acțiuni: tehnic, opțiuni, sentiment și știri, într-un singur raport.</p>
+      <h1 class="bdate" id="bDate" data-ro="Piețele zilei">Today's markets</h1>
+      <p class="lede" id="bLede" data-ro="Indici, mărfuri, valute și acțiuni: tehnic, opțiuni, sentiment și știri, într-un singur raport.">Indices, commodities, currencies and stocks: technicals, options, sentiment and news, in a single report.</p>
     </section>
     <div class="top">
       <section class="panel" aria-labelledby="sesT">
-        <div class="eyebrow" id="sesT">Ședințe de tranzacționare</div>
+        <div class="eyebrow" id="sesT" data-ro="Ședințe de tranzacționare">Trading sessions</div>
         <div class="pager" id="pager">
-          <button type="button" id="prev" aria-label="Ședința anterioară">‹</button>
+          <button type="button" id="prev" aria-label="Previous session" data-ro-aria="Ședința anterioară">‹</button>
           <div class="day" aria-live="polite"><div class="d" id="dayD">…</div><div class="t" id="dayT"></div></div>
-          <button type="button" id="next" aria-label="Ședința următoare">›</button>
+          <button type="button" id="next" aria-label="Next session" data-ro-aria="Ședința următoare">›</button>
         </div>
         <div class="dots" id="dots" aria-hidden="true"></div>
-        <div class="hint">Glisează sau folosește săgețile pentru zilele anterioare</div>
+        <div class="hint" data-ro="Glisează sau folosește săgețile pentru zilele anterioare">Swipe or use the arrows for previous days</div>
       </section>
       <section class="panel news" aria-labelledby="newsT">
         <div class="nhead">
-          <div><div class="eyebrow">Din ziua raportului</div><h2 id="newsT">Știrile financiare ale zilei</h2></div>
+          <div><div class="eyebrow" data-ro="Din ziua raportului">From the report day</div><h2 id="newsT" data-ro="Știrile financiare ale zilei">Today's financial news</h2></div>
           <div class="nnav" id="nnav" hidden>
-            <button type="button" id="nPrev" aria-label="Știrile anterioare">‹</button>
+            <button type="button" id="nPrev" aria-label="Previous news" data-ro-aria="Știrile anterioare">‹</button>
             <span id="nPage" aria-live="polite"></span>
-            <button type="button" id="nNext" aria-label="Știrile următoare">›</button>
+            <button type="button" id="nNext" aria-label="Next news" data-ro-aria="Știrile următoare">›</button>
           </div>
         </div>
         <div class="nview" id="nview"><div class="ntrack" id="newsBody"></div></div>
       </section>
     </div>
     <div class="vtabs" role="tablist">
-      <button type="button" id="vDaily" class="on" role="tab" aria-selected="true">Raport zilnic</button>
+      <button type="button" id="vDaily" class="on" role="tab" aria-selected="true" data-ro="Raport zilnic">Daily Report</button>
       <button type="button" id="vWeekly" role="tab" aria-selected="false">Weekly View</button>
-      <button type="button" id="vPf" role="tab" aria-selected="false">Portofoliu</button>
+      <button type="button" id="vPf" role="tab" aria-selected="false" data-ro="Portofoliu">Portfolio</button>
     </div>
+    <p class="rolang" id="roNote" hidden>The detailed report below is currently published in Romanian. An English edition is on the way.</p>
     <section id="pf" class="pf" hidden aria-labelledby="pfT"></section>
-    <div class="frame"><iframe id="view" title="Raport Daily Market" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
-      <div class="empty" id="empty" hidden>Încă nu există rapoarte. Primul apare după următoarea rulare de dimineață.</div></div>
-    <div class="disc pubdisc" id="pubDisc" hidden><b>Disclaimer.</b> Daily Market are scop exclusiv informativ și educațional și se
+    <div class="frame"><iframe id="view" title="Daily Market report" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+      <div class="empty" id="empty" hidden data-ro="Încă nu există rapoarte. Primul apare după următoarea rulare de dimineață.">No reports yet. The first one appears after the next morning run.</div></div>
+    <div class="disc pubdisc" id="pubDisc" hidden data-ro="<b>Disclaimer.</b> Daily Market are scop exclusiv informativ și educațional și se
       adresează persoanelor de peste 18 ani. Nu reprezintă consultanță de investiții, recomandare de cumpărare sau vânzare și nici
       ofertă de a tranzacționa. Tranzacționarea CFD-urilor, futures și opțiunilor implică risc ridicat de pierdere, inclusiv a
       întregului capital. Autorul nu își asumă nicio răspundere pentru deciziile sau pierderile rezultate din utilizarea acestor
-      informații.</div>
+      informații."><b>Disclaimer.</b> Daily Market is for information and education only and is intended for people aged 18 and over.
+      It is not investment advice, a recommendation to buy or sell, or an offer to trade. Trading CFDs, futures and options carries a
+      high risk of loss, including the loss of all your capital. The author accepts no liability for decisions or losses resulting from
+      the use of this information.</div>
   </section>
 </main>
 <footer><div class="in">
-  <div class="cp">© 2026 Daily Market · informativ, nu este consultanță de investiții</div>
-  <a href="despre.html">Despre noi</a>
-  <a href="termeni.html">Termeni și condiții</a>
-  <a href="confidentialitate.html">Confidențialitate</a>
+  <div class="cp" data-ro="© 2026 Daily Market · informativ, nu este consultanță de investiții">© 2026 Daily Market · for information only, not investment advice</div>
+  <a href="about.html" data-ro-href="despre.html" data-ro="Despre noi">About us</a>
+  <a href="terms.html" data-ro-href="termeni.html" data-ro="Termeni și condiții">Terms &amp; conditions</a>
+  <a href="privacy.html" data-ro-href="confidentialitate.html" data-ro="Confidențialitate">Privacy</a>
   <a id="fContact" href="#" hidden>Contact</a>
 </div></footer>
 
@@ -328,19 +348,51 @@
 const SUPABASE_URL = "https://atlxahrvzhzrzfhmwwen.supabase.co";
 const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0bHhhaHJ2emh6cnpmaG13d2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0ODk2MTUsImV4cCI6MjEwODA2NTYxNX0.1lOoTQP6CYoT-qDg2oGx6EbtJP9ag2CaCxmV3Bj3DhQ";
 const LOGIN_REQUIRED = false;  // true = rapoartele se vad doar dupa autentificare (conturile raman salvate)
-const CONTACT_EMAIL = "";   // ex. "contact@sale.ro" - pentru cereri de stergere a datelor
+const CONTACT_EMAIL = "";   // ex. "contact@dailymarketlab.com" - pentru cereri de stergere a datelor
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 const $ = id => document.getElementById(id);
-const ZILE = ["Duminică","Luni","Marți","Miercuri","Joi","Vineri","Sâmbătă"];
+
+// ---------------- limba: engleza implicit, romana secundar ----------------
+let LANG = "en";
+try {
+  const q = new URLSearchParams(location.search).get("lang");
+  if (q === "ro" || q === "en") { LANG = q; localStorage.setItem("dm_lang", q); }
+  else if (localStorage.getItem("dm_lang") === "ro") LANG = "ro";
+} catch (e) { /* fara localStorage: ramane engleza */ }
+const RO = LANG === "ro";
+const L = (en, ro) => RO ? ro : en;
+if (RO) {
+  document.documentElement.lang = "ro";
+  document.title = "Daily Market – piețele zilei, explicate clar";
+  document.querySelectorAll("[data-ro]").forEach(el => { el.innerHTML = el.dataset.ro; });
+  document.querySelectorAll("[data-ro-aria]").forEach(el => el.setAttribute("aria-label", el.dataset.roAria));
+  document.querySelectorAll("[data-ro-ph]").forEach(el => el.setAttribute("placeholder", el.dataset.roPh));
+  document.querySelectorAll("[data-ro-title]").forEach(el => el.setAttribute("title", el.dataset.roTitle));
+  document.querySelectorAll("[data-ro-href]").forEach(el => el.setAttribute("href", el.dataset.roHref));
+  $("view").title = "Raport Daily Market";
+  const cn = document.querySelector("link[rel=canonical]"); if (cn) cn.href = "https://dailymarketlab.com/?lang=ro";
+}
+$("roNote").hidden = RO;
+$("langBtn").onclick = () => {
+  const nl = RO ? "en" : "ro";
+  try { localStorage.setItem("dm_lang", nl); } catch (e) {}
+  location.href = location.pathname + "?lang=" + nl;
+};
+
+const ZILE = RO ? ["Duminică","Luni","Marți","Miercuri","Joi","Vineri","Sâmbătă"]
+                : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const LUNI = RO ? ["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"]
+                : ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const LOC = RO ? "ro-RO" : "en-US";
 if (CONTACT_EMAIL) {
-  $("contact").textContent = " Pentru ștergerea contului scrie la " + CONTACT_EMAIL + ".";
+  $("contact").textContent = L(" To delete your account, write to ", " Pentru ștergerea contului scrie la ") + CONTACT_EMAIL + ".";
   $("fContact").href = "mailto:" + CONTACT_EMAIL; $("fContact").hidden = false;
 }
-const LUNI = ["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"];
 const FONT_CSS = "<link href='https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap' rel='stylesheet'>"
   + "<style>body,body *{font-family:'Archivo',-apple-system,Segoe UI,Arial,sans-serif!important}"
   + "@media (max-width:640px){body>div{padding:12px 8px 24px!important}}</style>";
+const framePara = t => `<p style='font-family:sans-serif;padding:20px'>${t}</p>`;
 // iframe-ul ia inaltimea raportului (fara scroll in scroll pe telefon); continutul nu ruleaza scripturi
 let ro_ = null;
 $("view").addEventListener("load", () => {
@@ -355,20 +407,23 @@ $("view").addEventListener("load", () => {
 const frameHtml = h => h.replace("<head>", "<head><base target='_blank'>" + FONT_CSS);
 function longDate(d) {
   const dt = new Date(d + "T12:00:00");
-  return `${ZILE[dt.getDay()]}, ${dt.getDate()} ${LUNI[dt.getMonth()]} ${dt.getFullYear()}`;
+  return RO ? `${ZILE[dt.getDay()]}, ${dt.getDate()} ${LUNI[dt.getMonth()]} ${dt.getFullYear()}`
+            : `${ZILE[dt.getDay()]}, ${LUNI[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
 }
 function prevSession(d) {   // ziua de tranzactionare dinaintea raportului
   const dt = new Date(d + "T12:00:00");
   do { dt.setDate(dt.getDate() - 1); } while (dt.getDay() === 0 || dt.getDay() === 6);
-  return `${ZILE[dt.getDay()].toLowerCase()}, ${dt.getDate()} ${LUNI[dt.getMonth()]}`;
+  return RO ? `${ZILE[dt.getDay()].toLowerCase()}, ${dt.getDate()} ${LUNI[dt.getMonth()]}`
+            : `${ZILE[dt.getDay()]}, ${LUNI[dt.getMonth()]} ${dt.getDate()}`;
 }
 const FGCOL = v => v == null ? "transparent" : v < 25 ? "#dc2626" : v < 45 ? "#f97316" : v < 55 ? "#a3a3a3" : v < 75 ? "#84cc16" : "#16a34a";
 function renderBoard(date, summary) {
   $("bDate").textContent = longDate(date);
-  $("bLede").textContent = `Raportul zilei, cu datele de la închiderea bursei americane de ${prevSession(date)}.`;
+  $("bLede").textContent = L(`Today's report, with data from the US market close on ${prevSession(date)}.`,
+                             `Raportul zilei, cu datele de la închiderea bursei americane de ${prevSession(date)}.`);
   const t = $("tape"), run = $("tapeRun");
   if (!summary || !summary.length) { t.hidden = true; return; }
-  const fmt = v => (v > 0 ? "▲ +" : v < 0 ? "▼ −" : "") + Math.abs(v).toFixed(2).replace(".", ",") + "%";
+  const fmt = v => (v > 0 ? "▲ +" : v < 0 ? "▼ −" : "") + (RO ? Math.abs(v).toFixed(2).replace(".", ",") : Math.abs(v).toFixed(2)) + "%";
   const one = summary.map(x =>
     `<span class="it">${x.fg != null ? `<i style="background:${FGCOL(x.fg)}" title="sentiment ${x.fg}"></i>` : ""}<b>${esc(x.l)}</b>`
     + `<span class="p">${esc(x.c)}</span><span class="${x.ch > 0 ? "up" : x.ch < 0 ? "dn" : "fl"}">${fmt(x.ch)}</span></span>`).join("");
@@ -384,19 +439,22 @@ function showForm(which) {
   for (const f of ["fLogin","fSignup","fReset"]) $(f).hidden = f !== which;
   $("tLogin").classList.toggle("on", which === "fLogin");
   $("tSignup").classList.toggle("on", which === "fSignup");
-  $("authTitle").textContent = which === "fSignup" ? "Cont nou" : which === "fReset" ? "Parolă nouă" : "Intră în cont";
+  $("authTitle").textContent = which === "fSignup" ? L("New account", "Cont nou")
+    : which === "fReset" ? L("New password", "Parolă nouă") : L("Sign in", "Intră în cont");
   clearMsg();
 }
+const M_AGE = L("You must be at least 18 years old to create an account.", "Trebuie să ai cel puțin 18 ani pentru a crea un cont.");
+const M_TERMS = L("You must accept the terms and the disclaimer.", "Trebuie să accepți termenii și disclaimer-ul.");
 function ro(err) {
   const t = (err && err.message) || String(err);
-  if (/Invalid login credentials/i.test(t)) return "Email sau parolă greșită.";
-  if (/Email not confirmed/i.test(t)) return "Confirmă întâi adresa de email (verifică inboxul și Spam).";
-  if (/already registered|already exists/i.test(t)) return "Există deja un cont cu acest email.";
-  if (/18 ani/i.test(t)) return "Trebuie să ai cel puțin 18 ani pentru a crea un cont.";
-  if (/termenii/i.test(t)) return "Trebuie să accepți termenii și disclaimer-ul.";
-  if (/rate limit|too many/i.test(t)) return "Prea multe încercări. Mai încearcă peste câteva minute.";
-  if (/Password should be/i.test(t)) return "Parola trebuie să aibă cel puțin 8 caractere.";
-  if (/Database error saving new user/i.test(t)) return "Contul nu a putut fi creat. Verifică vârsta (minim 18) și acceptarea termenilor.";
+  if (/Invalid login credentials/i.test(t)) return L("Wrong email or password.", "Email sau parolă greșită.");
+  if (/Email not confirmed/i.test(t)) return L("Please confirm your email address first (check your inbox and Spam).", "Confirmă întâi adresa de email (verifică inboxul și Spam).");
+  if (/already registered|already exists/i.test(t)) return L("An account with this email already exists.", "Există deja un cont cu acest email.");
+  if (/18 ani/i.test(t)) return M_AGE;
+  if (/termenii/i.test(t)) return M_TERMS;
+  if (/rate limit|too many/i.test(t)) return L("Too many attempts. Please try again in a few minutes.", "Prea multe încercări. Mai încearcă peste câteva minute.");
+  if (/Password should be/i.test(t)) return L("The password must be at least 8 characters long.", "Parola trebuie să aibă cel puțin 8 caractere.");
+  if (/Database error saving new user/i.test(t)) return L("The account could not be created. Check your age (18 or over) and that you accepted the terms.", "Contul nu a putut fi creat. Verifică vârsta (minim 18) și acceptarea termenilor.");
   return t;
 }
 function busy(form, on) { form.querySelectorAll("button").forEach(b => b.disabled = on); }
@@ -414,8 +472,8 @@ $("fLogin").onsubmit = async e => {
 $("fSignup").onsubmit = async e => {
   e.preventDefault();
   const age = parseInt($("sAge").value, 10);
-  if (!(age >= 18)) return msg("Trebuie să ai cel puțin 18 ani pentru a crea un cont.");
-  if (!$("sTerms").checked) return msg("Trebuie să accepți termenii și disclaimer-ul.");
+  if (!(age >= 18)) return msg(M_AGE);
+  if (!$("sTerms").checked) return msg(M_TERMS);
   busy(e.target, true); clearMsg();
   const { data, error } = await sb.auth.signUp({
     email: $("sEmail").value.trim(), password: $("sPass").value,
@@ -426,15 +484,17 @@ $("fSignup").onsubmit = async e => {
   if (error) return msg(ro(error));
   if (data.session) return;  // confirmarea emailului dezactivata -> intra direct
   showForm("fLogin");
-  msg("Cont creat. Ți-am trimis un email de confirmare – apasă linkul din el, apoi intră în cont.", true);
+  msg(L("Account created. We sent you a confirmation email – click the link in it, then sign in.",
+        "Cont creat. Ți-am trimis un email de confirmare – apasă linkul din el, apoi intră în cont."), true);
 };
 
 $("forgot").onclick = async () => {
   const email = $("lEmail").value.trim();
-  if (!email) return msg("Scrie întâi emailul în câmpul de mai sus.");
+  if (!email) return msg(L("Type your email in the field above first.", "Scrie întâi emailul în câmpul de mai sus."));
   const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
   if (error) return msg(ro(error));
-  msg("Dacă există un cont cu acest email, ți-am trimis un link pentru resetarea parolei.", true);
+  msg(L("If an account exists for this email, we sent you a password reset link.",
+        "Dacă există un cont cu acest email, ți-am trimis un link pentru resetarea parolei."), true);
 };
 
 $("fReset").onsubmit = async e => {
@@ -461,20 +521,21 @@ document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("subMod
 $("fSub").onsubmit = async e => {
   e.preventDefault();
   const email = $("subEmail").value.trim().toLowerCase();
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return subMsg("Scrie o adresă de email validă.");
-  if (!$("subOk").checked) return subMsg("Bifează acordul ca să te putem abona.");
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return subMsg(L("Please enter a valid email address.", "Scrie o adresă de email validă."));
+  if (!$("subOk").checked) return subMsg(L("Please tick the consent box so we can subscribe you.", "Bifează acordul ca să te putem abona."));
   busy(e.target, true);
   const { error } = await sb.from("subscribers").insert({ email, consent: true, source: "site" });
   busy(e.target, false);
-  if (error && (error.code === "23505" || /duplicate/i.test(error.message))) return subMsg("Adresa aceasta este deja abonată.", true);
-  if (error) return subMsg("Nu am putut salva adresa. Mai încearcă o dată peste câteva minute.");
+  if (error && (error.code === "23505" || /duplicate/i.test(error.message))) return subMsg(L("This address is already subscribed.", "Adresa aceasta este deja abonată."), true);
+  if (error) return subMsg(L("We could not save your address. Please try again in a few minutes.", "Nu am putut salva adresa. Mai încearcă o dată peste câteva minute."));
   e.target.reset();
-  subMsg("Gata, adresa ta a fost înregistrată. Mulțumim!", true);
+  subMsg(L("Done, your address has been registered. Thank you!", "Gata, adresa ta a fost înregistrată. Mulțumim!"), true);
 };
 
 function label(d) {
   const dt = new Date(d + "T12:00:00");
-  return `${ZILE[dt.getDay()]} ${d.slice(8,10)}.${d.slice(5,7)}.${d.slice(0,4)}`;
+  return RO ? `${ZILE[dt.getDay()]} ${d.slice(8,10)}.${d.slice(5,7)}.${d.slice(0,4)}`
+            : `${ZILE[dt.getDay()]} ${LUNI[dt.getMonth()].slice(0,3)} ${dt.getDate()}, ${d.slice(0,4)}`;
 }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
@@ -492,7 +553,7 @@ function renderNews(news) {
   nPage = 0; $("newsBody").style.transform = "";
   if (!news || !news.length) {
     nPages = 1; $("nnav").hidden = true;
-    $("newsBody").innerHTML = '<div class="npage"><div class="none">Pentru acest raport nu avem știri salvate.</div></div>';
+    $("newsBody").innerHTML = `<div class="npage"><div class="none">${L("No saved news for this report.", "Pentru acest raport nu avem știri salvate.")}</div></div>`;
     return;
   }
   const items = news.slice(0, 9), pages = [];
@@ -517,32 +578,42 @@ function setMode(m) {
   $("pfBtn").classList.toggle("on", m === "pf"); $("vPf").classList.toggle("on", m === "pf");
   $("vPf").setAttribute("aria-selected", m === "pf");
   $("pf").hidden = m !== "pf"; document.querySelector(".frame").hidden = m === "pf";
+  $("roNote").hidden = RO || m === "pf";
   $("vDaily").classList.toggle("on", m === "daily"); $("vWeekly").classList.toggle("on", m === "weekly");
   $("vDaily").setAttribute("aria-selected", m === "daily"); $("vWeekly").setAttribute("aria-selected", m === "weekly");
 }
 $("vDaily").onclick = () => show(idx);
 $("nDaily").onclick = () => { show(idx); $("app").scrollIntoView({ behavior: "smooth" }); };
 $("nWeekly").onclick = () => { $("vWeekly").click(); $("vWeekly").scrollIntoView({ behavior: "smooth", block: "start" }); };
+const LOADING = L("Loading…", "Se încarcă…");
 $("vWeekly").onclick = async () => {
   setMode("weekly"); ++loadSeq;
   $("empty").hidden = true; $("view").hidden = false;
-  $("view").srcdoc = "<p style='font-family:sans-serif;padding:20px'>Se încarcă…</p>";
+  $("view").srcdoc = framePara(LOADING);
   const { data, error } = await sb.from("weekly_views").select("html").order("week_start", { ascending: false }).limit(1);
   if (error || !data || !data.length) {
-    $("view").srcdoc = "<p style='font-family:sans-serif;padding:20px'>Primul Weekly View apare sâmbătă dimineață.</p>"; return;
+    $("view").srcdoc = framePara(L("The first Weekly View comes out on Saturday morning.", "Primul Weekly View apare sâmbătă dimineață.")); return;
   }
   $("view").srcdoc = frameHtml(data[0].html);
 };
 
 // ---------------- Portofoliul Daily Market ----------------
-const nf = (v, d = 2) => Number(v).toLocaleString("ro-RO", { minimumFractionDigits: d, maximumFractionDigits: d });
+const nf = (v, d = 2) => Number(v).toLocaleString(LOC, { minimumFractionDigits: d, maximumFractionDigits: d });
 const pxf = v => { v = Number(v); return nf(v, Math.abs(v) >= 1000 ? 0 : Math.abs(v) >= 10 ? 2 : 4); };
 const sgn = (v, d = 2, suf = "") => `<span class="${v > 0 ? "up" : v < 0 ? "dn" : ""}">${v > 0 ? "+" : v < 0 ? "−" : ""}${nf(Math.abs(v), d)}${suf}</span>`;
-const dmy = d => d ? `${d.slice(8,10)}.${d.slice(5,7)}` : "–";
+const dmy = d => d ? (RO ? `${d.slice(8,10)}.${d.slice(5,7)}` : `${LUNI[+d.slice(5,7) - 1].slice(0,3)} ${+d.slice(8,10)}`) : "–";
+const REASON_EN = { "țintă atinsă": "target hit", "stop atins": "stop hit", "rebalansare săptămânală": "weekly rebalance" };
+const H = {
+  ins: "Instrument", side: L("Side", "Direcție"), qty: L("Quantity", "Cantitate"), buy: L("Entry price", "Preț achiziție"),
+  mkt: L("Market price", "Preț piață"), diff: L("Change", "Diferență"), diffp: L("Change %", "Diferență %"), val: L("Value", "Valoare"),
+  ts: L("Target / stop", "Țintă / stop"), ch: L("Chance", "Șansă"), in: L("Entry", "Intrare"), out: L("Exit", "Ieșire"),
+  why: L("Reason", "Motiv"), res: L("Result", "Rezultat"), resp: L("Result %", "Rezultat %")
+};
+const sideTxt = s => s > 0 ? L("Buy", "Cumpărare") : L("Sell", "Vânzare");
 async function showPf() {
   setMode("pf"); ++loadSeq;
   const box = $("pf");
-  box.innerHTML = "<div class='none'>Se încarcă portofoliul…</div>";
+  box.innerHTML = `<div class='none'>${L("Loading the portfolio…", "Se încarcă portofoliul…")}</div>`;
   const [pr, dr] = await Promise.all([
     sb.from("portfolio_positions").select("*").order("entry_date", { ascending: false }).limit(200),
     sb.from("portfolio_daily").select("day,value,cash").order("day", { ascending: false }).limit(1)]);
@@ -550,39 +621,50 @@ async function showPf() {
   const open = pos.filter(p => p.status === "open"), closed = pos.filter(p => p.status === "closed");
   const lastTs = open.map(p => p.last_ts).filter(Boolean).sort().pop();
   const upd = lastTs ? (() => { const t = new Date(lastTs);
-    return `${ZILE[t.getDay()].toLowerCase()} ${String(t.getDate()).padStart(2, "0")}.${String(t.getMonth() + 1).padStart(2, "0")}, ora ${String(t.getHours()).padStart(2, "0")}:${String(t.getMinutes()).padStart(2, "0")}`; })() : "";
+    const hm = `${String(t.getHours()).padStart(2, "0")}:${String(t.getMinutes()).padStart(2, "0")}`;
+    return RO ? `${ZILE[t.getDay()].toLowerCase()} ${String(t.getDate()).padStart(2, "0")}.${String(t.getMonth() + 1).padStart(2, "0")}, ora ${hm}`
+              : `${ZILE[t.getDay()]}, ${LUNI[t.getMonth()].slice(0,3)} ${t.getDate()}, ${hm}`; })() : "";
   const START = 10000, value = day ? Number(day.value) : START, cash = day ? Number(day.cash) : START, res = value - START;
+  const sideCell = p => `<td data-l="${H.side}"><span class="side ${p.side > 0 ? "l" : "s"}">${sideTxt(p.side)}</span></td>`;
   const rows = open.map(p => {
     const e = Number(p.entry_price), m = Number(p.last_price || e), n = Number(p.notional), d = n * p.side * (m / e - 1);
-    return `<tr><td data-l="Instrument"><b>${esc(p.label)}</b></td><td data-l="Direcție"><span class="side ${p.side > 0 ? "l" : "s"}">${p.side > 0 ? "Cumpărare" : "Vânzare"}</span></td>`
-      + `<td data-l="Cantitate">${nf(p.qty, Number(p.qty) >= 100 ? 0 : 4)}</td><td data-l="Preț achiziție">${pxf(e)}</td><td data-l="Preț piață">${pxf(m)}</td><td data-l="Diferență">${sgn(d)}</td><td data-l="Diferență %">${sgn(100 * d / n, 2, "%")}</td>`
-      + `<td data-l="Valoare">${nf(n + d)}</td><td data-l="Țintă / stop">${p.target ? pxf(p.target) : "–"} / ${p.stop ? pxf(p.stop) : "–"}</td><td data-l="Șansă">${p.p_win ? Math.round(100 * p.p_win) + "%" : "–"}</td></tr>`;
+    return `<tr><td data-l="${H.ins}"><b>${esc(p.label)}</b></td>${sideCell(p)}`
+      + `<td data-l="${H.qty}">${nf(p.qty, Number(p.qty) >= 100 ? 0 : 4)}</td><td data-l="${H.buy}">${pxf(e)}</td><td data-l="${H.mkt}">${pxf(m)}</td><td data-l="${H.diff}">${sgn(d)}</td><td data-l="${H.diffp}">${sgn(100 * d / n, 2, "%")}</td>`
+      + `<td data-l="${H.val}">${nf(n + d)}</td><td data-l="${H.ts}">${p.target ? pxf(p.target) : "–"} / ${p.stop ? pxf(p.stop) : "–"}</td><td data-l="${H.ch}">${p.p_win ? Math.round(100 * p.p_win) + "%" : "–"}</td></tr>`;
   }).join("");
   const crow = closed.slice(0, 30).map(p => {
-    const n = Number(p.notional), d = Number(p.pnl || 0);
-    return `<tr><td data-l="Instrument"><b>${esc(p.label)}</b></td><td data-l="Direcție"><span class="side ${p.side > 0 ? "l" : "s"}">${p.side > 0 ? "Cumpărare" : "Vânzare"}</span></td>`
-      + `<td data-l="Intrare">${dmy(p.entry_date)} · ${pxf(p.entry_price)}</td><td data-l="Ieșire">${dmy(p.exit_date)} · ${pxf(p.exit_price)}</td><td data-l="Motiv">${esc(p.exit_reason || "")}</td>`
-      + `<td data-l="Rezultat">${sgn(d)}</td><td data-l="Rezultat %">${sgn(100 * d / n, 2, "%")}</td></tr>`;
+    const n = Number(p.notional), d = Number(p.pnl || 0), why = p.exit_reason || "";
+    return `<tr><td data-l="${H.ins}"><b>${esc(p.label)}</b></td>${sideCell(p)}`
+      + `<td data-l="${H.in}">${dmy(p.entry_date)} · ${pxf(p.entry_price)}</td><td data-l="${H.out}">${dmy(p.exit_date)} · ${pxf(p.exit_price)}</td><td data-l="${H.why}">${esc(RO ? why : (REASON_EN[why] || why))}</td>`
+      + `<td data-l="${H.res}">${sgn(d)}</td><td data-l="${H.resp}">${sgn(100 * d / n, 2, "%")}</td></tr>`;
   }).join("");
-  box.innerHTML = `<h2 id="pfT">Portofoliul Daily Market</h2>
+  const priced = upd ? L(` · prices updated ${upd}`, ` · prețuri actualizate ${upd}`)
+    : day ? L(` · prices at the close of ${dmy(day.day)}`, ` · prețuri la închiderea din ${dmy(day.day)}`) : "";
+  box.innerHTML = `<h2 id="pfT">${L("The Daily Market Portfolio", "Portofoliul Daily Market")}</h2>
     <div class="kpis">
-      <div class="kpi"><span>Valoarea la zi</span><b>${nf(value)}</b></div>
-      <div class="kpi"><span>Rezultat de la început</span><b>${sgn(res)}</b></div>
-      <div class="kpi"><span>Randament</span><b>${sgn(100 * res / START, 2, "%")}</b></div>
-      <div class="kpi"><span>Numerar disponibil</span><b>${nf(cash)}</b></div>
+      <div class="kpi"><span>${L("Current value", "Valoarea la zi")}</span><b>${nf(value)}</b></div>
+      <div class="kpi"><span>${L("Result since start", "Rezultat de la început")}</span><b>${sgn(res)}</b></div>
+      <div class="kpi"><span>${L("Return", "Randament")}</span><b>${sgn(100 * res / START, 2, "%")}</b></div>
+      <div class="kpi"><span>${L("Available cash", "Numerar disponibil")}</span><b>${nf(cash)}</b></div>
     </div>
-    <h3>Poziții deschise${upd ? ` · prețuri actualizate ${upd}` : day ? ` · prețuri la închiderea din ${dmy(day.day)}` : ""}</h3>
-    <div class="tw">${rows ? `<table><thead><tr><th>Instrument</th><th>Direcție</th><th>Cantitate</th><th>Preț achiziție</th><th>Preț piață</th>
-      <th>Diferență</th><th>Diferență %</th><th>Valoare</th><th>Țintă / stop</th><th>Șansă</th></tr></thead><tbody>${rows}</tbody></table>`
-      : `<div class="none">Primele poziții se deschid sâmbătă, odată cu Weekly View.</div>`}</div>
-    ${crow ? `<h3>Poziții închise</h3><div class="tw"><table><thead><tr><th>Instrument</th><th>Direcție</th><th>Intrare</th><th>Ieșire</th>
-      <th>Motiv</th><th>Rezultat</th><th>Rezultat %</th></tr></thead><tbody>${crow}</tbody></table></div>` : ""}
-    <p class="note"><b>Cum funcționează.</b> Un portofoliu virtual de 10.000 care pune în practică scenariile din Weekly View. În fiecare sâmbătă alegem cele 5 scenarii
+    <h3>${L("Open positions", "Poziții deschise")}${priced}</h3>
+    <div class="tw">${rows ? `<table><thead><tr><th>${H.ins}</th><th>${H.side}</th><th>${H.qty}</th><th>${H.buy}</th><th>${H.mkt}</th>
+      <th>${H.diff}</th><th>${H.diffp}</th><th>${H.val}</th><th>${H.ts}</th><th>${H.ch}</th></tr></thead><tbody>${rows}</tbody></table>`
+      : `<div class="none">${L("The first positions open on Saturday, together with the Weekly View.", "Primele poziții se deschid sâmbătă, odată cu Weekly View.")}</div>`}</div>
+    ${crow ? `<h3>${L("Closed positions", "Poziții închise")}</h3><div class="tw"><table><thead><tr><th>${H.ins}</th><th>${H.side}</th><th>${H.in}</th><th>${H.out}</th>
+      <th>${H.why}</th><th>${H.res}</th><th>${H.resp}</th></tr></thead><tbody>${crow}</tbody></table></div>` : ""}
+    ${RO ? `<p class="note"><b>Cum funcționează.</b> Un portofoliu virtual de 10.000 care pune în practică scenariile din Weekly View. În fiecare sâmbătă alegem cele 5 scenarii
     cu cea mai mare șansă ca prețul să atingă ținta înaintea stopului. Pozițiile se închid oricând în timpul săptămânii, dacă ating ținta sau stopul. Prețurile se actualizează din oră în oră, de luni până vineri, cu o întârziere de aproximativ 15 minute.</p>
     <p class="note">Sumele sunt virtuale; fiecare poziție are aproximativ o cincime din portofoliu, fără levier, cu prețul de intrare egal cu
     închiderea de vineri. „Șansa” este probabilitatea, calibrată pe istoric, ca prețul să atingă ținta înaintea stopului în următoarele 5 zile.
     Portofoliul arată cum s-ar fi descurcat scenariile noastre; nu este o recomandare de investiții, iar testele pe 2007–2026 nu au arătat
-    că direcția pieței poate fi prezisă. Rezultatele trecute nu garantează rezultate viitoare.</p>`;
+    că direcția pieței poate fi prezisă. Rezultatele trecute nu garantează rezultate viitoare.</p>`
+    : `<p class="note"><b>How it works.</b> A virtual portfolio of 10,000 that puts the Weekly View scenarios into practice. Every Saturday we pick the 5 scenarios
+    with the highest chance that the price reaches the target before the stop. Positions close at any time during the week if they hit the target or the stop. Prices update every hour, Monday to Friday, with a delay of about 15 minutes.</p>
+    <p class="note">The amounts are virtual; each position is roughly one fifth of the portfolio, with no leverage, and the entry price is
+    Friday's close. The “chance” is the probability, calibrated on history, that the price reaches the target before the stop within the next 5 days.
+    The portfolio shows how our scenarios would have performed; it is not an investment recommendation, and tests over 2007–2026 did not show
+    that market direction can be predicted. Past results do not guarantee future results.</p>`}`;
 }
 $("pfBtn").onclick = () => { showPf(); $("pf").scrollIntoView({ behavior: "smooth", block: "start" }); };
 $("vPf").onclick = showPf;
@@ -592,16 +674,17 @@ async function show(i) {
   idx = Math.max(0, Math.min(DAYS.length - 1, i));
   const date = DAYS[idx], seq = ++loadSeq;
   $("dayD").textContent = label(date);
-  $("dayT").innerHTML = idx === 0 ? "<b>Raportul zilei</b>" : `acum ${idx} ${idx === 1 ? "raport" : "rapoarte"}`;
+  $("dayT").innerHTML = idx === 0 ? `<b>${L("Today's report", "Raportul zilei")}</b>`
+    : RO ? `acum ${idx} ${idx === 1 ? "raport" : "rapoarte"}` : `${idx} ${idx === 1 ? "report" : "reports"} ago`;
   $("prev").disabled = idx === DAYS.length - 1;
   $("next").disabled = idx === 0;
   const n = Math.min(DAYS.length, 12);
   $("dots").innerHTML = Array.from({ length: n }, (_, k) => `<span class="${k === Math.min(idx, n - 1) ? "on" : ""}"></span>`).reverse().join("");
   $("nnav").hidden = true; $("newsBody").style.transform = "";
-  $("newsBody").innerHTML = '<div class="npage"><div class="none">Se încarcă…</div></div>';
+  $("newsBody").innerHTML = `<div class="npage"><div class="none">${LOADING}</div></div>`;
   const { data, error } = await sb.from("reports").select("html,news,summary").eq("session_date", date).single();
   if (seq !== loadSeq) return;  // s-a ales intre timp alta zi
-  if (error) { $("view").srcdoc = "<p style='font-family:sans-serif;padding:20px'>Raportul nu a putut fi încărcat.</p>"; renderNews(null); return; }
+  if (error) { $("view").srcdoc = framePara(L("The report could not be loaded.", "Raportul nu a putut fi încărcat.")); renderNews(null); return; }
   renderNews(data.news);
   // linkurile din raport se deschid in tab nou
   renderBoard(date, data.summary);
