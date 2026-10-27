@@ -406,7 +406,16 @@ $("view").addEventListener("load", () => {
     const fit = () => { $("view").style.height = d.documentElement.scrollHeight + "px"; };
     fit(); if (ro_) ro_.disconnect();
     ro_ = new ResizeObserver(fit); ro_.observe(d.body || d.documentElement);
-    d.addEventListener("change", () => setTimeout(fit, 30));
+    d.addEventListener("change", ev => {
+      setTimeout(fit, 30);
+      if (ev.target && ev.target.name === "fg") {  // Sentiment: dupa clic pe grafic, arata explicatiile de la inceput
+        setTimeout(() => {
+          const el = d.querySelector(".fgw"); if (!el) return;
+          const y = $("view").getBoundingClientRect().top + window.scrollY + el.getBoundingClientRect().top - 80;
+          if (y < window.scrollY) window.scrollTo({ top: y, behavior: "smooth" });
+        }, 60);
+      }
+    });
   } catch (e) { /* ramane inaltimea fixa */ }
 });
 const frameHtml = h => h.replace("<head>", "<head><base target='_blank'>" + FONT_CSS);
