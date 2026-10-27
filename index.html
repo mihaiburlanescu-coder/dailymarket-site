@@ -366,6 +366,24 @@ try {
   else if (localStorage.getItem("dm_lang") === "ro") LANG = "ro";
 } catch (e) { /* fara localStorage: ramane engleza */ }
 const RO = LANG === "ro";
+// --- statistica de vizite: fara cookie-uri; ?nostat=1 opreste numararea pe acest dispozitiv (pentru noi) ---
+const TRACK_URL = "https://atlxahrvzhzrzfhmwwen.supabase.co/functions/v1/track";
+let NOSTAT = false;
+try {
+  const ns = new URLSearchParams(location.search).get("nostat");
+  if (ns === "1") localStorage.setItem("dm_nostat", "1");
+  if (ns === "0") localStorage.removeItem("dm_nostat");
+  NOSTAT = localStorage.getItem("dm_nostat") === "1";
+} catch (e) {}
+const track = (ev, name) => {
+  if (NOSTAT) return;
+  try {
+    let tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+    fetch(TRACK_URL, { method: "POST", keepalive: true, headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ ev, name: name || "", path: location.pathname, lang: LANG, ref: document.referrer, tz }) }).catch(() => {});
+  } catch (e) {}
+};
+track("view", "home");
 const L = (en, ro) => RO ? ro : en;
 if (RO) {
   document.documentElement.lang = "ro";
@@ -407,6 +425,8 @@ $("view").addEventListener("load", () => {
     fit(); if (ro_) ro_.disconnect();
     ro_ = new ResizeObserver(fit); ro_.observe(d.body || d.documentElement);
     d.addEventListener("change", ev => {
+      if (ev.target && ev.target.name === "dm") track("tab", ev.target.id.replace("dm-", ""));
+      if (ev.target && ev.target.name === "fg" && ev.target.id !== "fg-all") track("tab", "sentiment:" + ev.target.id.replace("fg-", ""));
       setTimeout(fit, 30);
       if (ev.target && ev.target.name === "fg") {  // Sentiment: dupa clic pe grafic, arata explicatiile de la inceput
         setTimeout(() => {
@@ -544,6 +564,7 @@ $("fSub").onsubmit = async e => {
   if (error) return subMsg(L("We could not save your address. Please try again in a few minutes.", "Nu am putut salva adresa. Mai încearcă o dată peste câteva minute."));
   e.target.reset();
   subMsg(L("Done, your address has been registered. Thank you!", "Gata, adresa ta a fost înregistrată. Mulțumim!"), true);
+  track("subscribe", "site");
 };
 
 function label(d) {
@@ -588,6 +609,8 @@ $("nview").addEventListener("touchend", e => {
   if (Math.abs(dx) > 40) newsGo(dx < 0 ? nPage + 1 : nPage - 1);
 });
 function setMode(m) {
+  if (setMode.last && setMode.last !== m) track("tab", m);
+  setMode.last = m;
   $("nDaily").classList.toggle("on", m === "daily"); $("nWeekly").classList.toggle("on", m === "weekly");
   $("pfBtn").classList.toggle("on", m === "pf"); $("vPf").classList.toggle("on", m === "pf");
   $("vPf").setAttribute("aria-selected", m === "pf");

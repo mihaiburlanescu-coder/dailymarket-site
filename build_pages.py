@@ -147,6 +147,7 @@ def page(lang: str, path: str, title: str, desc: str, body: str, alt: dict[str, 
 <main>
 {body}
 </main>
+<script>try{{if(localStorage.getItem("dm_nostat")!=="1")fetch("https://atlxahrvzhzrzfhmwwen.supabase.co/functions/v1/track",{{method:"POST",keepalive:true,headers:{{"Content-Type":"text/plain"}},body:JSON.stringify({{ev:"view",name:"page",path:location.pathname,lang:"{lang}",ref:document.referrer,tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||"")}})}}).catch(function(){{}})}}catch(e){{}}</script>
 <footer><div>© {date.today().year} Daily Market · {u['disc']} · <a href="{u['archive_url']}">{u['archive']}</a> ·
 <a href="{u['about_url']}">{u['about']}</a> · <a href="{u['terms'][1]}">{u['terms'][0]}</a> · <a href="{u['privacy'][1]}">{u['privacy'][0]}</a></div></footer>
 </body>
