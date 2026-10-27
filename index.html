@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Daily Market – the markets of the day, clearly explained</title>
-<meta name="description" content="Daily Market: a daily report on indices, commodities, currencies and stocks – technicals, options, sentiment, news and expiries.">
+<meta name="description" content="Daily Market uses quantitative methods, tested on almost 20 years of market history: a daily report on indices, commodities, currencies and stocks – options, technicals, sentiment and news.">
 <meta name="theme-color" content="#13223A">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Daily Market – the markets of the day, clearly explained">
-<meta property="og:description" content="A daily report on indices, commodities, currencies and stocks: technicals, options, sentiment and the Weekly View.">
+<meta property="og:description" content="Quantitative methods, tested on almost 20 years of market history: a daily report on indices, commodities, currencies and stocks.">
 <meta property="og:url" content="https://dailymarketlab.com/">
 <meta property="og:image" content="https://dailymarketlab.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -165,6 +165,7 @@
     .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi:nth-child(3){border-left:0}.kpi:nth-child(n+3){border-top:1px solid var(--line)}}
   .board{margin:4px 0 18px}
   .bdate{font-size:clamp(30px,5.2vw,48px);line-height:1.05;font-weight:700;font-stretch:72%;letter-spacing:-.5px;margin:6px 0 6px}
+  .tagline{color:var(--accent);font-weight:700;font-size:13.5px;letter-spacing:.2px;margin:0 0 2px}
   .lede{color:var(--muted);margin:0 0 16px;max-width:62ch}
   @media (max-width:640px){
     .bar{padding:10px 14px;gap:8px}
@@ -293,6 +294,7 @@
   <!-- RAPOARTE -->
   <section id="app" hidden>
     <section class="board" aria-labelledby="bDate">
+      <div class="tagline" data-ro="Daily Market folosește metode cantitative, testate pe aproape 20 de ani de istoric.">Daily Market uses quantitative methods, tested on almost 20 years of market history.</div>
       <h1 class="bdate" id="bDate" data-ro="Piețele zilei">Today's markets</h1>
       <p class="lede" id="bLede" data-ro="Indici, mărfuri, valute și acțiuni: tehnic, opțiuni, sentiment și știri, într-un singur raport.">Indices, commodities, currencies and stocks: technicals, options, sentiment and news, in a single report.</p>
     </section>

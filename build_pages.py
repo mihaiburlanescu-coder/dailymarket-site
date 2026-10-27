@@ -275,9 +275,9 @@ def build_archive(lang: str, reports: list[str], weeklies: list[dict]) -> None:
     path = u["archive_url"]
     title = ("Daily market reports archive: SP500, DAX, gold, oil, forex, stocks | Daily Market" if lang == "en"
              else "Arhiva rapoartelor zilnice: SP500, DAX, aur, petrol, valute, acțiuni | Daily Market")
-    desc = ("Every Daily Market report: options positioning, technical analysis, Fear & Greed sentiment, next-session "
+    desc = ("Quantitative methods, tested on almost 20 years of market history. Every Daily Market report: options positioning, technical analysis, Fear & Greed sentiment, next-session "
             "forecast ranges and weekly outlooks for indices, commodities, currencies and stocks." if lang == "en" else
-            "Toate rapoartele Daily Market: poziționarea din opțiuni, analiza tehnică, sentimentul Frică & Lăcomie, "
+            "Metode cantitative, testate pe aproape 20 de ani de istoric. Toate rapoartele Daily Market: poziționarea din opțiuni, analiza tehnică, sentimentul Frică & Lăcomie, "
             "intervale pentru sesiunea următoare și perspective săptămânale.")
     h1 = "Market report archive" if lang == "en" else "Arhiva rapoartelor"
     wk = ""
