@@ -685,6 +685,9 @@ async function showPf() {
     <div class="pfupd"><b>${L("Update schedule.", "Actualizare.")}</b> ${L(
       "Prices update once an hour, Monday to Friday, while the markets are open, with a delay of about 15 minutes. Outside these hours and at weekends, the figures shown are from the last update" + (upd ? ` (${upd})` : "") + ". Every evening the portfolio is also checked against the daily close.",
       "Prețurile se actualizează o dată pe oră, de luni până vineri, cât timp piețele sunt deschise, cu o întârziere de aproximativ 15 minute. În afara acestor ore și în weekend, valorile afișate sunt cele de la ultima actualizare" + (upd ? ` (${upd})` : "") + ". În fiecare seară portofoliul este verificat și la închiderea zilei.")}</div>
+    <div class="pfupd" style="background:var(--card,#f8fafc);border-color:var(--line,#e2e8f0)"><b>${L("A weekly plan, not the daily signal.", "Plan săptămânal, nu semnalul zilnic.")}</b> ${L(
+      "The portfolio is chosen every Saturday from the Weekly View scenarios: up to 5 positions, each with a target and a stop, held for the week. It does not follow the daily BUY/SELL from the report, which is a 1–3 day lean and can change from one day to the next. So the portfolio can be on one side of a market while today's report leans the other way – that is expected, not an error.",
+      "Portofoliul se alege în fiecare sâmbătă din scenariile Weekly View: cel mult 5 poziții, fiecare cu țintă și stop, ținute pe parcursul săptămânii. Nu urmează BUY/SELL din raportul zilnic, care e o înclinație pe 1–3 zile și se poate schimba de la o zi la alta. De aceea portofoliul poate fi pe o parte a unei piețe, iar raportul de azi să încline în cealaltă – e normal, nu o greșeală.")}</div>
     <div class="kpis">
       <div class="kpi"><span>${L("Current value", "Valoarea la zi")}</span><b>${nf(value)}</b></div>
       <div class="kpi"><span>${L("Result since start", "Rezultat de la început")}</span><b>${sgn(res)}</b></div>
