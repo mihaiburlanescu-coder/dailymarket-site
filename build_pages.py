@@ -32,7 +32,7 @@ DAY_RO = ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminic�
 ASSET_SLUG = {"SP500": ("sp500", "sp500"), "DAX": ("dax", "dax"), "VIX": ("vix", "vix"), "WTI": ("oil-wti", "petrol-wti"),
               "GOLD": ("gold", "aur"), "SILVER": ("silver", "argint"), "EURUSD": ("eurusd", "eurusd"),
               "GBPUSD": ("gbpusd", "gbpusd"), "USDJPY": ("usdjpy", "usdjpy"), "NVIDIA": ("nvidia", "nvidia"),
-              "GOOGLE": ("google", "google"), "MICROSOFT": ("microsoft", "microsoft")}
+              "GOOGLE": ("google", "google"), "MICROSOFT": ("microsoft", "microsoft"), "C3AI": ("c3ai", "c3ai")}
 
 
 def sb(path: str):
