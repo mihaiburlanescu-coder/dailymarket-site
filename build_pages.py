@@ -139,7 +139,8 @@ def page(lang: str, path: str, title: str, desc: str, body: str, alt: dict[str, 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
 <style>{CSS}</style>
-{ldj}</head>
+{ldj}<script src="/ga.js" defer></script>
+</head>
 <body>
 <header><div class="hb"><a class="logo" href="{u['home']}">{LOGO}Daily Market</a>
 <nav><a href="{u['home']}">{u['today']}</a><a href="{u['archive_url']}">{u['archive']}</a><a href="{u['about_url']}">{u['about']}</a>
