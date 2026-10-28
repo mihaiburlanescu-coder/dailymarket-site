@@ -150,6 +150,8 @@
   .pf .up{color:var(--up);font-weight:700}.pf .dn{color:var(--down);font-weight:700}
   .pf .side{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:999px}
   .pf .side.l{background:rgba(26,127,75,.12);color:var(--up)}.pf .side.s{background:rgba(194,54,47,.12);color:var(--down)}
+  .hzp{display:inline-block;margin:0 0 10px;padding:4px 11px;border-radius:999px;background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;font-size:12.5px}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hzp{background:#1b2540;border-color:#2f3f6b;color:#c7d2fe}}
   .pfupd{background:var(--warnbg);border:1px solid var(--warnline);border-radius:10px;padding:9px 12px;font-size:13px;line-height:1.5;margin:0 0 14px}
   .pf .note{color:var(--muted);font-size:12.5px;margin-top:14px;line-height:1.55;max-width:80ch}
   .pf .none{color:var(--muted);padding:14px}
@@ -682,6 +684,7 @@ async function showPf() {
   const priced = upd ? L(` · prices updated ${upd}`, ` · prețuri actualizate ${upd}`)
     : day ? L(` · prices at the close of ${dmy(day.day)}`, ` · prețuri la închiderea din ${dmy(day.day)}`) : "";
   box.innerHTML = `<h2 id="pfT">${L("The Daily Market Portfolio", "Portofoliul Daily Market")}</h2>
+    <div class="hzp">⏱ ${L("Horizon", "Orizont")}: <b>${L("one week – weekly plan", "o săptămână – plan săptămânal")}</b></div>
     <div class="pfupd"><b>${L("Update schedule.", "Actualizare.")}</b> ${L(
       "Prices update once an hour, Monday to Friday, while the markets are open, with a delay of about 15 minutes. Outside these hours and at weekends, the figures shown are from the last update" + (upd ? ` (${upd})` : "") + ". Every evening the portfolio is also checked against the daily close.",
       "Prețurile se actualizează o dată pe oră, de luni până vineri, cât timp piețele sunt deschise, cu o întârziere de aproximativ 15 minute. În afara acestor ore și în weekend, valorile afișate sunt cele de la ultima actualizare" + (upd ? ` (${upd})` : "") + ". În fiecare seară portofoliul este verificat și la închiderea zilei.")}</div>
