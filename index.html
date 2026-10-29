@@ -152,6 +152,7 @@
   .pf .side.l{background:rgba(26,127,75,.12);color:var(--up)}.pf .side.s{background:rgba(194,54,47,.12);color:var(--down)}
   .hzp{display:inline-block;margin:0 0 10px;padding:4px 11px;border-radius:999px;background:#eef2ff;border:1px solid #c7d2fe;color:#1e3a8a;font-size:12.5px}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hzp{background:#1b2540;border-color:#2f3f6b;color:#c7d2fe}}
+  .pfhow{margin-top:18px}.pfhow ol{margin:6px 0 12px 18px;padding:0;line-height:1.55;font-size:14px}.pfhow li{margin:0 0 6px}
   .pfupd{background:var(--warnbg);border:1px solid var(--warnline);border-radius:10px;padding:9px 12px;font-size:13px;line-height:1.5;margin:0 0 14px}
   .pf .note{color:var(--muted);font-size:12.5px;margin-top:14px;line-height:1.55;max-width:80ch}
   .pf .none{color:var(--muted);padding:14px}
@@ -645,11 +646,11 @@ const nf = (v, d = 2) => Number(v).toLocaleString(LOC, { minimumFractionDigits: 
 const pxf = v => { v = Number(v); return nf(v, Math.abs(v) >= 1000 ? 0 : Math.abs(v) >= 10 ? 2 : 4); };
 const sgn = (v, d = 2, suf = "") => `<span class="${v > 0 ? "up" : v < 0 ? "dn" : ""}">${v > 0 ? "+" : v < 0 ? "−" : ""}${nf(Math.abs(v), d)}${suf}</span>`;
 const dmy = d => d ? (RO ? `${d.slice(8,10)}.${d.slice(5,7)}` : `${LUNI[+d.slice(5,7) - 1].slice(0,3)} ${+d.slice(8,10)}`) : "–";
-const REASON_EN = { "țintă atinsă": "target hit", "stop atins": "stop hit", "rebalansare săptămânală": "weekly rebalance" };
+const REASON_EN = { "țintă atinsă": "target hit", "stop atins": "stop hit", "rebalansare săptămânală": "weekly rebalance", "rebalansare lunară": "monthly rebalance" };
 const H = {
   ins: "Instrument", side: L("Side", "Direcție"), qty: L("Quantity", "Cantitate"), buy: L("Entry price", "Preț achiziție"),
   mkt: L("Market price", "Preț piață"), diff: L("Change", "Diferență"), diffp: L("Change %", "Diferență %"), val: L("Value", "Valoare"),
-  ts: L("Target / stop", "Țintă / stop"), ch: L("Chance", "Șansă"), in: L("Entry", "Intrare"), out: L("Exit", "Ieșire"),
+  ts: L("Stop", "Stop"), ch: L("Weight", "Pondere"), in: L("Entry", "Intrare"), out: L("Exit", "Ieșire"),
   why: L("Reason", "Motiv"), res: L("Result", "Rezultat"), resp: L("Result %", "Rezultat %")
 };
 const sideTxt = s => s > 0 ? L("Buy", "Cumpărare") : L("Sell", "Vânzare");
@@ -668,12 +669,13 @@ async function showPf() {
     return RO ? `${ZILE[t.getDay()].toLowerCase()} ${String(t.getDate()).padStart(2, "0")}.${String(t.getMonth() + 1).padStart(2, "0")}, ora ${hm}`
               : `${ZILE[t.getDay()]}, ${LUNI[t.getMonth()].slice(0,3)} ${t.getDate()}, ${hm}`; })() : "";
   const START = 10000, value = day ? Number(day.value) : START, cash = day ? Number(day.cash) : START, res = value - START;
+  const oldRule = open.some(p => p.target);
   const sideCell = p => `<td data-l="${H.side}"><span class="side ${p.side > 0 ? "l" : "s"}">${sideTxt(p.side)}</span></td>`;
   const rows = open.map(p => {
     const e = Number(p.entry_price), m = Number(p.last_price || e), n = Number(p.notional), d = n * p.side * (m / e - 1);
     return `<tr><td data-l="${H.ins}"><b>${esc(p.label)}</b></td>${sideCell(p)}`
       + `<td data-l="${H.qty}">${nf(p.qty, Number(p.qty) >= 100 ? 0 : 4)}</td><td data-l="${H.buy}">${pxf(e)}</td><td data-l="${H.mkt}">${pxf(m)}</td><td data-l="${H.diff}">${sgn(d)}</td><td data-l="${H.diffp}">${sgn(100 * d / n, 2, "%")}</td>`
-      + `<td data-l="${H.val}">${nf(n + d)}</td><td data-l="${H.ts}">${p.target ? pxf(p.target) : "–"} / ${p.stop ? pxf(p.stop) : "–"}</td><td data-l="${H.ch}">${p.p_win ? Math.round(100 * p.p_win) + "%" : "–"}</td></tr>`;
+      + `<td data-l="${H.val}">${nf(n + d)}</td><td data-l="${H.ts}">${p.target ? pxf(p.target) + " / " : ""}${p.stop ? pxf(p.stop) : "–"}</td><td data-l="${H.ch}">${value ? nf(100 * (n + d) / value, 0) + "%" : "–"}</td></tr>`;
   }).join("");
   const crow = closed.slice(0, 30).map(p => {
     const n = Number(p.notional), d = Number(p.pnl || 0), why = p.exit_reason || "";
@@ -684,13 +686,16 @@ async function showPf() {
   const priced = upd ? L(` · prices updated ${upd}`, ` · prețuri actualizate ${upd}`)
     : day ? L(` · prices at the close of ${dmy(day.day)}`, ` · prețuri la închiderea din ${dmy(day.day)}`) : "";
   box.innerHTML = `<h2 id="pfT">${L("The Daily Market Portfolio", "Portofoliul Daily Market")}</h2>
-    <div class="hzp">⏱ ${L("Horizon", "Orizont")}: <b>${L("one week – weekly plan", "o săptămână – plan săptămânal")}</b></div>
+    <div class="hzp">⏱ ${L("Horizon", "Orizont")}: <b>${L("one month – rebalanced on the first trading day of each month", "o lună – rebalansare în prima zi de tranzacționare a lunii")}</b></div>
+    ${oldRule ? `<div class="pfupd"><b>${L("Switching to the monthly rule.", "Trecem la regula lunară.")}</b> ${L(
+      "The positions below were chosen with the old weekly rule (target and stop over 5 days). On Monday, 2 November, they close at Friday's close and the portfolio is rebuilt with the monthly rule described below.",
+      "Pozițiile de mai jos au fost alese cu regula veche, săptămânală (țintă și stop pe 5 zile). Luni, 2 noiembrie, se închid la prețul de vineri, iar portofoliul se reface cu regula lunară descrisă mai jos.")}</div>` : ""}
     <div class="pfupd"><b>${L("Update schedule.", "Actualizare.")}</b> ${L(
       "Prices update once an hour, Monday to Friday, while the markets are open, with a delay of about 15 minutes. Outside these hours and at weekends, the figures shown are from the last update" + (upd ? ` (${upd})` : "") + ". Every evening the portfolio is also checked against the daily close.",
       "Prețurile se actualizează o dată pe oră, de luni până vineri, cât timp piețele sunt deschise, cu o întârziere de aproximativ 15 minute. În afara acestor ore și în weekend, valorile afișate sunt cele de la ultima actualizare" + (upd ? ` (${upd})` : "") + ". În fiecare seară portofoliul este verificat și la închiderea zilei.")}</div>
-    <div class="pfupd" style="background:var(--card,#f8fafc);border-color:var(--line,#e2e8f0)"><b>${L("A weekly plan, not the daily signal.", "Plan săptămânal, nu semnalul zilnic.")}</b> ${L(
-      "The portfolio is chosen every Saturday from the Weekly View scenarios: up to 5 positions, each with a target and a stop, held for the week. It does not follow the daily BUY/SELL from the report, which is a 1–3 day lean and can change from one day to the next. So the portfolio can be on one side of a market while today's report leans the other way – that is expected, not an error.",
-      "Portofoliul se alege în fiecare sâmbătă din scenariile Weekly View: cel mult 5 poziții, fiecare cu țintă și stop, ținute pe parcursul săptămânii. Nu urmează BUY/SELL din raportul zilnic, care e o înclinație pe 1–3 zile și se poate schimba de la o zi la alta. De aceea portofoliul poate fi pe o parte a unei piețe, iar raportul de azi să încline în cealaltă – e normal, nu o greșeală.")}</div>
+    <div class="pfupd" style="background:var(--card,#f8fafc);border-color:var(--line,#e2e8f0)"><b>${L("A monthly plan, not the daily signal.", "Plan lunar, nu semnalul zilnic.")}</b> ${L(
+      "The portfolio follows long-term trends and is rebuilt once a month. It does not follow the daily BUY/SELL from the report, which is a 1–3 day lean, so the two can point in different directions – that is expected.",
+      "Portofoliul urmează trendurile lungi și se reface o dată pe lună. Nu urmează BUY/SELL din raportul zilnic, care e o înclinație pe 1–3 zile, așa că cele două pot arăta în direcții diferite – e normal.")}</div>
     <div class="kpis">
       <div class="kpi"><span>${L("Current value", "Valoarea la zi")}</span><b>${nf(value)}</b></div>
       <div class="kpi"><span>${L("Result since start", "Rezultat de la început")}</span><b>${sgn(res)}</b></div>
@@ -700,21 +705,51 @@ async function showPf() {
     <h3>${L("Open positions", "Poziții deschise")}${priced}</h3>
     <div class="tw">${rows ? `<table><thead><tr><th>${H.ins}</th><th>${H.side}</th><th>${H.qty}</th><th>${H.buy}</th><th>${H.mkt}</th>
       <th>${H.diff}</th><th>${H.diffp}</th><th>${H.val}</th><th>${H.ts}</th><th>${H.ch}</th></tr></thead><tbody>${rows}</tbody></table>`
-      : `<div class="none">${L("The first positions open on Saturday, together with the Weekly View.", "Primele poziții se deschid sâmbătă, odată cu Weekly View.")}</div>`}</div>
+      : `<div class="none">${L("No open positions: when no market has a clear trend, the portfolio stays in cash.", "Nicio poziție deschisă: când nicio piață nu are un trend clar, portofoliul stă în numerar.")}</div>`}</div>
     ${crow ? `<h3>${L("Closed positions", "Poziții închise")}</h3><div class="tw"><table><thead><tr><th>${H.ins}</th><th>${H.side}</th><th>${H.in}</th><th>${H.out}</th>
       <th>${H.why}</th><th>${H.res}</th><th>${H.resp}</th></tr></thead><tbody>${crow}</tbody></table></div>` : ""}
-    ${RO ? `<p class="note"><b>Cum funcționează.</b> Un portofoliu virtual de 10.000 care pune în practică scenariile din Weekly View. În fiecare sâmbătă alegem cele 5 scenarii
-    cu cea mai mare șansă ca prețul să atingă ținta înaintea stopului. Pozițiile se închid oricând în timpul săptămânii, dacă ating ținta sau stopul. Prețurile se actualizează din oră în oră, de luni până vineri, cu o întârziere de aproximativ 15 minute.</p>
-    <p class="note">Sumele sunt virtuale; fiecare poziție are aproximativ o cincime din portofoliu, fără levier, cu prețul de intrare egal cu
-    închiderea de vineri. „Șansa” este probabilitatea, calibrată pe istoric, ca prețul să atingă ținta înaintea stopului în următoarele 5 zile.
-    Portofoliul arată cum s-ar fi descurcat scenariile noastre; nu este o recomandare de investiții, iar testele pe 2007–2026 nu au arătat
-    că direcția pieței poate fi prezisă. Rezultatele trecute nu garantează rezultate viitoare.</p>`
-    : `<p class="note"><b>How it works.</b> A virtual portfolio of 10,000 that puts the Weekly View scenarios into practice. Every Saturday we pick the 5 scenarios
-    with the highest chance that the price reaches the target before the stop. Positions close at any time during the week if they hit the target or the stop. Prices update every hour, Monday to Friday, with a delay of about 15 minutes.</p>
-    <p class="note">The amounts are virtual; each position is roughly one fifth of the portfolio, with no leverage, and the entry price is
-    Friday's close. The “chance” is the probability, calibrated on history, that the price reaches the target before the stop within the next 5 days.
-    The portfolio shows how our scenarios would have performed; it is not an investment recommendation, and tests over 2007–2026 did not show
-    that market direction can be predicted. Past results do not guarantee future results.</p>`}`;
+    ${RO ? `<div class="pfhow"><h3>Cum alegem pozițiile</h3>
+    <ol>
+      <li><b>O dată pe lună</b>, în prima zi de tranzacționare, ne uităm la toate piețele din raport (fără VIX, care nu se tranzacționează direct).</li>
+      <li><b>Păstrăm doar piețele cu trend clar</b>: prețul a urcat (sau a scăzut) în ultimele 3, 6 <i>și</i> 12 luni. Dacă perioadele nu sunt de acord, piața e lăsată deoparte.</li>
+      <li><b>Alegem cele mai puternice 5 trenduri</b>, măsurate față de cât de agitată e piața. Cumpărăm ce urcă și vindem ce scade.</li>
+      <li><b>Riscul e împărțit egal.</b> O piață liniștită (ex. EUR/USD) primește o sumă mai mare, una agitată (ex. C3.ai, argint) una mai mică; cel mult 35% într-o singură poziție. Ce rămâne stă în numerar.</li>
+      <li><b>Fiecare poziție are un stop</b> la aproximativ două mișcări lunare obișnuite. În cursul lunii ieșim doar dacă e atins stopul – nu după știri sau după semnalul zilnic.</li>
+    </ol>
+    <h3>Ce a arătat testul pe istoric (2008 – octombrie 2026)</h3>
+    <div class="tw"><table><thead><tr><th></th><th>Portofoliul (regula lunară)</th><th>SP500 cumpărat și ținut</th></tr></thead><tbody>
+      <tr><td data-l="">Câștig mediu pe an</td><td data-l="Portofoliu">+5,9%</td><td data-l="SP500">+9,2%</td></tr>
+      <tr><td data-l="">Cea mai mare scădere</td><td data-l="Portofoliu">−18%</td><td data-l="SP500">−47,5%</td></tr>
+      <tr><td data-l="">2008 (criza financiară)</td><td data-l="Portofoliu">+27,5%</td><td data-l="SP500">−38,5%</td></tr>
+      <tr><td data-l="">2022 (dobânzi în creștere)</td><td data-l="Portofoliu">+13,1%</td><td data-l="SP500">−19,4%</td></tr>
+      <tr><td data-l="">2023 (revenire rapidă a bursei)</td><td data-l="Portofoliu">−15,3%</td><td data-l="SP500">+24,2%</td></tr>
+      <tr><td data-l="">Ani pe plus</td><td data-l="Portofoliu">14 din 19</td><td data-l="SP500">14 din 19</td></tr>
+    </tbody></table></div>
+    <p class="note"><b>Pe scurt, cinstit:</b> pe termen lung regula a câștigat mai puțin decât bursa americană, dar cu scăderi de aproape trei ori mai mici, și a mers bine exact în anii grei pentru acțiuni (2008, 2022). Merge aproape independent de bursă, așa că e un bun complement, nu un înlocuitor. Rămâne în urmă când bursa urcă repede după o scădere.
+    Regula a fost stabilită înainte de test, fără ajustări după rezultate; testul include costuri de tranzacționare de 0,05%, fără levier.</p>
+    <p class="note">Sumele sunt virtuale (10.000 la pornire). Prețurile se actualizează din oră în oră, de luni până vineri, cu o întârziere de aproximativ 15 minute.
+    Portofoliul nu este o recomandare de investiții. Rezultatele trecute, inclusiv cele din test, nu garantează rezultate viitoare.</p></div>`
+    : `<div class="pfhow"><h3>How we choose the positions</h3>
+    <ol>
+      <li><b>Once a month</b>, on the first trading day, we look at every market in the report (except the VIX, which cannot be traded directly).</li>
+      <li><b>We keep only markets with a clear trend</b>: the price has risen (or fallen) over the last 3, 6 <i>and</i> 12 months. If the periods disagree, the market is left out.</li>
+      <li><b>We pick the 5 strongest trends</b>, measured against how turbulent each market is. We buy what is rising and sell what is falling.</li>
+      <li><b>Risk is split equally.</b> A calm market (e.g. EUR/USD) gets a larger amount, a turbulent one (e.g. C3.ai, silver) a smaller one; at most 35% in any single position. The rest stays in cash.</li>
+      <li><b>Every position has a stop</b> at about two typical monthly moves. During the month we exit only if the stop is hit – not on news or on the daily signal.</li>
+    </ol>
+    <h3>What the historical test showed (2008 – October 2026)</h3>
+    <div class="tw"><table><thead><tr><th></th><th>Portfolio (monthly rule)</th><th>SP500 bought and held</th></tr></thead><tbody>
+      <tr><td data-l="">Average gain per year</td><td data-l="Portfolio">+5.9%</td><td data-l="SP500">+9.2%</td></tr>
+      <tr><td data-l="">Largest fall</td><td data-l="Portfolio">−18%</td><td data-l="SP500">−47.5%</td></tr>
+      <tr><td data-l="">2008 (financial crisis)</td><td data-l="Portfolio">+27.5%</td><td data-l="SP500">−38.5%</td></tr>
+      <tr><td data-l="">2022 (rising rates)</td><td data-l="Portfolio">+13.1%</td><td data-l="SP500">−19.4%</td></tr>
+      <tr><td data-l="">2023 (fast stock rebound)</td><td data-l="Portfolio">−15.3%</td><td data-l="SP500">+24.2%</td></tr>
+      <tr><td data-l="">Positive years</td><td data-l="Portfolio">14 of 19</td><td data-l="SP500">14 of 19</td></tr>
+    </tbody></table></div>
+    <p class="note"><b>In short, honestly:</b> over the long run the rule earned less than the US stock market, but with falls almost three times smaller, and it did well in exactly the hard years for stocks (2008, 2022). It moves almost independently of the stock market, so it is a good complement, not a replacement. It lags when stocks rise quickly after a fall.
+    The rule was fixed before the test, with no adjustments after seeing the results; the test includes trading costs of 0.05%, with no leverage.</p>
+    <p class="note">The amounts are virtual (10,000 at the start). Prices update every hour, Monday to Friday, with a delay of about 15 minutes.
+    The portfolio is not an investment recommendation. Past results, including those of the test, do not guarantee future results.</p></div>`}`;
 }
 $("pfBtn").onclick = () => { showPf(); $("pf").scrollIntoView({ behavior: "smooth", block: "start" }); };
 $("vPf").onclick = showPf;
