@@ -6,6 +6,8 @@
   <url><loc>https://dailymarketlab.com/?lang=ro</loc><lastmod>2026-11-05</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://dailymarketlab.com/about.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://dailymarketlab.com/despre.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://dailymarketlab.com/products.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dailymarketlab.com/produse.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://dailymarketlab.com/terms.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://dailymarketlab.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://dailymarketlab.com/termeni.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>

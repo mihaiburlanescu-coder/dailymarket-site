@@ -378,7 +378,7 @@ def main() -> None:
 
     today = date.today().isoformat()
     urls = [("/", today, "daily", "1.0"), ("/en/", today, "daily", "0.9"), ("/ro/", today, "daily", "0.8"),
-            ("/?lang=ro", today, "daily", "0.8"), ("/about.html", "", "monthly", "0.6"), ("/despre.html", "", "monthly", "0.5"),
+            ("/?lang=ro", today, "daily", "0.8"), ("/about.html", "", "monthly", "0.6"), ("/despre.html", "", "monthly", "0.5"), ("/products.html", "", "monthly", "0.6"), ("/produse.html", "", "monthly", "0.5"),
             ("/terms.html", "", "yearly", "0.2"), ("/privacy.html", "", "yearly", "0.2"),
             ("/termeni.html", "", "yearly", "0.2"), ("/confidentialitate.html", "", "yearly", "0.2")]
     urls += [(report_path(d, "en"), d, "never", "0.7") for d in en_dates]
