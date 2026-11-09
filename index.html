@@ -183,8 +183,8 @@
     .pf td:first-child,.pf td:nth-child(2){grid-column:span 1}
     .pf td:first-child::before,.pf td:nth-child(2)::before{content:none}
     .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi:nth-child(3){border-left:0}.kpi:nth-child(n+3){border-top:1px solid var(--line)}}
-  .board{margin:4px 0 18px}
-  .bdate{font-size:clamp(30px,5.2vw,48px);line-height:1.05;font-weight:700;font-stretch:72%;letter-spacing:-.5px;margin:6px 0 6px}
+  .board{margin:0 0 12px}
+  .bdate{font-size:clamp(24px,3.2vw,32px);line-height:1.1;font-weight:700;font-stretch:72%;letter-spacing:-.3px;margin:2px 0 4px}
   .tagline{color:var(--accent);font-weight:700;font-size:13.5px;letter-spacing:.2px;margin:0 0 2px}
   .lede{color:var(--muted);margin:0 0 16px;max-width:62ch}
   @media (max-width:640px){
@@ -196,7 +196,7 @@
     .nav button,.nav .navlink{white-space:nowrap}
     .nav button,.nav .navlink{flex:1 1 auto;padding:9px 5px;font-size:13.5px;justify-content:center}
     main{padding:14px 12px 36px}
-    .bdate{font-size:30px;margin:2px 0 4px}
+    .bdate{font-size:24px;margin:0 0 2px}
     .lede{font-size:14px;margin-bottom:12px}
           align-items:baseline;column-gap:12px;padding:9px 14px}
     .top{gap:12px;margin-bottom:12px}
@@ -328,7 +328,6 @@
   <!-- RAPOARTE -->
   <section id="app" hidden>
     <section class="board" aria-labelledby="bDate">
-      <div class="tagline" data-ro="Daily Market folosește metode cantitative, testate pe aproape 20 de ani de istoric.">Daily Market uses quantitative methods, tested on almost 20 years of market history.</div>
       <h1 class="bdate" id="bDate" data-ro="Piețele zilei">Today's markets</h1>
       <p class="lede" id="bLede" data-ro="Indici, mărfuri, valute și acțiuni: tehnic, opțiuni, sentiment și știri, într-un singur raport.">Indices, commodities, currencies and stocks: technicals, options, sentiment and news, in a single report.</p>
     </section>
@@ -477,7 +476,9 @@ $("view").addEventListener("load", () => {
     });
   } catch (e) { /* ramane inaltimea fixa */ }
 });
-const frameHtml = h => h.replace("<head>", "<head><base target='_blank'>" + FONT_CSS);
+const FULL_CSS = "<style>body>div:first-of-type{max-width:none!important;padding:16px 18px 36px!important}" +
+  "@media (max-width:640px){body>div:first-of-type{padding:10px 10px 28px!important}}</style>";
+const frameHtml = h => h.replace("<head>", "<head><base target='_blank'>" + FONT_CSS + FULL_CSS);
 function longDate(d) {
   const dt = new Date(d + "T12:00:00");
   return RO ? `${ZILE[dt.getDay()]}, ${dt.getDate()} ${LUNI[dt.getMonth()]} ${dt.getFullYear()}`
@@ -848,6 +849,10 @@ function splitPick(html) {
     if (!card) return { pick: "", rest: "<!doctype html>" + doc.documentElement.outerHTML };
     card.querySelectorAll("script,iframe,object,embed").forEach(x => x.remove());
     card.querySelectorAll("*").forEach(el => [...el.attributes].forEach(a => { if (/^on/i.test(a.name)) el.removeAttribute(a.name); }));
+    card.querySelectorAll("div").forEach(d => {
+      const m = d.innerHTML.match(/(Pick-uri încheiate|Closed picks): (\d+),.*?%\.\s/);
+      if (m && d.children.length === 0 && Number(m[2]) < 20) d.innerHTML = d.innerHTML.replace(m[0], "");
+    });
     const out = card.outerHTML; card.remove();
     return { pick: out, rest: "<!doctype html>" + doc.documentElement.outerHTML };
   } catch (e) { return { pick: "", rest: html }; }
