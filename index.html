@@ -107,6 +107,10 @@
   .mcard h2{font-size:19px;margin:0 30px 4px 0}
   .mclose{position:absolute;top:10px;right:10px;width:34px;height:34px;padding:0;border-radius:50%;font-size:20px;line-height:1}
   [hidden]{display:none!important}
+  .pickbox{margin:0 0 14px}
+  .pickbox>div:first-child{margin:0!important;box-shadow:0 6px 18px rgba(180,83,9,.12)}
+  .pickcta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 4px 0;font-size:14px;color:var(--muted)}
+  .pickcta button{background:var(--gold);color:#13223A;border:none;border-radius:999px;font-weight:800;padding:7px 14px;font-size:13.5px}
   .perks{margin:8px 0 14px;padding:0;list-style:none;display:grid;gap:7px;font-size:14px;color:var(--muted)}
   .perks li{position:relative;padding-left:22px;line-height:1.45}
   .perks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--up);font-weight:800}
@@ -328,6 +332,7 @@
       <h1 class="bdate" id="bDate" data-ro="Piețele zilei">Today's markets</h1>
       <p class="lede" id="bLede" data-ro="Indici, mărfuri, valute și acțiuni: tehnic, opțiuni, sentiment și știri, într-un singur raport.">Indices, commodities, currencies and stocks: technicals, options, sentiment and news, in a single report.</p>
     </section>
+    <section class="pickbox" id="pickBox" hidden aria-label="Pick of the Day"></section>
     <div class="top">
       <section class="panel" aria-labelledby="sesT">
         <div class="eyebrow" id="sesT" data-ro="Ședințe de tranzacționare">Trading sessions</div>
@@ -667,6 +672,7 @@ function setMode(m) {
   $("pfBtn").classList.toggle("on", m === "pf"); $("vPf").classList.toggle("on", m === "pf");
   $("vPf").setAttribute("aria-selected", m === "pf");
   $("pf").hidden = m !== "pf"; document.querySelector(".frame").hidden = m === "pf";
+  if (m !== "daily") $("pickBox").hidden = true;
   $("roNote").hidden = true;
   $("vDaily").classList.toggle("on", m === "daily"); $("vWeekly").classList.toggle("on", m === "weekly");
   $("vDaily").setAttribute("aria-selected", m === "daily"); $("vWeekly").setAttribute("aria-selected", m === "weekly");
@@ -821,7 +827,30 @@ async function show(i) {
   // linkurile din raport se deschid in tab nou
   renderBoard(date, data.summary);
   showRoNote(!RO && !data.html_en);
-  $("view").srcdoc = frameHtml((!RO && data.html_en) || data.html);
+  const parts = splitPick((!RO && data.html_en) || data.html);
+  renderPick(parts.pick, idx === 0);
+  $("view").srcdoc = frameHtml(parts.rest);
+}
+// Pick of the Day: cardul vine in raport (generat de robot); il mutam deasupra paginii, ca sa fie primul lucru vazut
+function splitPick(html) {
+  try {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const card = [...doc.querySelectorAll("div[style]")].find(d => /border:2px solid #f59e0b/i.test(d.getAttribute("style")) &&
+      /PICK OF THE DAY/i.test(d.textContent));
+    if (!card) return { pick: "", rest: html };
+    card.querySelectorAll("script,iframe,object,embed").forEach(x => x.remove());
+    card.querySelectorAll("*").forEach(el => [...el.attributes].forEach(a => { if (/^on/i.test(a.name)) el.removeAttribute(a.name); }));
+    const out = card.outerHTML; card.remove();
+    return { pick: out, rest: "<!doctype html>" + doc.documentElement.outerHTML };
+  } catch (e) { return { pick: "", rest: html }; }
+}
+function renderPick(cardHtml, today) {
+  const box = $("pickBox");
+  if (!cardHtml) { box.hidden = true; box.innerHTML = ""; return; }
+  box.innerHTML = cardHtml + (today && !read("dm_sub") ? `<div class="pickcta"><span>${L("Get the Pick of the Day by email, every morning – free.",
+    "Primește Pick of the Day pe email, în fiecare dimineață – gratuit.")}</span><button type="button" id="pickSub">${L("Subscribe", "Abonează-te")}</button></div>` : "");
+  box.hidden = false;
+  const b = $("pickSub"); if (b) b.onclick = () => { subSrc = "pick"; openSub(); track("subbar", "pick"); };
 }
 $("prev").onclick = () => show(idx + 1);   // mai veche
 $("next").onclick = () => show(idx - 1);   // mai noua
