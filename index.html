@@ -32,6 +32,11 @@
   .bar{max-width:1080px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px;letter-spacing:-.2px;font-stretch:125%;color:#fff;text-decoration:none}
   .logo svg{flex:0 0 auto}
+  .logo .lt{display:flex;flex-direction:column;line-height:1.1}
+  .logo .hdate{font-size:12.5px;font-weight:600;font-stretch:100%;letter-spacing:0;color:#C9D5E6;margin-top:3px}
+  .logo .hdate:empty{display:none}
+  .hdate2{display:none}
+  .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   .spacer{flex:1}
   .who{color:#AFC0D6;font-size:13px}
   main{max-width:1080px;margin:0 auto;padding:20px 16px 48px}
@@ -190,6 +195,9 @@
   @media (max-width:640px){
     .bar{padding:10px 14px;gap:8px}
     .logo{font-size:18px}
+    .logo .hdate{display:none}
+    .hdate2{display:block;order:4;flex:1 0 100%;font-size:12px;font-weight:600;color:#C9D5E6;margin-top:-6px;padding-left:34px;box-sizing:border-box}
+    .hdate2:empty{display:none}
     .subbtn{padding:7px 13px;font-size:14px}
     .nav{order:5;flex:1 0 calc(100% - 56px);display:flex;gap:0;margin:2px -4px 0}
     .langbtn{order:6;padding:6px 9px;font-size:12px}
@@ -214,6 +222,7 @@
   footer .latest{font-size:12.5px;line-height:1.9}
   footer .latest a{font-weight:500}
   @media (min-width:641px) and (max-width:1000px){.nav button,.nav .navlink{padding:8px 7px;font-size:14px}.nav{gap:0}}
+  @media (max-width:420px){.pfbtn,.subbtn{padding:6px 11px!important;font-size:13.5px!important}.bar{gap:6px}.logo{gap:7px}}
   @media (max-width:380px){.nav button,.nav .navlink{font-size:12.5px;padding:9px 2px}.logo{font-size:16px}.pfbtn,.subbtn{padding:6px 9px!important;font-size:12.5px!important}}
 </style>
 <script src="/ga.js" defer></script>
@@ -224,7 +233,8 @@
     <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#D9A441"/>
       <rect x="7" y="13" width="4" height="12" rx="1" fill="#13223A"/><rect x="14" y="7" width="4" height="18" rx="1" fill="#13223A"/>
       <rect x="21" y="16" width="4" height="9" rx="1" fill="#13223A"/></svg>
-    Daily Market</a>
+    <span class="lt">Daily Market<span class="hdate" id="hDate"></span></span></a>
+  <div class="hdate2" id="hDate2" aria-hidden="true"></div>
   <div class="spacer"></div>
   <nav class="nav" aria-label="Reports" data-ro-aria="Rapoarte">
     <button type="button" id="nDaily" class="on" data-ro="Raport zilnic">Daily Report</button>
@@ -327,7 +337,7 @@
 
   <!-- RAPOARTE -->
   <section id="app" hidden>
-    <section class="board" aria-labelledby="bDate">
+    <section class="board sr" aria-labelledby="bDate">
       <h1 class="bdate" id="bDate" data-ro="Piețele zilei">Today's markets</h1>
       <p class="lede" id="bLede" data-ro="Indici, mărfuri, valute și acțiuni: tehnic, opțiuni, sentiment și știri, într-un singur raport.">Indices, commodities, currencies and stocks: technicals, options, sentiment and news, in a single report.</p>
     </section>
@@ -493,6 +503,7 @@ function prevSession(d) {   // ziua de tranzactionare dinaintea raportului
 const FGCOL = v => v == null ? "transparent" : v < 25 ? "#dc2626" : v < 45 ? "#f97316" : v < 55 ? "#a3a3a3" : v < 75 ? "#84cc16" : "#16a34a";
 function renderBoard(date, summary) {
   $("bDate").textContent = longDate(date);
+  $("hDate").textContent = longDate(date); $("hDate2").textContent = longDate(date);
   $("bLede").textContent = L(`Today's report, with data from the US market close on ${prevSession(date)}.`,
                              `Raportul zilei, cu datele de la închiderea bursei americane de ${prevSession(date)}.`);
   const t = $("tape"), run = $("tapeRun");
