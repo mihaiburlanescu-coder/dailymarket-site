@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Accuracy · Daily Market</title><meta name="description" content="How well Daily Market forecasts did: live results, updated daily, mistakes included.">
+<link rel="canonical" href="https://dailymarketlab.com/accuracy.html">
+<link rel="alternate" hreflang="en" href="https://dailymarketlab.com/accuracy.html">
+<link rel="alternate" hreflang="ro" href="https://dailymarketlab.com/acuratete.html">
+<meta property="og:title" content="Accuracy · Daily Market"><meta property="og:description" content="How well Daily Market forecasts did: live results, updated daily, mistakes included."><meta property="og:image" content="https://dailymarketlab.com/og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF1F5;--card:#fff;--ink:#13223A;--muted:#5A6B82;--line:#D5DCE6;--soft:#f6f7fb;--up:#1A7F4B;--down:#C2362F;--gold:#D9A441;--grid:#e5e9f0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1420;--card:#131F31;--ink:#E7EDF5;--muted:#93A3B8;--line:#24344C;--soft:#1a2940;--up:#4CC38A;--down:#F0776E;--grid:#24344C}}
+:root[data-theme="dark"]{--bg:#0C1420;--card:#131F31;--ink:#E7EDF5;--muted:#93A3B8;--line:#24344C;--soft:#1a2940;--up:#4CC38A;--down:#F0776E;--grid:#24344C}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Archivo',-apple-system,Segoe UI,Arial,sans-serif;font-size:16px;line-height:1.6}
+header{background:#13223A}
+header a{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:21px;font-stretch:125%;max-width:980px;margin:0 auto;padding:12px 16px}
+.top{background:radial-gradient(120% 90% at 85% 0%,#2a4670 0%,#13223A 55%,#0b1524 100%);color:#fff}
+.top .in{max-width:980px;margin:0 auto;padding:40px 16px 44px}
+.top h1{font-size:clamp(32px,5.5vw,50px);line-height:1.05;margin:0;font-stretch:80%;letter-spacing:-.5px}
+.top h1 span{color:#E7BE6A}
+.top p{color:#C9D5E6;font-size:17px;max-width:62ch;margin:14px 0 0}
+.top .upd{color:#93A3B8;font-size:13px;margin-top:12px}
+main{max-width:980px;margin:0 auto;padding:26px 16px 40px;display:grid;gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px}
+.card .hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.card h2{margin:0;font-size:22px}
+.tag{font-size:12px;font-weight:700;letter-spacing:.4px;padding:3px 10px;border-radius:99px;background:var(--soft);color:var(--muted)}
+.row{display:grid;grid-template-columns:160px 1fr;gap:6px 16px;margin-top:12px;align-items:baseline}
+.row .k{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.row .v{font-size:15.5px}
+.big{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 4px}
+.big div{background:var(--soft);border-radius:12px;padding:12px 16px;min-width:150px}
+.big b{display:block;font-size:30px;line-height:1.1;font-weight:800}
+.big span{font-size:13px;color:var(--muted)}
+.note{font-size:14px;color:var(--muted);margin-top:8px}
+.chart{margin-top:14px}
+.chart .ct{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:4px}
+svg.ch{width:100%;height:auto;display:block}
+.why{background:linear-gradient(135deg,#13223A,#2a4670);color:#fff;border:none}
+.why p{color:#C9D5E6;margin:6px 0 0}
+.cta a{display:inline-block;margin-top:14px;background:#D9A441;color:#13223A;font-weight:800;text-decoration:none;padding:10px 18px;border-radius:999px}
+.disc{color:var(--muted);font-size:13px}
+.err{color:var(--down)}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+footer div{max-width:980px;margin:0 auto;padding:18px 16px 32px}
+footer a{color:inherit}
+@media (max-width:640px){.row{grid-template-columns:1fr;gap:2px}.row .v{margin-bottom:8px}.card{padding:18px 16px}.big div{flex:1 1 40%;min-width:0}.big b{font-size:26px}}
+</style><script src="/ga.js" defer></script></head><body>
+<header><a href="./"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#D9A441"/><rect x="7" y="13" width="4" height="12" rx="1" fill="#13223A"/><rect x="14" y="7" width="4" height="18" rx="1" fill="#13223A"/><rect x="21" y="16" width="4" height="9" rx="1" fill="#13223A"/></svg>Daily Market</a></header>
+<div class="top"><div class="in"><h1>How often are we <span>right?</span></h1><p>We publish every result, including the ones that don't work out. The figures below update automatically every day, from the same data the report uses.</p><div class="upd" id="upd">Loading results…</div></div></div>
+<main>
+<section class="card"><div class="hd"><h2>Price ranges</h2><span class="tag">Forecast · next session</span></div><div class="big" id="rBig"></div>
+<div class="row"><div class="k">What we promise</div><div class="v">The next session's close lands inside the 70% range about 7 times out of 10, and inside the 90% range about 9 times out of 10.</div>
+<div class="k">Live</div><div class="v" id="rLive">Loading results…</div>
+<div class="k">Tested on history</div><div class="v">The ranges are computed from option prices and calibrated on 2008–2026 to hit these percentages.</div></div><div class="chart" id="rChart"></div></section>
+<section class="card"><div class="hd"><h2>Pick of the Day</h2><span class="tag">5 days</span></div>
+<div class="row"><div class="k">What we promise</div><div class="v">One idea a day, with a target and a stop. The edge is small but real: more picks end positive than at random.</div>
+<div class="k">Live</div><div class="v" id="pLive">Loading results…</div>
+<div class="k">Tested on history</div><div class="v">Tested on 2008–2026: 53% of picks positive after 5 days, versus 50% at random – the same in both halves of the period.</div></div><div class="note" id="pFew"></div></section>
+<section class="card"><div class="hd"><h2>Monthly portfolio</h2><span class="tag">one month</span></div><div class="big" id="fBig"></div>
+<div class="row"><div class="k">What we promise</div><div class="v">A trend strategy rebuilt monthly, with equal risk per position and a stop on every position. The aim: steady gains with small drawdowns.</div>
+<div class="k">Live</div><div class="v" id="fLive">Loading results…</div>
+<div class="k">Tested on history</div><div class="v">Tested on 2008–2026: +6.7% a year on average, largest fall from a peak −21%.</div></div><div class="chart" id="fChart"></div></section>
+<section class="card"><div class="hd"><h2>What we don't predict</h2><span class="tag">said openly</span></div>
+<div class="row"><div class="k">What we promise</div><div class="v">The BUY/SELL verdicts in the report describe the current trend. They are not a forecast of tomorrow's direction – over very short horizons, direction is close to a coin flip, for anyone.</div>
+<div class="k">Live</div><div class="v" id="nLive">Loading results…</div>
+<div class="k">Tested on history</div><div class="v">On 2007–2026, the technical signal alone did not predict the next days' direction better than chance. That is why we don't sell it as a forecast.</div></div></section>
+<section class="card why"><h2>Why we publish our mistakes too</h2><p>Anyone can show their wins. A tool you can trust also shows how often it is wrong – and lets you check for yourself.</p><div class="cta"><a href="./?sub=1">Get the Pick of the Day by email</a></div></section>
+<p class="disc">For information and education only, not investment advice. Past results do not guarantee future results. Trading carries a high risk of losing capital.</p>
+</main>
+<footer><div><a href="./">Back to the report</a> · <a href="products.html">Our products</a> · <a href="about.html">About us</a> · <a href="terms.html">Terms &amp; conditions</a> · <a href="privacy.html">Privacy</a> · <a href="acuratete.html" lang="ro" hreflang="ro">Română</a></div></footer>
+<script>
+const T = {"locale": "en-GB", "err": "The results could not be loaded right now. Please try again in a few minutes.", "upd": "Updated", "t70": "70% target", "r_l": "{in70} of {n} closes inside the 70% range ({p70}) · {in90} of {n} inside the 90% range ({p90}) · since {from}", "r_c": "How the live result evolves (cumulative)", "p_l": "{n} closed picks, {win} positive, average result {avg} · since {from}", "p_few": "Still too few to mean anything statistically: the percentage makes sense after at least 20 picks.", "p_none": "The first picks are still open.", "f_l": "{value} versus 10,000 at the start ({ret}) · {closed} closed positions, {win} positive, {pnl} in total · since {from}", "f_c": "Value of the virtual portfolio", "n_l": "Live, the verdict matched the next session's direction in {ok} of {n} cases ({p}).", "t90": "90% target", "b70": "inside the 70% range (aim: ~70%)", "b90": "inside the 90% range (aim: ~90%)"};
+const nf = (v, d = 0) => Number(v).toLocaleString(T.locale, { minimumFractionDigits: d, maximumFractionDigits: d });
+const pct = (a, b) => b ? nf(100 * a / b, 0) + "%" : "–";
+const dt = s => new Date(s + "T12:00:00").toLocaleDateString(T.locale, { day: "numeric", month: "long", year: "numeric" });
+const fill = (s, o) => s.replace(/\{(\w+)\}/g, (_, k) => o[k] ?? "");
+const $ = id => document.getElementById(id);
+function line(series, key, w, h, y0, y1, col, dash) {
+  const n = series.length; if (n < 2) return "";
+  const X = i => 62 + (w - 72) * i / (n - 1), Y = v => 10 + (h - 30) * (1 - (v - y0) / (y1 - y0));
+  return `<polyline fill="none" stroke="${col}" stroke-width="3" stroke-linejoin="round" ${dash ? 'stroke-dasharray="6 5"' : ""} points="${series.map((p, i) => X(i).toFixed(1) + "," + Y(p[key]).toFixed(1)).join(" ")}"/>`;
+}
+function chart(series, keys, y0, y1, ticks, refs, box) {
+  const w = Math.round(Math.min(900, Math.max(300, (box && box.clientWidth) || 900))), h = w < 600 ? 200 : 240, Y = v => 10 + (h - 30) * (1 - (v - y0) / (y1 - y0));
+  let g = ticks.map(t => `<line x1="62" x2="${w - 10}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--grid)"/><text x="56" y="${Y(t) + 4}" text-anchor="end" font-size="12" fill="var(--muted)">${nf(t)}</text>`).join("");
+  g += (refs || []).map(r => `<line x1="62" x2="${w - 10}" y1="${Y(r.v)}" y2="${Y(r.v)}" stroke="${r.c}" stroke-dasharray="4 4" opacity=".7"/><text x="${w - 12}" y="${Y(r.v) - 6}" text-anchor="end" font-size="12" fill="${r.c}">${r.t}</text>`).join("");
+  g += keys.map(k => line(series, k.k, w, h, y0, y1, k.c)).join("");
+  const a = series[0], b = series[series.length - 1];
+  g += `<text x="62" y="${h - 4}" font-size="12" fill="var(--muted)">${dt(a.d)}</text><text x="${w - 10}" y="${h - 4}" text-anchor="end" font-size="12" fill="var(--muted)">${dt(b.d)}</text>`;
+  return `<svg class="ch" viewBox="0 0 ${w} ${h}" role="img">${g}</svg>`;
+}
+(async () => {
+  let A;
+  try {
+    const r = await fetch("https://atlxahrvzhzrzfhmwwen.supabase.co" + "/rest/v1/rpc/dm_accuracy", { method: "POST",
+      headers: { "Content-Type": "application/json", apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0bHhhaHJ2emh6cnpmaG13d2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0ODk2MTUsImV4cCI6MjEwODA2NTYxNX0.1lOoTQP6CYoT-qDg2oGx6EbtJP9ag2CaCxmV3Bj3DhQ", Authorization: "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0bHhhaHJ2emh6cnpmaG13d2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0ODk2MTUsImV4cCI6MjEwODA2NTYxNX0.1lOoTQP6CYoT-qDg2oGx6EbtJP9ag2CaCxmV3Bj3DhQ" }, body: "{}" });
+    if (!r.ok) throw new Error(r.status);
+    A = await r.json();
+  } catch (e) { $("upd").innerHTML = `<span class="err">${T.err}</span>`; return; }
+  $("upd").textContent = T.upd + ": " + new Date(A.updated).toLocaleString(T.locale, { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
+  const R = A.ranges;
+  if (R && R.n) {
+    $("rBig").innerHTML = `<div><b style="color:${R.in70 / R.n >= .65 ? "var(--up)" : "var(--gold)"}">${pct(R.in70, R.n)}</b><span>${T.b70}</span></div>`
+      + `<div><b style="color:${R.in90 / R.n >= .85 ? "var(--up)" : "var(--gold)"}">${pct(R.in90, R.n)}</b><span>${T.b90}</span></div>`;
+    $("rLive").textContent = fill(T.r_l, { in70: R.in70, in90: R.in90, n: R.n, p70: pct(R.in70, R.n), p90: pct(R.in90, R.n), from: dt(R.from) });
+    if (A.ranges_series.length > 1) $("rChart").innerHTML = `<div class="ct">${T.r_c}</div>` + chart(A.ranges_series,
+      [{ k: "p70", c: "#2f6fd6" }, { k: "p90", c: "#7c4ddc" }], 40, 100, [40, 60, 80, 100],
+      [{ v: 70, c: "#2f6fd6", t: T.t70 }, { v: 90, c: "#7c4ddc", t: T.t90 }], $("rChart"));
+  }
+  const P = A.pick;
+  if (P && P.n) {
+    $("pLive").textContent = fill(T.p_l, { n: P.n, win: P.win, avg: (P.avg_pct > 0 ? "+" : "") + nf(P.avg_pct, 2) + "%", from: dt(P.from) });
+    if (P.n < 20) $("pFew").textContent = T.p_few;
+  } else $("pLive").textContent = T.p_none;
+  const F = A.portfolio;
+  if (F && F.value) {
+    const ret = (F.value / F.start - 1) * 100;
+    $("fBig").innerHTML = `<div><b style="color:${ret >= 0 ? "var(--up)" : "var(--down)"}">${ret >= 0 ? "+" : ""}${nf(ret, 1)}%</b><span>${dt(F.from)} → ${dt(F.day)}</span></div>`;
+    $("fLive").textContent = fill(T.f_l, { value: nf(F.value, 0), ret: (ret >= 0 ? "+" : "") + nf(ret, 1) + "%", closed: F.closed,
+      win: F.closed_win, pnl: (F.closed_pnl >= 0 ? "+" : "") + nf(F.closed_pnl, 0), from: dt(F.from) });
+    const s = F.series; if (s.length > 1) {
+      const vs = s.map(x => x.v), lo = Math.floor(Math.min(...vs, F.start) / 100) * 100 - 100, hi = Math.ceil(Math.max(...vs, F.start) / 100) * 100 + 100;
+      const st = Math.max(100, Math.round((hi - lo) / 4 / 100) * 100), tk = []; for (let t = lo; t <= hi; t += st) tk.push(t);
+      $("fChart").innerHTML = `<div class="ct">${T.f_c}</div>` + chart(s, [{ k: "v", c: "#B7791F" }], lo, hi, tk, [{ v: F.start, c: "#5A6B82", t: nf(F.start) }], $("fChart"));
+    }
+  }
+  const N = A.lean;
+  if (N && N.n) $("nLive").textContent = fill(T.n_l, { ok: N.ok, n: N.n, p: pct(N.ok, N.n) });
+})();
+</script>
+</body></html>

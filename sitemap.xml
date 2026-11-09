@@ -8,6 +8,8 @@
   <url><loc>https://dailymarketlab.com/despre.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://dailymarketlab.com/products.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://dailymarketlab.com/produse.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://dailymarketlab.com/accuracy.html</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dailymarketlab.com/acuratete.html</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
   <url><loc>https://dailymarketlab.com/terms.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://dailymarketlab.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://dailymarketlab.com/termeni.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>

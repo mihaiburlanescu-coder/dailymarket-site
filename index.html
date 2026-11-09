@@ -115,6 +115,7 @@
   .pickbox{margin:0 0 14px}
   .pickbox>div:first-child{margin:0!important;box-shadow:0 6px 18px rgba(180,83,9,.12)}
   .pickcta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 4px 0;font-size:14px;color:var(--muted)}
+  .pickcta .acc{color:var(--ink);font-weight:700;font-size:13.5px;text-decoration:underline;text-underline-offset:3px}
   .pickcta button{background:var(--gold);color:#13223A;border:none;border-radius:999px;font-weight:800;padding:7px 14px;font-size:13.5px}
   .perks{margin:8px 0 14px;padding:0;list-style:none;display:grid;gap:7px;font-size:14px;color:var(--muted)}
   .perks li{position:relative;padding-left:22px;line-height:1.45}
@@ -387,6 +388,7 @@
 <footer><div class="in">
   <div class="cp" data-ro="© 2026 Daily Market · informativ, nu este consultanță de investiții">© 2026 Daily Market · for information only, not investment advice</div>
   <a href="products.html" data-ro-href="produse.html" data-ro="Produsele noastre">Our products</a>
+  <a href="accuracy.html" data-ro-href="acuratete.html" data-ro="Acuratețe">Accuracy</a>
   <a href="about.html" data-ro-href="despre.html" data-ro="Despre noi">About us</a>
   <a href="terms.html" data-ro-href="termeni.html" data-ro="Termeni și condiții">Terms &amp; conditions</a>
   <a href="privacy.html" data-ro-href="confidentialitate.html" data-ro="Confidențialitate">Privacy</a>
@@ -872,7 +874,8 @@ function renderPick(cardHtml, today) {
   const box = $("pickBox");
   if (!cardHtml) { box.hidden = true; box.innerHTML = ""; return; }
   box.innerHTML = cardHtml + (today && !read("dm_sub") ? `<div class="pickcta"><span>${L("Get the Pick of the Day by email, every morning – free.",
-    "Primește Pick of the Day pe email, în fiecare dimineață – gratuit.")}</span><button type="button" id="pickSub">${L("Subscribe", "Abonează-te")}</button></div>` : "");
+    "Primește Pick of the Day pe email, în fiecare dimineață – gratuit.")}</span><button type="button" id="pickSub">${L("Subscribe", "Abonează-te")}</button>`
+    + `<a class="acc" href="${RO ? "acuratete.html" : "accuracy.html"}">${L("How often are we right? →", "Cât de bine nimerim? →")}</a></div>` : "");
   box.hidden = false;
   const b = $("pickSub"); if (b) b.onclick = () => { subSrc = "pick"; openSub(); track("subbar", "pick"); };
 }
