@@ -837,7 +837,15 @@ function splitPick(html) {
     const doc = new DOMParser().parseFromString(html, "text/html");
     const card = [...doc.querySelectorAll("div[style]")].find(d => /border:2px solid #f59e0b/i.test(d.getAttribute("style")) &&
       /PICK OF THE DAY/i.test(d.textContent));
-    if (!card) return { pick: "", rest: html };
+    // antetul raportului (titlul „Daily Market”, data cu lista pietelor, sursa datelor, ora generarii): pagina are deja titlul ei
+    const title = [...doc.querySelectorAll("div[style]")].find(d => /font-size:24px;font-weight:800/.test(d.getAttribute("style")) &&
+      d.textContent.trim() === "Daily Market");
+    if (title) {
+      let n = title.nextElementSibling, k = 0;
+      while (n && k < 3 && /font-size:(15|12)px/.test(n.getAttribute("style") || "")) { const nx = n.nextElementSibling; n.remove(); n = nx; k++; }
+      title.remove();
+    }
+    if (!card) return { pick: "", rest: "<!doctype html>" + doc.documentElement.outerHTML };
     card.querySelectorAll("script,iframe,object,embed").forEach(x => x.remove());
     card.querySelectorAll("*").forEach(el => [...el.attributes].forEach(a => { if (/^on/i.test(a.name)) el.removeAttribute(a.name); }));
     const out = card.outerHTML; card.remove();
