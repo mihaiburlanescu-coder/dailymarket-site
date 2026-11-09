@@ -107,6 +107,19 @@
   .mcard h2{font-size:19px;margin:0 30px 4px 0}
   .mclose{position:absolute;top:10px;right:10px;width:34px;height:34px;padding:0;border-radius:50%;font-size:20px;line-height:1}
   [hidden]{display:none!important}
+  .perks{margin:8px 0 14px;padding:0;list-style:none;display:grid;gap:7px;font-size:14px;color:var(--muted)}
+  .perks li{position:relative;padding-left:22px;line-height:1.45}
+  .perks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--up);font-weight:800}
+  .perks b{color:var(--ink)}
+  .subbar{position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:40;max-width:620px;margin:0 auto;
+          display:flex;align-items:center;gap:12px;background:#13223A;color:#fff;border:1px solid #2a4670;border-radius:14px;
+          padding:11px 10px 11px 14px;box-shadow:0 12px 30px rgba(0,0,0,.3);transform:translateY(160%);transition:transform .35s ease}
+  .subbar.show{transform:none}
+  .subbar .t{flex:1;font-size:13.5px;line-height:1.35}
+  .subbar .t b{color:#E7BE6A}
+  .subbar .go{background:#D9A441;color:#13223A;border:none;border-radius:999px;font-weight:800;padding:9px 14px;font-size:14px;white-space:nowrap}
+  .subbar .x{background:none;border:none;color:#93A3B8;font-size:20px;line-height:1;padding:4px 6px}
+  @media (prefers-reduced-motion:reduce){.subbar{transition:none}}
 
   .nav{display:flex;gap:2px}
   .nav button{background:none;border:none;color:#C9D5E6;font-weight:600;padding:8px 12px;border-radius:8px}
@@ -227,8 +240,13 @@
 <div class="modal" id="subModal" hidden role="dialog" aria-modal="true" aria-labelledby="subT">
   <div class="mcard">
     <button type="button" class="mclose" id="subClose" aria-label="Close" data-ro-aria="Închide">×</button>
-    <h2 id="subT" data-ro="Primește Daily Market pe email">Get Daily Market by email</h2>
-    <p class="sub" data-ro="Lasă adresa de email ca să primești raportul zilnic Daily Market.">Leave your email address to receive the Daily Market report every morning.</p>
+    <h2 id="subT" data-ro="Pick of the Day, în fiecare dimineață pe email">Pick of the Day, every morning by email</h2>
+    <ul class="perks">
+      <li data-ro="<b>Alegerea zilei</b>: piața cu cel mai clar semnal, cu intrare, țintă și stop">The <b>Pick of the Day</b>: the market with the clearest signal, with entry, target and stop</li>
+      <li data-ro="<b>Raportul complet</b> pe 14 piețe: sentiment, opțiuni, intervale de preț">The <b>full report</b> on 14 markets: sentiment, options, price ranges</li>
+      <li data-ro="<b>Gratuit</b>, înainte de deschiderea burselor. Te dezabonezi cu un clic.">
+        <b>Free</b>, before the markets open. Unsubscribe with one click.</li>
+    </ul>
     <form id="fSub" novalidate>
       <label for="subEmail">Email</label>
       <input id="subEmail" type="email" required autocomplete="email" maxlength="254" placeholder="name@example.com" data-ro-ph="nume@exemplu.ro">
@@ -240,6 +258,12 @@
       <div id="subMsg" class="msg"></div>
     </form>
   </div>
+</div>
+
+<div class="subbar" id="subBar" hidden role="region" aria-label="Subscribe" data-ro-aria="Abonare">
+  <div class="t" data-ro="<b>Pick of the Day</b> gratuit pe email, în fiecare dimineață"><b>Pick of the Day</b> free by email, every morning</div>
+  <button type="button" class="go" id="subBarGo" data-ro="Vreau">Get it</button>
+  <button type="button" class="x" id="subBarX" aria-label="Close" data-ro-aria="Închide">×</button>
 </div>
 
 <main>
@@ -569,14 +593,31 @@ $("fSub").onsubmit = async e => {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return subMsg(L("Please enter a valid email address.", "Scrie o adresă de email validă."));
   if (!$("subOk").checked) return subMsg(L("Please tick the consent box so we can subscribe you.", "Bifează acordul ca să te putem abona."));
   busy(e.target, true);
-  const { error } = await sb.from("subscribers").insert({ email, consent: true, source: "site" });
+  const { error } = await sb.from("subscribers").insert({ email, consent: true, source: "site", lang: RO ? "ro" : "en" });
   busy(e.target, false);
   if (error && (error.code === "23505" || /duplicate/i.test(error.message))) return subMsg(L("This address is already subscribed.", "Adresa aceasta este deja abonată."), true);
   if (error) return subMsg(L("We could not save your address. Please try again in a few minutes.", "Nu am putut salva adresa. Mai încearcă o dată peste câteva minute."));
   e.target.reset();
-  subMsg(L("Done, your address has been registered. Thank you!", "Gata, adresa ta a fost înregistrată. Mulțumim!"), true);
-  track("subscribe", "site");
+  subMsg(L("Done! You will get the first email tomorrow morning. Thank you!", "Gata! Primești primul email mâine dimineață. Mulțumim!"), true);
+  track("subscribe", subSrc);
+  store("dm_sub", "1"); hideBar();
 };
+
+// --- bara de abonare (jos): apare dupa 12 secunde sau dupa ce cititorul deruleaza; nu mai apare 7 zile daca e inchisa ---
+let subSrc = "site";
+const store = (k, v) => { try { v === undefined ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} };
+const read = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+function hideBar() { $("subBar").classList.remove("show"); setTimeout(() => { $("subBar").hidden = true; }, 400); }
+function showBar() {
+  if (read("dm_sub") || Date.now() < Number(read("dm_subbar_x") || 0) || !$("subModal").hidden) return;
+  $("subBar").hidden = false; requestAnimationFrame(() => requestAnimationFrame(() => $("subBar").classList.add("show")));
+  track("subbar", "show");
+}
+$("subBarGo").onclick = () => { subSrc = "bar"; hideBar(); openSub(); track("subbar", "click"); };
+$("subBarX").onclick = () => { store("dm_subbar_x", String(Date.now() + 7 * 864e5)); hideBar(); track("subbar", "close"); };
+$("subBtn").addEventListener("click", () => { subSrc = "site"; });
+setTimeout(showBar, 12000);
+addEventListener("scroll", function once() { if (scrollY > 600) { removeEventListener("scroll", once); showBar(); } }, { passive: true });
 
 function label(d) {
   const dt = new Date(d + "T12:00:00");
