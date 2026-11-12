@@ -620,6 +620,7 @@ $("fSub").onsubmit = async e => {
   subMsg(L("Done! You will get the first email tomorrow morning. Thank you!", "Gata! Primești primul email mâine dimineață. Mulțumim!"), true);
   track("subscribe", subSrc);
   store("dm_sub", "1"); hideBar();
+  if (window.dmLead) window.dmLead();
 };
 
 // --- bara de abonare (jos): apare dupa 12 secunde sau dupa ce cititorul deruleaza; nu mai apare 7 zile daca e inchisa ---
