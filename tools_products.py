@@ -56,6 +56,10 @@ T = {
  "sig_title": "Un sistem intuitiv de semnale",
  "disc": "Informațiile de pe această pagină au caracter informativ și educativ și nu reprezintă consultanță de investiții sau o recomandare de a cumpăra ori vinde instrumente financiare. Tranzacționarea instrumentelor financiare, în special a celor cu efect de levier, implică un risc ridicat de pierdere a capitalului. Rezultatele trecute nu garantează rezultate viitoare.",
  "foot": '<a href="./?lang=ro">Înapoi la raport</a> · <a href="despre.html">Despre noi</a> · <a href="acuratete.html">Acuratețe</a> · <a href="termeni.html">Termeni și condiții</a> · <a href="confidentialitate.html">Confidențialitate</a> · <a href="mailto:contact@dailymarketlab.com">Contact</a> · <a href="products.html" lang="en" hreflang="en">English</a>',
+ "res": {"h": "Rezultate pentru investitori", "per": "Investitor care copiază Odyssey pe NAGA · 61 de tranzacții DAX · 2 iunie – 6 noiembrie 2026",
+  "kpi": [("+38,5%", "randament total"), ("75%", "tranzacții pe profit"), ("−7,9%", "drawdown maxim"), ("5 din 6", "luni pe profit")],
+  "note": "Rezultate calculate din istoricul real de tranzacționare al contului Odyssey, așa cum se execută pentru un cont care copiază prin NAGA. Nu includ comisionul de profit-sharing. Performanțele trecute nu garantează rezultate viitoare.",
+  "pdf": "Prezentarea pentru investitori (PDF)"},
  "pdf": "Descarcă broșura (PDF)",
 },
 "en": {
@@ -102,6 +106,10 @@ T = {
  "sig_title": "An intuitive signal system",
  "disc": "The information on this page is for information and education only and is not investment advice or a recommendation to buy or sell financial instruments. Trading financial instruments, especially leveraged ones, carries a high risk of losing capital. Past results do not guarantee future results.",
  "foot": '<a href="./">Back to the report</a> · <a href="about.html">About us</a> · <a href="accuracy.html">Accuracy</a> · <a href="terms.html">Terms &amp; conditions</a> · <a href="privacy.html">Privacy</a> · <a href="mailto:contact@dailymarketlab.com">Contact</a> · <a href="produse.html" lang="ro" hreflang="ro">Română</a>',
+ "res": {"h": "Investor results", "per": "Investor copying Odyssey on NAGA · 61 DAX trades · 2 June – 6 November 2026",
+  "kpi": [("+38.5%", "total return"), ("75%", "winning trades"), ("−7.9%", "maximum drawdown"), ("5 of 6", "profitable months")],
+  "note": "Results calculated from the real trading history of the Odyssey account, as executed for an account copying via NAGA. Profit-sharing fees are not included. Past performance does not guarantee future results.",
+  "pdf": "Investor presentation (PDF, Romanian)"},
  "pdf": "Download the brochure (PDF)",
 },
 }
@@ -156,6 +164,14 @@ main{max-width:980px;margin:0 auto;padding:28px 16px 40px;display:grid;gap:28px}
 .odyssey .hero,.odyssey .adv,.odyssey .cta a{background:linear-gradient(135deg,#053b4a 0%,#0b6e80 60%,#1fb3b0 100%)} .odyssey i{background:#0e9aa0}
 .portfolio .hero{background:linear-gradient(135deg,#13223A 0%,#2a4670 55%,#B7791F 140%)}
 .portfolio .adv,.portfolio .cta a{background:linear-gradient(135deg,#13223A,#2a4670)} .portfolio i{background:#D9A441}
+.res{margin-top:24px;background:var(--soft);border-radius:14px;padding:20px 22px}
+.res h3{margin:0;font-size:18px}
+.res .per{color:var(--muted);font-size:13px;margin:2px 0 14px}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--muted)}
+.kpi b{display:block;font-size:24px;line-height:1.2;color:#0e9aa0;font-weight:800}
+.res .note{color:var(--muted);font-size:12.5px;margin:12px 0 0;max-width:none}
+.cta a.alt{background:var(--card)!important;color:var(--ink);border:1px solid var(--line)}
 .pdf{text-align:center}
 .pdf a{display:inline-block;font-weight:700;color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--card);padding:11px 20px;border-radius:10px}
 .disc{color:var(--muted);font-size:13px;max-width:none}
@@ -164,6 +180,7 @@ footer div{max-width:980px;margin:0 auto;padding:18px 16px 32px}
 footer a{color:inherit}
 @media (max-width:640px){
   .grid,.sig{grid-template-columns:1fr}.feat.wide{grid-column:auto}
+  .kpi{grid-template-columns:1fr 1fr}
   .hero{padding:22px 18px 26px}.body{padding:26px 18px 22px}
   .hero .em{width:76px;height:76px;border-radius:20px;right:18px;bottom:-26px}.hero .em svg{width:48px;height:48px}
   .hero h2{max-width:calc(100% - 80px)}
@@ -190,10 +207,17 @@ def page(lang: str) -> str:
             cta = f'<a href="{t["pf_url"]}">{t["cta_pf"]}</a>'
         else:
             cta = f'<a href="mailto:contact@dailymarketlab.com?subject={t["mail_subj"]}{name.title()}">{t["cta_contact"]}</a>'
+        res = ""
+        if key == "odyssey":
+            r = t["res"]
+            kp = "".join(f"<div><b>{v}</b>{lbl}</div>" for v, lbl in r["kpi"])
+            res = f'<div class="res"><h3>{r["h"]}</h3><p class="per">{r["per"]}</p><div class="kpi">{kp}</div><p class="note">{r["note"]}</p></div>'
+            cta += f'<a class="alt" href="Odyssey-Prezentare-Investitori.pdf" download>⬇ {r["pdf"]}</a>'
         secs.append(f"""<section class="prod {key}" id="{key}">
 <div class="hero"><span class="tag">{tag}</span><h2>{name}</h2><div class="sub">{sub}</div><div class="em">{EMBLEM[key]}</div></div>
 <div class="body"><div class="intro">{''.join(f'<p>{x}</p>' for x in intro)}</div>
 <div class="grid">{''.join(fh)}</div>
+{res}
 <div class="adv"><div class="k">{adv[0]}</div><div class="t">{adv[1]}</div><p>{adv[2]}</p><div class="s">{adv[3]}</div></div>
 <div class="cta">{cta}</div></div></section>""")
     other = "en" if lang == "ro" else "ro"
