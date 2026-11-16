@@ -115,16 +115,16 @@
   .pickbox{margin:0 0 14px}
   .duo{display:grid;grid-template-columns:1fr;gap:0 14px;align-items:stretch}
   @media(min-width:900px){.duo:has(#pickBox:not([hidden])):has(#odyBox:not([hidden])){grid-template-columns:1fr 1fr;align-items:start}}
-  .ody{margin:0 0 14px;border-radius:14px;padding:16px 18px;color:#fff;background:linear-gradient(135deg,#053b4a 0%,#0b6e80 60%,#1fb3b0 100%);display:flex;flex-direction:column;gap:8px;box-shadow:0 6px 18px rgba(11,110,128,.18)}
+  .ody{margin:0 0 14px;border-radius:14px;padding:12px 14px;color:#fff;background:linear-gradient(135deg,#053b4a 0%,#0b6e80 60%,#1fb3b0 100%);display:flex;flex-direction:column;gap:6px;box-shadow:0 6px 18px rgba(11,110,128,.18)}
   .ody[hidden]{display:none}
-  .ody .k{font-size:12px;font-weight:800;letter-spacing:.06em;color:#bdf3ee}
-  .ody h3{margin:0;font-size:21px;line-height:1.25;color:#fff}
+  .ody .k{font-size:11px;font-weight:800;letter-spacing:.06em;color:#bdf3ee}
+  .ody h3{margin:0;font-size:17px;line-height:1.25;color:#fff}
   .ody p{margin:0;font-size:14px;line-height:1.5;color:#e6fbf9}
-  .ody .okpi{display:flex;gap:18px;flex-wrap:wrap}.ody .okpi b{display:block;font-size:20px;color:#fff}.ody .okpi span{font-size:12px;color:#bdf3ee}
-  .ody .go{align-self:flex-start;background:#D9A441;color:#13223A;font-weight:800;text-decoration:none;border-radius:999px;padding:10px 18px;font-size:14px}
+  .ody .okpi{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#bdf3ee}.ody .okpi b{font-size:15px;color:#fff;margin-right:4px}
+  .ody .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.ody .go{background:#D9A441;color:#13223A;font-weight:800;text-decoration:none;border-radius:999px;padding:7px 14px;font-size:13px}
   .ody .go:hover{filter:brightness(1.05)}
-  .ody .more{color:#bdf3ee;font-size:13px}
-  .ody small{font-size:10.5px;line-height:1.45;color:#a7dcd8}
+  .ody .more{color:#bdf3ee;font-size:12px}
+  .ody small{font-size:10px;line-height:1.4;color:#a7dcd8}
   .pickbox>div:first-child{margin:0!important;box-shadow:0 6px 18px rgba(180,83,9,.12)}
   .pickcta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 4px 0;font-size:14px;color:var(--muted)}
   .pickcta .acc{color:var(--ink);font-weight:700;font-size:13.5px;text-decoration:underline;text-underline-offset:3px}
@@ -890,15 +890,13 @@ function renderOdy() {
   const box = $("odyBox"); if (!box) return;
   box.innerHTML = `<div class="k">${L("THE ODYSSEY ROBOT · DAX 40", "ROBOTUL ODYSSEY · DAX 40")}</div>`
     + `<h3>${L("Let a robot trade the DAX for you", "Lasă un robot să tranzacționeze DAX pentru tine")}</h3>`
-    + `<p>${L("Fully automated, emotion-free, on a live account. You can copy it straight into your NAGA account.",
-      "Complet automat, fără emoții, pe cont real. Îl poți copia direct în contul tău NAGA.")}</p>`
-    + `<div class="okpi"><div><b>${L("+38.5%", "+38,5%")}</b><span>${L("Jun–Nov 2026", "iun–nov 2026")}</span></div>`
-    + `<div><b>75%</b><span>${L("winning trades", "tranzacții pe profit")}</span></div>`
-    + `<div><b>${L("−7.9%", "−7,9%")}</b><span>${L("max drawdown", "scădere maximă")}</span></div></div>`
-    + `<a class="go" id="odyGo" href="https://go.joinnaga.com/3HLZ7LT/BB33C5/" target="_blank" rel="sponsored noopener">${L("Copy Odyssey on NAGA →", "Copiază Odyssey pe NAGA →")}</a>`
-    + `<a class="more" href="${RO ? "produse.html#odyssey" : "products.html#odyssey"}">${L("More about Odyssey", "Mai multe despre Odyssey")}</a>`
-    + `<small>${L("Affiliate link: we may receive a commission from NAGA. CFDs carry a high risk of losing money rapidly due to leverage; most retail investor accounts lose money. Results for an account copying via NAGA, before profit-sharing fees; past performance does not guarantee future results.",
-      "Link de afiliere: putem primi un comision de la NAGA. CFD-urile au un risc ridicat de pierdere rapidă a banilor din cauza levierului; majoritatea conturilor investitorilor de retail pierd bani. Rezultate pentru un cont care copiază prin NAGA, fără comisionul de profit-sharing; performanțele trecute nu garantează rezultate viitoare.")}</small>`;
+    + `<div class="okpi"><span><b>${L("+38.5%", "+38,5%")}</b>${L("Jun–Nov 2026", "iun–nov 2026")}</span>`
+    + `<span><b>75%</b>${L("winning trades", "tranzacții pe profit")}</span>`
+    + `<span><b>${L("−7.9%", "−7,9%")}</b>${L("max drawdown", "scădere maximă")}</span></div>`
+    + `<div class="row"><a class="go" id="odyGo" href="https://go.joinnaga.com/3HLZ7LT/BB33C5/" target="_blank" rel="sponsored noopener">${L("Copy Odyssey on NAGA →", "Copiază Odyssey pe NAGA →")}</a>`
+    + `<a class="more" href="${RO ? "produse.html#odyssey" : "products.html#odyssey"}">${L("More about Odyssey", "Mai multe despre Odyssey")}</a></div>`
+    + `<small>${L("Affiliate link. CFDs carry a high risk of losing money rapidly due to leverage; most retail investor accounts lose money. Copy-account results before fees; past performance does not guarantee future results.",
+      "Link de afiliere. CFD-urile au risc ridicat de pierdere rapidă a banilor din cauza levierului; majoritatea conturilor de retail pierd bani. Rezultate cont copiat, fără comisioane; performanțele trecute nu garantează rezultate viitoare.")}</small>`;
   box.hidden = false;
   const g = $("odyGo"); if (g) g.onclick = () => track("tab", "naga");
 }
