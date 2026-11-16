@@ -5,6 +5,7 @@ from pathlib import Path
 LOGO = ('<svg width="{s}" height="{s}" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#D9A441"/>'
         '<rect x="7" y="13" width="4" height="12" rx="1" fill="#13223A"/><rect x="14" y="7" width="4" height="18" rx="1" fill="#13223A"/>'
         '<rect x="21" y="16" width="4" height="9" rx="1" fill="#13223A"/></svg>')
+NAGA_URL = "https://go.joinnaga.com/3HLZ7LT/BB33C5/"
 EMBLEM = {
     "athena": '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="#6d4fe0" stroke-width="3"/><circle cx="32" cy="32" r="15" fill="none" stroke="#a48cf5" stroke-width="3"/><circle cx="32" cy="32" r="5" fill="#5b3fc4"/><path d="M32 4v10M32 50v10M4 32h10M50 32h10" stroke="#6d4fe0" stroke-width="3" stroke-linecap="round"/></svg>',
     "odyssey": '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 40h36l-6 10H20z" fill="#0b6e80"/><path d="M32 10v28" stroke="#053b4a" stroke-width="3"/><path d="M33 12l14 22H33z" fill="#1fb3b0"/><path d="M31 16L19 34h12z" fill="#7fdcd6"/><path d="M8 54c6 0 6-3 12-3s6 3 12 3 6-3 12-3 6 3 12 3" fill="none" stroke="#0e9aa0" stroke-width="3" stroke-linecap="round"/></svg>',
@@ -61,6 +62,11 @@ T = {
   "note": "Rezultate calculate din istoricul real de tranzacționare al contului Odyssey, așa cum se execută pentru un cont care copiază prin NAGA. Nu includ comisionul de profit-sharing. Performanțele trecute nu garantează rezultate viitoare.",
   "pdf": "Prezentarea pentru investitori (PDF)"},
  "pdf": "Descarcă broșura (PDF)",
+ "naga_cta": "Copiază Odyssey pe NAGA →",
+ "naga_note": "Link de afiliere: Daily Market poate primi un comision de la NAGA dacă îți deschizi cont prin acest link. "
+              "CFD-urile sunt instrumente complexe și au un risc ridicat de pierdere rapidă a banilor din cauza efectului de levier. "
+              "Majoritatea conturilor investitorilor de retail pierd bani când tranzacționează CFD-uri. Gândește-te dacă înțelegi cum "
+              "funcționează și dacă îți permiți riscul ridicat de a-ți pierde banii.",
 },
 "en": {
  "file": "products.html", "alt": "produse.html", "lang": "en", "home": "./",
@@ -111,6 +117,11 @@ T = {
   "note": "Results calculated from the real trading history of the Odyssey account, as executed for an account copying via NAGA. Profit-sharing fees are not included. Past performance does not guarantee future results.",
   "pdf": "Investor presentation (PDF, Romanian)"},
  "pdf": "Download the brochure (PDF)",
+ "naga_cta": "Copy Odyssey on NAGA →",
+ "naga_note": "Affiliate link: Daily Market may receive a commission from NAGA if you open an account through this link. "
+              "CFDs are complex instruments and come with a high risk of losing money rapidly due to leverage. "
+              "Most retail investor accounts lose money when trading CFDs. Consider whether you understand how CFDs work "
+              "and whether you can afford to take the high risk of losing your money.",
 },
 }
 
@@ -161,6 +172,8 @@ main{max-width:980px;margin:0 auto;padding:28px 16px 40px;display:grid;gap:28px}
 .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
 .cta a{display:inline-block;text-decoration:none;font-weight:700;font-size:15px;padding:11px 18px;border-radius:10px;color:#fff}
 .athena .hero,.athena .adv,.athena .cta a{background:linear-gradient(135deg,#3b1f78 0%,#5b3fc4 60%,#8a6cf0 100%)} .athena i{background:#6d4fe0}
+.cta a.naga{background:#D9A441!important;color:#13223A!important;font-weight:800}
+.aff{font-size:12px;line-height:1.55;color:#6b7280;margin:12px 0 0;max-width:72ch}
 .odyssey .hero,.odyssey .adv,.odyssey .cta a{background:linear-gradient(135deg,#053b4a 0%,#0b6e80 60%,#1fb3b0 100%)} .odyssey i{background:#0e9aa0}
 .portfolio .hero{background:linear-gradient(135deg,#13223A 0%,#2a4670 55%,#B7791F 140%)}
 .portfolio .adv,.portfolio .cta a{background:linear-gradient(135deg,#13223A,#2a4670)} .portfolio i{background:#D9A441}
@@ -212,14 +225,15 @@ def page(lang: str) -> str:
             r = t["res"]
             kp = "".join(f"<div><b>{v}</b>{lbl}</div>" for v, lbl in r["kpi"])
             res = f'<div class="res"><h3>{r["h"]}</h3><p class="per">{r["per"]}</p><div class="kpi">{kp}</div><p class="note">{r["note"]}</p></div>'
-            cta += f'<a class="alt" href="Odyssey-Prezentare-Investitori.pdf" download>⬇ {r["pdf"]}</a>'
+            cta = (f'<a class="naga" href="{NAGA_URL}" target="_blank" rel="sponsored noopener">{t["naga_cta"]}</a>' + cta
+                   + f'<a class="alt" href="Odyssey-Prezentare-Investitori.pdf" download>⬇ {r["pdf"]}</a>')
         secs.append(f"""<section class="prod {key}" id="{key}">
 <div class="hero"><span class="tag">{tag}</span><h2>{name}</h2><div class="sub">{sub}</div><div class="em">{EMBLEM[key]}</div></div>
 <div class="body"><div class="intro">{''.join(f'<p>{x}</p>' for x in intro)}</div>
 <div class="grid">{''.join(fh)}</div>
 {res}
 <div class="adv"><div class="k">{adv[0]}</div><div class="t">{adv[1]}</div><p>{adv[2]}</p><div class="s">{adv[3]}</div></div>
-<div class="cta">{cta}</div></div></section>""")
+<div class="cta">{cta}</div>{f'<p class="aff">{t["naga_note"]}</p>' if key == "odyssey" else ""}</div></section>""")
     other = "en" if lang == "ro" else "ro"
     return f"""<!doctype html>
 <html lang="{lang}">
