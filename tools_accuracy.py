@@ -41,7 +41,7 @@ T = {
   n_h="Pe 2007–2026, semnalul tehnic singur nu a prezis direcția zilelor următoare mai bine decât întâmplarea. De aceea nu îl vindem ca predicție.",
   why="De ce publicăm și greșelile", why_p="Oricine poate afișa câștigurile. Un instrument în care poți avea încredere îți arată și cât de des greșește – și te lasă să verifici singur.",
   disc="Informativ și educativ, nu este consultanță de investiții. Rezultatele trecute nu garantează rezultate viitoare. Tranzacționarea implică un risc ridicat de pierdere a capitalului.",
-  foot='<a href="./?lang=ro">Înapoi la raport</a> · <a href="produse.html">Produsele noastre</a> · <a href="despre.html">Despre noi</a> · <a href="termeni.html">Termeni și condiții</a> · <a href="confidentialitate.html">Confidențialitate</a> · <a href="accuracy.html" lang="en" hreflang="en">English</a>',
+  foot='<a href="./?lang=ro">Înapoi la raport</a> · <a href="produse.html">Produsele noastre</a> · <a href="despre.html">Despre noi</a> · <a href="termeni.html">Termeni și condiții</a> · <a href="confidentialitate.html">Confidențialitate</a> · <a href="accuracy.html" lang="en" hreflang="en">English</a> · <a href="genauigkeit.html" lang="de" hreflang="de">Deutsch</a>',
   cta="Primește Pick of the Day pe email", cta_url="./?lang=ro&sub=1"),
  "en": dict(
   file="accuracy.html", alt="acuratete.html", home="./", locale="en-GB",
@@ -72,8 +72,39 @@ T = {
   n_h="On 2007–2026, the technical signal alone did not predict the next days' direction better than chance. That is why we don't sell it as a forecast.",
   why="Why we publish our mistakes too", why_p="Anyone can show their wins. A tool you can trust also shows how often it is wrong – and lets you check for yourself.",
   disc="For information and education only, not investment advice. Past results do not guarantee future results. Trading carries a high risk of losing capital.",
-  foot='<a href="./">Back to the report</a> · <a href="products.html">Our products</a> · <a href="about.html">About us</a> · <a href="terms.html">Terms &amp; conditions</a> · <a href="privacy.html">Privacy</a> · <a href="acuratete.html" lang="ro" hreflang="ro">Română</a>',
+  foot='<a href="./">Back to the report</a> · <a href="products.html">Our products</a> · <a href="about.html">About us</a> · <a href="terms.html">Terms &amp; conditions</a> · <a href="privacy.html">Privacy</a> · <a href="acuratete.html" lang="ro" hreflang="ro">Română</a> · <a href="genauigkeit.html" lang="de" hreflang="de">Deutsch</a>',
   cta="Get the Pick of the Day by email", cta_url="./?sub=1"),
+ "de": dict(
+  file="genauigkeit.html", alt="accuracy.html", home="./?lang=de", locale="de-DE",
+  title="Trefferquote · Daily Market", desc="Wie gut die Prognosen von Daily Market waren: Live-Ergebnisse, täglich aktualisiert, Fehler inklusive.",
+  h1="Wie oft liegen wir <span>richtig?</span>",
+  lead="Wir veröffentlichen jedes Ergebnis, auch die, die nicht aufgehen. Die Zahlen unten werden jeden Tag automatisch aktualisiert, aus denselben Daten, die der Bericht nutzt.",
+  loading="Ergebnisse werden geladen…", err="Die Ergebnisse konnten gerade nicht geladen werden. Bitte versuchen Sie es in ein paar Minuten erneut.",
+  upd="Aktualisiert", live="Live", hist="Historisch getestet", promise="Was wir versprechen",
+  r_t="Kursspannen", r_tag="Prognose · nächster Handelstag",
+  r_p="Der Schlusskurs des nächsten Handelstags liegt in etwa 7 von 10 Fällen innerhalb der 70-%-Spanne und in etwa 9 von 10 Fällen innerhalb der 90-%-Spanne.",
+  r_l="{in70} von {n} Schlusskursen in der 70-%-Spanne ({p70}) · {in90} von {n} in der 90-%-Spanne ({p90}) · seit {from}",
+  r_h="Die Spannen werden aus Optionspreisen berechnet und auf 2008–2026 so kalibriert, dass sie diese Prozentsätze treffen.",
+  r_c="Wie sich das Live-Ergebnis entwickelt (kumuliert)", b70="in der 70-%-Spanne (Ziel: ~70 %)", b90="in der 90-%-Spanne (Ziel: ~90 %)", t70="Ziel 70 %", t90="Ziel 90 %",
+  p_t="Pick of the Day", p_tag="5 Tage",
+  p_p="Eine einzige Idee pro Tag, mit Kursziel und Stopp. Der Vorteil ist klein, aber echt: mehr Picks enden im Plus als bei Zufall.",
+  p_h="Getestet auf 2008–2026: 53 % der Picks nach 5 Tagen im Plus, gegenüber 50 % bei Zufall – in beiden Hälften des Zeitraums gleich.",
+  p_l="{n} abgeschlossene Picks, {win} im Plus, Durchschnittsergebnis {avg} · seit {from}",
+  p_few="Noch zu wenige, um statistisch etwas auszusagen: Der Prozentsatz ist erst ab mindestens 20 Picks aussagekräftig.",
+  p_none="Die ersten Picks laufen noch.",
+  f_t="Monatsportfolio", f_tag="ein Monat",
+  f_p="Eine Trendstrategie, monatlich neu aufgebaut, mit gleichem Risiko je Position und einem Stopp für jede Position. Ziel: stetige Gewinne mit kleinen Rückgängen.",
+  f_h="Getestet auf 2008–2026: durchschnittlich +6,7 % pro Jahr, größter Rückgang vom Höchststand −21 %.",
+  f_l="{value} gegenüber 10.000 zum Start ({ret}) · {closed} geschlossene Positionen, {win} im Plus, insgesamt {pnl} · seit {from}",
+  f_c="Wert des virtuellen Portfolios",
+  n_t="Was wir nicht vorhersagen", n_tag="offen gesagt",
+  n_p="Die BUY/SELL-Urteile im Bericht beschreiben den aktuellen Trend. Sie sind keine Prognose der Richtung von morgen – auf sehr kurze Sicht ist die Richtung für jeden fast ein Münzwurf.",
+  n_l="Live traf das Urteil die Richtung des nächsten Handelstags in {ok} von {n} Fällen ({p}).",
+  n_h="Auf 2007–2026 hat das technische Signal allein die Richtung der nächsten Tage nicht besser vorhergesagt als der Zufall. Deshalb verkaufen wir es nicht als Prognose.",
+  why="Warum wir auch unsere Fehler veröffentlichen", why_p="Jeder kann seine Gewinne zeigen. Ein Werkzeug, dem Sie vertrauen können, zeigt auch, wie oft es danebenliegt – und lässt Sie selbst nachprüfen.",
+  disc="Nur zur Information und Bildung, keine Anlageberatung. Frühere Ergebnisse sind keine Garantie für künftige Ergebnisse. Der Handel ist mit einem hohen Risiko des Kapitalverlusts verbunden.",
+  foot='<a href="./?lang=de">Zurück zum Bericht</a> · <a href="produkte.html">Unsere Produkte</a> · <a href="ueber-uns.html">Über uns</a> · <a href="agb.html">AGB</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="accuracy.html" lang="en" hreflang="en">English</a> · <a href="acuratete.html" lang="ro" hreflang="ro">Română</a>',
+  cta="Pick of the Day per E-Mail erhalten", cta_url="./?lang=de&sub=1"),
 }
 
 CSS = """
@@ -197,8 +228,9 @@ def page(lg: str) -> str:
 <html lang="{lg}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{t["title"]}</title><meta name="description" content="{t["desc"]}">
 <link rel="canonical" href="https://dailymarketlab.com/{t["file"]}">
-<link rel="alternate" hreflang="{lg}" href="https://dailymarketlab.com/{t["file"]}">
-<link rel="alternate" hreflang="{other}" href="https://dailymarketlab.com/{t["alt"]}">
+<link rel="alternate" hreflang="ro" href="https://dailymarketlab.com/acuratete.html">
+<link rel="alternate" hreflang="en" href="https://dailymarketlab.com/accuracy.html">
+<link rel="alternate" hreflang="de" href="https://dailymarketlab.com/genauigkeit.html">
 <meta property="og:title" content="{t["title"]}"><meta property="og:description" content="{t["desc"]}"><meta property="og:image" content="https://dailymarketlab.com/og.png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -221,6 +253,6 @@ def page(lg: str) -> str:
 
 
 if __name__ == "__main__":
-    for lg in ("ro", "en"):
+    for lg in ("ro", "en", "de"):
         (HERE / T[lg]["file"]).write_text(page(lg), encoding="utf-8")
         print("scris", T[lg]["file"])

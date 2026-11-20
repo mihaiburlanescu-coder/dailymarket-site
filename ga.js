@@ -45,19 +45,21 @@
   }
   function banner() {
     if (document.getElementById("dmCookie")) return;
-    var r = ro(), d = document.createElement("div");
+    var r = ro(), g = (document.documentElement.lang || "").slice(0, 2) === "de", d = document.createElement("div");
     d.id = "dmCookie"; d.setAttribute("role", "dialog");
     d.setAttribute("aria-label", r ? "Cookie-uri" : "Cookies");
+    if (g) r = false;
     d.style.cssText = "position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;max-width:560px;margin:0 auto;" +
       "background:#14171c;color:#eef0f3;border:1px solid #2c323b;border-radius:12px;padding:14px 16px;" +
       "font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;box-shadow:0 8px 30px rgba(0,0,0,.35)";
-    var priv = r ? "/confidentialitate.html" : "/privacy.html";
+    var priv = r ? "/confidentialitate.html" : g ? "/datenschutz.html" : "/privacy.html";
     d.innerHTML = '<div style="margin-bottom:10px">' + (r
       ? 'Folosim Google Analytics ca să vedem câți oameni citesc Daily Market și pixelul Meta (Facebook) ca să știm dacă reclamele noastre aduc abonați. Pun cookie-uri doar dacă accepți. <a href="' + priv + '" style="color:#7cb7ff">Detalii</a>'
+      : g ? 'Wir nutzen Google Analytics, um zu sehen, wie viele Menschen Daily Market lesen, und das Meta-Pixel (Facebook), um zu erfahren, ob unsere Anzeigen Abonnenten bringen. Cookies werden nur gesetzt, wenn Sie zustimmen. <a href="' + priv + '" style="color:#7cb7ff">Details</a>'
       : 'We use Google Analytics to see how many people read Daily Market and the Meta (Facebook) pixel to know whether our ads bring subscribers. They only set cookies if you accept. <a href="' + priv + '" style="color:#7cb7ff">Details</a>') +
       '</div><div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">' +
-      '<button type="button" data-v="0" style="padding:8px 14px;border-radius:8px;border:1px solid #3a414c;background:transparent;color:#eef0f3;font:inherit;cursor:pointer">' + (r ? "Refuz" : "Decline") + '</button>' +
-      '<button type="button" data-v="1" style="padding:8px 14px;border-radius:8px;border:0;background:#2f7cf6;color:#fff;font:inherit;font-weight:600;cursor:pointer">' + (r ? "Accept" : "Accept") + '</button></div>';
+      '<button type="button" data-v="0" style="padding:8px 14px;border-radius:8px;border:1px solid #3a414c;background:transparent;color:#eef0f3;font:inherit;cursor:pointer">' + (r ? "Refuz" : g ? "Ablehnen" : "Decline") + '</button>' +
+      '<button type="button" data-v="1" style="padding:8px 14px;border-radius:8px;border:0;background:#2f7cf6;color:#fff;font:inherit;font-weight:600;cursor:pointer">' + (r ? "Accept" : g ? "Akzeptieren" : "Accept") + '</button></div>';
     d.addEventListener("click", function (e) {
       var v = e.target && e.target.getAttribute && e.target.getAttribute("data-v");
       if (v !== null && v !== undefined) decide(v === "1");

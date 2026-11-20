@@ -56,7 +56,7 @@ T = {
              ("SKIP", "Nicio oportunitate care să îndeplinească criteriile de selecție.")],
  "sig_title": "Un sistem intuitiv de semnale",
  "disc": "Informațiile de pe această pagină au caracter informativ și educativ și nu reprezintă consultanță de investiții sau o recomandare de a cumpăra ori vinde instrumente financiare. Tranzacționarea instrumentelor financiare, în special a celor cu efect de levier, implică un risc ridicat de pierdere a capitalului. Rezultatele trecute nu garantează rezultate viitoare.",
- "foot": '<a href="./?lang=ro">Înapoi la raport</a> · <a href="despre.html">Despre noi</a> · <a href="acuratete.html">Acuratețe</a> · <a href="termeni.html">Termeni și condiții</a> · <a href="confidentialitate.html">Confidențialitate</a> · <a href="mailto:contact@dailymarketlab.com">Contact</a> · <a href="products.html" lang="en" hreflang="en">English</a>',
+ "foot": '<a href="./?lang=ro">Înapoi la raport</a> · <a href="despre.html">Despre noi</a> · <a href="acuratete.html">Acuratețe</a> · <a href="termeni.html">Termeni și condiții</a> · <a href="confidentialitate.html">Confidențialitate</a> · <a href="mailto:contact@dailymarketlab.com">Contact</a> · <a href="products.html" lang="en" hreflang="en">English</a> · <a href="produkte.html" lang="de" hreflang="de">Deutsch</a>',
  "res": {"h": "Rezultate pentru investitori", "per": "Investitor care copiază Odyssey pe NAGA · 61 de tranzacții DAX · 2 iunie – 6 noiembrie 2026",
   "kpi": [("+38,5%", "randament total"), ("75%", "tranzacții pe profit"), ("−7,9%", "drawdown maxim"), ("5 din 6", "luni pe profit")],
   "note": "Rezultate calculate din istoricul real de tranzacționare al contului Odyssey, așa cum se execută pentru un cont care copiază prin NAGA. Nu includ comisionul de profit-sharing. Performanțele trecute nu garantează rezultate viitoare.",
@@ -111,7 +111,7 @@ T = {
              ("SKIP", "No opportunity meeting the selection criteria.")],
  "sig_title": "An intuitive signal system",
  "disc": "The information on this page is for information and education only and is not investment advice or a recommendation to buy or sell financial instruments. Trading financial instruments, especially leveraged ones, carries a high risk of losing capital. Past results do not guarantee future results.",
- "foot": '<a href="./">Back to the report</a> · <a href="about.html">About us</a> · <a href="accuracy.html">Accuracy</a> · <a href="terms.html">Terms &amp; conditions</a> · <a href="privacy.html">Privacy</a> · <a href="mailto:contact@dailymarketlab.com">Contact</a> · <a href="produse.html" lang="ro" hreflang="ro">Română</a>',
+ "foot": '<a href="./">Back to the report</a> · <a href="about.html">About us</a> · <a href="accuracy.html">Accuracy</a> · <a href="terms.html">Terms &amp; conditions</a> · <a href="privacy.html">Privacy</a> · <a href="mailto:contact@dailymarketlab.com">Contact</a> · <a href="produse.html" lang="ro" hreflang="ro">Română</a> · <a href="produkte.html" lang="de" hreflang="de">Deutsch</a>',
  "res": {"h": "Investor results", "per": "Investor copying Odyssey on NAGA · 61 DAX trades · 2 June – 6 November 2026",
   "kpi": [("+38.5%", "total return"), ("75%", "winning trades"), ("−7.9%", "maximum drawdown"), ("5 of 6", "profitable months")],
   "note": "Results calculated from the real trading history of the Odyssey account, as executed for an account copying via NAGA. Profit-sharing fees are not included. Past performance does not guarantee future results.",
@@ -122,6 +122,61 @@ T = {
               "CFDs are complex instruments and come with a high risk of losing money rapidly due to leverage. "
               "Most retail investor accounts lose money when trading CFDs. Consider whether you understand how CFDs work "
               "and whether you can afford to take the high risk of losing your money.",
+},
+"de": {
+ "file": "produkte.html", "alt": "products.html", "lang": "de", "home": "./?lang=de",
+ "title": "Unsere Produkte · Daily Market", "h1": "Unsere <span>Produkte</span>",
+ "desc": "Athena, Odyssey und das Daily-Market-Portfolio: Werkzeuge, die die Komplexität der Märkte in klare, disziplinierte Entscheidungen verwandeln.",
+ "lead": "Werkzeuge, die die Komplexität der Finanzmärkte in klare, disziplinierte und datenbasierte Entscheidungen verwandeln.",
+ "cta_contact": "Details anfragen", "cta_pf": "Zum Live-Portfolio", "pf_url": "./?lang=de#portfolio",
+ "mail_subj": "Details%20zu%20",
+ "products": [
+  ("athena", "Market Intelligence", "ATHENA", "Market Intelligence. Smarter Trading Decisions.",
+   ["Athena ist eine intelligente Analyseplattform für die Finanzmärkte. Sie verwandelt komplexe Informationen aus dem Optionsmarkt in klare, relevante und leicht verständliche Signale.",
+    "In einem Umfeld, in dem Geschwindigkeit, Volatilität und Informationsmenge den Unterschied machen, bietet Athena einen zusätzlichen Blick auf Handelschancen und hilft, besser begründete Entscheidungen zu treffen."],
+   [("Mehr als klassische Analyse", "Anders als herkömmliche Werkzeuge, die sich auf den historischen Kursverlauf konzentrieren, nutzt Athena Informationen aus dem Optionsmarkt und verbindet quantitative Analyse mit künstlicher Intelligenz und maschinellem Lernen."),
+    ("Intelligenz, die zur Handlung wird", "Athena verfolgt zahlreiche Finanzinstrumente – Aktien, Indizes, Rohstoffe und weitere Anlageklassen – und bietet einen strukturierten, konsistenten Blick auf die beobachteten Märkte."),
+    ("SIGNALS", "Jedes Signal wird von Vertrauensindikatoren begleitet, damit es im Rahmen des eigenen Risikoprofils bewertet werden kann."),
+    ("Gebaut für Märkte im ständigen Wandel", "Anpassungsfähigkeit, laufende Bewertung und statistische Disziplin, ohne Abhängigkeit von subjektiven Deutungen oder emotionalen Reaktionen. Die modulare Architektur erlaubt es, weitere Instrumente aufzunehmen und Athena in automatisierte Abläufe einzubinden.")],
+   ("The Athena Advantage", "Weniger Rauschen. Mehr Klarheit. Datenbasierte Entscheidungen.",
+    "Athena verspricht nicht, die Zukunft der Finanzmärkte vorherzusagen. Ihre Aufgabe ist es, deren Komplexität in einen Informationsvorsprung zu verwandeln – ein zusätzliches Werkzeug, um Chancen zu erkennen, zu bewerten und zu priorisieren.",
+    "Athena — Turning Market Complexity into Actionable Intelligence.")),
+  ("odyssey", "DAX Automated Trading", "ODYSSEY", "Disziplin. Präzision. Beständigkeit.",
+   ["Odyssey ist ein vollautomatischer Handelsroboter für einen einzigen Markt: den deutschen Leitindex <b>DAX 40</b>. Er verzettelt sich nicht in Dutzenden Instrumenten und jagt keinen kurzlebigen Mustern hinterher. Er macht eine Sache – und die mit Disziplin, an jedem Handelstag."],
+   [("Ein Markt, tief verstanden", "Der DAX ist einer der dynamischsten Indizes Europas: schnelle Bewegungen, hohe Volatilität, tägliche Chancen. Odyssey wurde ausschließlich für diesen Markt gebaut und auf seinen Rhythmus abgestimmt. Die Spezialisierung ist sein Vorteil."),
+    ("Handeln ohne Emotionen", "Angst, Gier, Eile oder der Wunsch, einen Verlust wieder hereinzuholen, sind die größten Fallen eines Traders. Odyssey kennt sie nicht. Er führt jede Entscheidung nach klaren, konsistenten Regeln aus, vom ersten bis zum letzten Trade des Tages."),
+    ("Kapitalschutz an erster Stelle", "Bei jeder Position ist das Risiko ab dem Einstieg festgelegt. Die Positionsgröße wird automatisch berechnet, erzielte Gewinne werden laufend abgesichert und Verluste begrenzt."),
+    ("Immer wachsam, nie müde", "Odyssey beobachtet den Markt während der gesamten Sitzung ohne Pause und reagiert in Echtzeit, ohne Verzögerung. Sie gehen Ihrem Tag nach; er erledigt seine Arbeit."),
+    ("Unter realen Bedingungen getestet", "Odyssey ist kein Laborexperiment. Er läuft auf einem echten Konto, unter echten Marktbedingungen, und wird auf Basis seiner Ergebnisse laufend bewertet und verbessert.")],
+   ("The Odyssey Advantage", "Ein Markt. Ein Roboter. Null Emotionen.",
+    "Odyssey verspricht keine garantierten Gewinne – kein Markt bietet sie. Seine Aufgabe ist es, die Disziplin, Geschwindigkeit und Beständigkeit eines automatischen Systems dorthin zu bringen, wo die meisten Trader wegen ihrer Emotionen verlieren.",
+    "Odyssey — Automated Discipline for the DAX.")),
+  ("portfolio", "Monthly Trend Portfolio", "DAS DAILY-MARKET-PORTFOLIO", "Geduld. Ausgewogenheit. Transparenz.",
+   ["Das Daily-Market-Portfolio ist eine mittelfristige Anlagestrategie, die nach festen Regeln geführt und einmal im Monat neu aufgebaut wird. Es reagiert nicht auf jede Schlagzeile und lässt sich nicht vom täglichen Rauschen treiben. Es sucht die starken Richtungen des Marktes und folgt ihnen mit Geduld."],
+   [("Auf Trends gebaut, nicht auf Rauschen", "Märkte durchlaufen lange Phasen des Anstiegs und des Rückgangs. Das Portfolio erkennt die Märkte mit der klarsten und stabilsten Richtung und baut nur dort Positionen auf."),
+    ("Über mehrere Anlageklassen gestreut", "Aktienindizes, Gold, Silber, Öl, Devisen und Technologieaktien. Das Portfolio kann sowohl an steigenden als auch an fallenden Kursen verdienen – es hängt nicht von einem einzelnen Markt oder einer Richtung ab."),
+    ("Das Risiko, sorgfältig verteilt", "Keine Position dominiert das Portfolio. Unruhige Märkte erhalten ein kleineres Gewicht, ruhige ein größeres. Jede Position hat ein Schutzniveau, das stündlich geprüft wird."),
+    ("Monatlich erneuert", "Zu Beginn jedes Monats wird das Portfolio vollständig neu bewertet: Positionen mit Kraft bleiben, solche, die sie verloren haben, fliegen raus, und neue Chancen bekommen ihren Platz."),
+    ("Volle Transparenz", "Öffentlich vom ersten Tag an. Jeder Einstieg, jeder Ausstieg und jedes Ergebnis – Gewinn oder Verlust – ist auf dailymarketlab.com sichtbar. Nichts wird versteckt und nichts nachträglich umgeschrieben.")],
+   ("The Portfolio Advantage", "Weniger Hektik. Mehr Richtung. Ergebnisse für alle sichtbar.",
+    "Das Daily-Market-Portfolio verspricht keine garantierten Renditen. Seine Aufgabe ist es, Monat für Monat und öffentlich zu zeigen, wie eine disziplinierte Strategie aussieht, die auf Markttrends statt auf Emotionen setzt.",
+    "Daily Market Portfolio — Following the Trend, in Plain Sight.")),
+ ],
+ "signals": [("BUY", "Eine Chance, die für eine Kaufposition spricht."), ("SELL", "Eine Chance, die für eine Verkaufsposition spricht."),
+             ("SKIP", "Keine Chance, die die Auswahlkriterien erfüllt.")],
+ "sig_title": "Ein intuitives Signalsystem",
+ "disc": "Die Informationen auf dieser Seite dienen der Information und Bildung und sind keine Anlageberatung oder Empfehlung zum Kauf oder Verkauf von Finanzinstrumenten. Der Handel mit Finanzinstrumenten, insbesondere mit Hebelprodukten, ist mit einem hohen Risiko des Kapitalverlusts verbunden. Frühere Ergebnisse sind keine Garantie für künftige Ergebnisse.",
+ "foot": '<a href="./?lang=de">Zurück zum Bericht</a> · <a href="ueber-uns.html">Über uns</a> · <a href="genauigkeit.html">Trefferquote</a> · <a href="agb.html">AGB</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="mailto:contact@dailymarketlab.com">Kontakt</a> · <a href="products.html" lang="en" hreflang="en">English</a> · <a href="produse.html" lang="ro" hreflang="ro">Română</a>',
+ "res": {"h": "Ergebnisse für Anleger", "per": "Anleger, der Odyssey auf NAGA kopiert · 61 DAX-Trades · 2. Juni – 6. November 2026",
+  "kpi": [("+38,5 %", "Gesamtrendite"), ("75 %", "Gewinn-Trades"), ("−7,9 %", "maximaler Rückgang"), ("5 von 6", "Monate im Plus")],
+  "note": "Ergebnisse berechnet aus der echten Handelshistorie des Odyssey-Kontos, so wie sie für ein über NAGA kopierendes Konto ausgeführt wird. Ohne Profit-Sharing-Gebühr. Frühere Ergebnisse sind keine Garantie für künftige.",
+  "pdf": "Anlegerpräsentation (PDF, Rumänisch)"},
+ "pdf": "Broschüre herunterladen (PDF, Rumänisch)",
+ "naga_cta": "Odyssey auf NAGA kopieren →",
+ "naga_note": "Affiliate-Link: Daily Market kann eine Provision von NAGA erhalten, wenn Sie über diesen Link ein Konto eröffnen. "
+              "CFDs sind komplexe Instrumente und gehen wegen der Hebelwirkung mit einem hohen Risiko schneller Geldverluste einher. "
+              "Die meisten Kleinanlegerkonten verlieren beim Handel mit CFDs Geld. Überlegen Sie, ob Sie verstehen, wie CFDs funktionieren, "
+              "und ob Sie es sich leisten können, das hohe Risiko einzugehen, Ihr Geld zu verlieren.",
 },
 }
 
@@ -243,8 +298,9 @@ def page(lang: str) -> str:
 <title>{t["title"]}</title>
 <meta name="description" content="{t["desc"]}">
 <link rel="canonical" href="https://dailymarketlab.com/{t["file"]}">
-<link rel="alternate" hreflang="{lang}" href="https://dailymarketlab.com/{t["file"]}">
-<link rel="alternate" hreflang="{other}" href="https://dailymarketlab.com/{t["alt"]}">
+<link rel="alternate" hreflang="ro" href="https://dailymarketlab.com/produse.html">
+<link rel="alternate" hreflang="en" href="https://dailymarketlab.com/products.html">
+<link rel="alternate" hreflang="de" href="https://dailymarketlab.com/produkte.html">
 <meta property="og:title" content="{t["title"]}"><meta property="og:description" content="{t["desc"]}">
 <meta property="og:image" content="https://dailymarketlab.com/og.png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -270,6 +326,6 @@ def page(lang: str) -> str:
 
 if __name__ == "__main__":
     here = Path(__file__).resolve().parent
-    for lg in ("ro", "en"):
+    for lg in ("ro", "en", "de"):
         (here / T[lg]["file"]).write_text(page(lg), encoding="utf-8")
         print("scris", T[lg]["file"])
