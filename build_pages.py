@@ -379,7 +379,7 @@ def main() -> None:
     today = date.today().isoformat()
     urls = [("/", today, "daily", "1.0"), ("/en/", today, "daily", "0.9"), ("/ro/", today, "daily", "0.8"),
             ("/?lang=ro", today, "daily", "0.8"), ("/about.html", "", "monthly", "0.6"), ("/despre.html", "", "monthly", "0.5"), ("/products.html", "", "monthly", "0.6"), ("/produse.html", "", "monthly", "0.5"), ("/accuracy.html", "", "daily", "0.6"), ("/acuratete.html", "", "daily", "0.5"),
-            ("/terms.html", "", "yearly", "0.2"), ("/privacy.html", "", "yearly", "0.2"), ("/?lang=de", today, "daily", "0.7"), ("/ueber-uns.html", "", "monthly", "0.5"), ("/produkte.html", "", "monthly", "0.5"), ("/genauigkeit.html", "", "daily", "0.5"), ("/agb.html", "", "yearly", "0.2"), ("/datenschutz.html", "", "yearly", "0.2"),
+            ("/terms.html", "", "yearly", "0.2"), ("/privacy.html", "", "yearly", "0.2"), ("/?lang=de", today, "daily", "0.7"), ("/ueber-uns.html", "", "monthly", "0.5"), ("/produkte.html", "", "monthly", "0.5"), ("/genauigkeit.html", "", "daily", "0.5"), ("/agb.html", "", "yearly", "0.2"), ("/datenschutz.html", "", "yearly", "0.2"), ("/impressum.html", "", "yearly", "0.2"),
             ("/termeni.html", "", "yearly", "0.2"), ("/confidentialitate.html", "", "yearly", "0.2")]
     urls += [(report_path(d, "en"), d, "never", "0.7") for d in en_dates]
     urls += [(report_path(d, "ro"), d, "never", "0.6") for d in ro_dates]

@@ -103,7 +103,7 @@ T = {
   n_h="Auf 2007–2026 hat das technische Signal allein die Richtung der nächsten Tage nicht besser vorhergesagt als der Zufall. Deshalb verkaufen wir es nicht als Prognose.",
   why="Warum wir auch unsere Fehler veröffentlichen", why_p="Jeder kann seine Gewinne zeigen. Ein Werkzeug, dem Sie vertrauen können, zeigt auch, wie oft es danebenliegt – und lässt Sie selbst nachprüfen.",
   disc="Nur zur Information und Bildung, keine Anlageberatung. Frühere Ergebnisse sind keine Garantie für künftige Ergebnisse. Der Handel ist mit einem hohen Risiko des Kapitalverlusts verbunden.",
-  foot='<a href="./?lang=de">Zurück zum Bericht</a> · <a href="produkte.html">Unsere Produkte</a> · <a href="ueber-uns.html">Über uns</a> · <a href="agb.html">AGB</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="accuracy.html" lang="en" hreflang="en">English</a> · <a href="acuratete.html" lang="ro" hreflang="ro">Română</a>',
+  foot='<a href="./?lang=de">Zurück zum Bericht</a> · <a href="produkte.html">Unsere Produkte</a> · <a href="ueber-uns.html">Über uns</a> · <a href="agb.html">AGB</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="impressum.html">Impressum</a> · <a href="accuracy.html" lang="en" hreflang="en">English</a> · <a href="acuratete.html" lang="ro" hreflang="ro">Română</a>',
   cta="Pick of the Day per E-Mail erhalten", cta_url="./?lang=de&sub=1"),
 }
 
