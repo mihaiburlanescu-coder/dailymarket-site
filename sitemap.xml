@@ -12,6 +12,13 @@
   <url><loc>https://dailymarketlab.com/acuratete.html</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
   <url><loc>https://dailymarketlab.com/terms.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://dailymarketlab.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://dailymarketlab.com/?lang=de</loc><lastmod>2026-11-20</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dailymarketlab.com/ueber-uns.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://dailymarketlab.com/produkte.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://dailymarketlab.com/genauigkeit.html</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
+  <url><loc>https://dailymarketlab.com/agb.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://dailymarketlab.com/datenschutz.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://dailymarketlab.com/impressum.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://dailymarketlab.com/termeni.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://dailymarketlab.com/confidentialitate.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://dailymarketlab.com/en/market-report-2026-11-20.html</loc><lastmod>2026-11-20</lastmod><changefreq>never</changefreq><priority>0.7</priority></url>
