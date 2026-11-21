@@ -116,6 +116,8 @@
   .pickbox{margin:0 0 14px}
   .duo{display:grid;grid-template-columns:1fr;gap:0 14px;align-items:stretch}
   @media(min-width:900px){.duo:has(#pickBox:not([hidden])):has(#odyBox:not([hidden])){grid-template-columns:1fr 1fr;align-items:start}}
+  /* telefon/tableta: Odyssey coboara dupa raport, ca cititorul sa ajunga direct de la Pick of the Day la raport */
+  @media(max-width:899px){#app:not([hidden]){display:flex;flex-direction:column}#app .duo{display:contents}#app .ody{order:5;margin:14px 0 0}#app .pubdisc{order:6}}
   .ody{margin:0 0 14px;border-radius:14px;padding:12px 14px;color:#fff;background:linear-gradient(135deg,#053b4a 0%,#0b6e80 60%,#1fb3b0 100%);display:flex;flex-direction:column;gap:6px;box-shadow:0 6px 18px rgba(11,110,128,.18)}
   .ody[hidden]{display:none}
   .ody .k{font-size:11px;font-weight:800;letter-spacing:.06em;color:#bdf3ee}
@@ -524,7 +526,17 @@ $("view").addEventListener("load", () => {
   } catch (e) { /* ramane inaltimea fixa */ }
 });
 const FULL_CSS = "<style>body>div:first-of-type{max-width:none!important;padding:16px 18px 36px!important}" +
-  "@media (max-width:640px){body>div:first-of-type{padding:10px 10px 28px!important}}</style>";
+  "@media (max-width:640px){body>div:first-of-type{padding:10px 10px 28px!important}}" +
+  // telefoane: tabelele si etichetele nu mai ies din ecran (se vad intregi sau, la nevoie, se deruleaza lateral in interiorul lor)
+  "@media (max-width:480px){table table td,table table th{font-size:12px!important;padding-left:3px!important;padding-right:3px!important}" +
+  "table table th,table table:has(>tbody>tr>:nth-child(5))>tbody>tr:first-child>td{font-size:9.5px!important;letter-spacing:0!important}" +
+  "table table:has(>tbody>tr>:nth-child(5))>tbody>tr>td{padding-left:2px!important;padding-right:2px!important}" +
+  "table table:has(>tbody>tr>:nth-child(4)){display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;width:0;min-width:100%}" +
+  ".nd-badge{white-space:normal!important;font-size:13px!important;padding:5px 11px!important;text-align:center}" +
+  ".nd-tile{padding:8px 7px!important}.nd-tile .v{font-size:12px!important;letter-spacing:0!important}}" +
+  "@media (max-width:380px){.nd-tile{padding:7px 5px!important}.nd-tile .v{font-size:11px!important}}" +
+  // telefoane: tab-urile raportului pe un singur rand, derulabil lateral (in loc de 3 randuri)
+  "@media (max-width:640px){.dm-bar{flex-wrap:nowrap!important;scrollbar-width:none}.dm-bar::-webkit-scrollbar{display:none}.dm-bar>label{flex:0 0 auto;white-space:nowrap}}</style>";
 const frameHtml = h => h.replace("<head>", "<head><base target='_blank'>" + FONT_CSS + FULL_CSS);
 function longDate(d) {
   const dt = new Date(d + "T12:00:00");
