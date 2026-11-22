@@ -129,6 +129,14 @@
   .ody .more{color:#bdf3ee;font-size:12px}
   .ody small{font-size:10px;line-height:1.4;color:#a7dcd8}
   .pickbox>div:first-child{margin:0!important;box-shadow:0 6px 18px rgba(180,83,9,.12)}
+  .pickvote{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:10px 4px 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+  .pickvote .q{font-size:14px;font-weight:700;color:var(--ink)}
+  .pickvote .opts{display:flex;gap:6px;flex-wrap:wrap}
+  .pickvote button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;cursor:pointer}
+  .pickvote button:hover:not(:disabled){border-color:var(--gold)}
+  .pickvote button.on{background:var(--gold);border-color:var(--gold);color:#13223A}
+  .pickvote button:disabled:not(.on){opacity:.45;cursor:default}
+  .pickvote .thx{flex-basis:100%;font-size:12.5px;color:var(--muted)}
   .pickcta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 4px 0;font-size:14px;color:var(--muted)}
   .pickcta .acc{color:var(--ink);font-weight:700;font-size:13.5px;text-decoration:underline;text-underline-offset:3px}
   .pickcta button{background:var(--gold);color:#13223A;border:none;border-radius:999px;font-weight:800;padding:7px 14px;font-size:13.5px}
@@ -917,7 +925,7 @@ async function show(i) {
   renderBoard(date, data.summary);
   showRoNote(DE ? !data.html_de : !RO && !data.html_en);
   const parts = splitPick((DE && data.html_de) || (!RO && data.html_en) || data.html);
-  renderPick(parts.pick, idx === 0);
+  renderPick(parts.pick, idx === 0, date);
   $("view").srcdoc = frameHtml(parts.rest);
 }
 // Pick of the Day: cardul vine in raport (generat de robot); il mutam deasupra paginii, ca sa fie primul lucru vazut
@@ -959,15 +967,34 @@ function renderOdy() {
   box.hidden = false;
   const g = $("odyGo"); if (g) g.onclick = () => track("tab", "naga");
 }
-function renderPick(cardHtml, today) {
+// --- reactie dintr-un click sub Pick of the Day (fara cont, fara comentarii; un vot pe zi pe dispozitiv) ---
+const VOTE_OPTS = { q: L("Would you have taken this trade?", "Ai fi luat și tu poziția asta?", "Hättest du diesen Trade auch gemacht?"),
+  o: [["yes", "✅", L("Yes", "Da", "Ja")], ["wait", "🤔", L("I'd wait", "Aș aștepta", "Ich würde warten")], ["no", "❌", L("No", "Nu", "Nein")]] };
+function voteHtml(date) {
+  const mine = read("dm_vote_" + date);
+  return `<div class="pickvote" data-date="${date}"><span class="q">${VOTE_OPTS.q}</span><div class="opts">`
+    + VOTE_OPTS.o.map(([k, e, t]) => `<button type="button" data-v="${k}" class="${mine === k ? "on" : ""}" ${mine ? "disabled" : ""}><span aria-hidden="true">${e}</span> ${t}</button>`).join("")
+    + `</div>${mine ? `<span class="thx">${L("Thanks – your answer was recorded.", "Mulțumim, răspunsul tău a fost înregistrat.", "Danke – deine Antwort wurde gespeichert.")}</span>` : ""}</div>`;
+}
+function bindVote(box) {
+  box.querySelectorAll(".pickvote button").forEach(b => b.onclick = () => {
+    const w = b.closest(".pickvote"), date = w.dataset.date;
+    if (read("dm_vote_" + date)) return;
+    store("dm_vote_" + date, b.dataset.v);
+    track("vote", b.dataset.v + ":" + date);
+    w.outerHTML = voteHtml(date);
+  });
+}
+function renderPick(cardHtml, today, date) {
   renderOdy();
   const box = $("pickBox");
   if (!cardHtml) { box.hidden = true; box.innerHTML = ""; return; }
-  box.innerHTML = cardHtml + (today && !read("dm_sub") ? `<div class="pickcta"><span>${L("Get the Pick of the Day by email, every morning – free.",
+  box.innerHTML = cardHtml + (today && date ? voteHtml(date) : "") + (today && !read("dm_sub") ? `<div class="pickcta"><span>${L("Get the Pick of the Day by email, every morning – free.",
     "Primește Pick of the Day pe email, în fiecare dimineață – gratuit.")}</span><button type="button" id="pickSub">${L("Subscribe", "Abonează-te")}</button>`
     + `<a class="acc" href="${RO ? "acuratete.html" : DE ? "genauigkeit.html" : "accuracy.html"}">${L("How often are we right? →", "Cât de bine nimerim? →")}</a></div>` : "");
   box.hidden = false;
   const b = $("pickSub"); if (b) b.onclick = () => { subSrc = "pick"; openSub(); track("subbar", "pick"); };
+  bindVote(box);
 }
 $("prev").onclick = () => show(idx + 1);   // mai veche
 $("next").onclick = () => show(idx - 1);   // mai noua
