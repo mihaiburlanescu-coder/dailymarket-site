@@ -135,7 +135,9 @@
   .pickvote button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;cursor:pointer}
   .pickvote button:hover:not(:disabled){border-color:var(--gold)}
   .pickvote button.on{background:var(--gold);border-color:var(--gold);color:#13223A}
-  .pickvote button:disabled:not(.on){opacity:.45;cursor:default}
+  .pickvote button:disabled{cursor:wait}
+  .pickvote button .n{display:inline-block;min-width:18px;margin-left:3px;padding:0 6px;border-radius:999px;background:rgba(0,0,0,.08);font-size:12px;text-align:center}
+  .pickvote button.on .n{background:rgba(255,255,255,.6)}
   .pickvote .thx{flex-basis:100%;font-size:12.5px;color:var(--muted)}
   .pickcta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 4px 0;font-size:14px;color:var(--muted)}
   .pickcta .acc{color:var(--ink);font-weight:700;font-size:13.5px;text-decoration:underline;text-underline-offset:3px}
@@ -970,19 +972,48 @@ function renderOdy() {
 // --- reactie dintr-un click sub Pick of the Day (fara cont, fara comentarii; un vot pe zi pe dispozitiv) ---
 const VOTE_OPTS = { q: L("Would you have taken this trade?", "Ai fi luat și tu poziția asta?", "Hättest du diesen Trade auch gemacht?"),
   o: [["yes", "✅", L("Yes", "Da", "Ja")], ["wait", "🤔", L("I'd wait", "Aș aștepta", "Ich würde warten")], ["no", "❌", L("No", "Nu", "Nein")]] };
-function voteHtml(date) {
-  const mine = read("dm_vote_" + date);
+const VOTE_URL = TRACK_URL.replace(/track$/, "vote");
+// id aleator al dispozitivului, ca votul sa fie recunoscut la revenire; serverul are si o rezerva pentru browserele care nu pastreaza nimic
+let _vid = null;
+function voterId() {
+  if (_vid) return _vid;
+  _vid = read("dm_vid");
+  if (!_vid) { _vid = Array.from(crypto.getRandomValues(new Uint8Array(12)), x => x.toString(16).padStart(2, "0")).join(""); store("dm_vid", _vid); }
+  return _vid;
+}
+function voteHtml(date, st) {
+  st = st || {};
+  const mine = st.mine || read("dm_vote_" + date), c = st.counts;
+  const tot = c ? (c.yes || 0) + (c.wait || 0) + (c.no || 0) : 0;
   return `<div class="pickvote" data-date="${date}"><span class="q">${VOTE_OPTS.q}</span><div class="opts">`
-    + VOTE_OPTS.o.map(([k, e, t]) => `<button type="button" data-v="${k}" class="${mine === k ? "on" : ""}" ${mine ? "disabled" : ""}><span aria-hidden="true">${e}</span> ${t}</button>`).join("")
-    + `</div>${mine ? `<span class="thx">${L("Thanks – your answer was recorded.", "Mulțumim, răspunsul tău a fost înregistrat.", "Danke – deine Antwort wurde gespeichert.")}</span>` : ""}</div>`;
+    + VOTE_OPTS.o.map(([k, e, t]) => `<button type="button" data-v="${k}" class="${mine === k ? "on" : ""}" aria-pressed="${mine === k}"><span aria-hidden="true">${e}</span> ${t}`
+      + (c ? ` <b class="n">${c[k] || 0}</b>` : "") + `</button>`).join("")
+    + `</div>${mine ? `<span class="thx">${L("Thanks – your vote is recorded. You can change it today.", "Mulțumim, votul tău e înregistrat. Îl poți schimba azi.", "Danke – deine Stimme ist gespeichert. Du kannst sie heute noch ändern.")}`
+      + (tot ? ` · ${L(tot === 1 ? "1 vote in total" : tot + " votes in total", tot === 1 ? "1 vot în total" : tot + " voturi în total", tot === 1 ? "1 Stimme insgesamt" : tot + " Stimmen insgesamt")}` : "") + `</span>` : ""}</div>`;
+}
+async function voteCall(date, v) {
+  const id = voterId();
+  try {
+    const r = v ? await fetch(VOTE_URL, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ d: date, v, id, lang: LANG }) })
+                : await fetch(VOTE_URL + "?d=" + encodeURIComponent(date) + "&id=" + encodeURIComponent(id));
+    if (!r.ok) return null;
+    return await r.json();
+  } catch (e) { return null; }
+}
+function paintVote(box, date, st) {
+  const w = box.querySelector(".pickvote"); if (!w || w.dataset.date !== date) return;
+  if (st && st.mine) store("dm_vote_" + date, st.mine);
+  w.outerHTML = voteHtml(date, st);
+  bindVote(box);
 }
 function bindVote(box) {
-  box.querySelectorAll(".pickvote button").forEach(b => b.onclick = () => {
-    const w = b.closest(".pickvote"), date = w.dataset.date;
-    if (read("dm_vote_" + date)) return;
-    store("dm_vote_" + date, b.dataset.v);
-    track("vote", b.dataset.v + ":" + date);
-    w.outerHTML = voteHtml(date);
+  box.querySelectorAll(".pickvote button").forEach(b => b.onclick = async () => {
+    const w = b.closest(".pickvote"), date = w.dataset.date, v = b.dataset.v;
+    if (b.classList.contains("on") && w.querySelector(".n")) return;
+    store("dm_vote_" + date, v);
+    w.querySelectorAll("button").forEach(x => { x.classList.toggle("on", x === b); x.disabled = true; });
+    const st = await voteCall(date, v);
+    paintVote(box, date, st || { mine: v });
   });
 }
 function renderPick(cardHtml, today, date) {
@@ -995,6 +1026,7 @@ function renderPick(cardHtml, today, date) {
   box.hidden = false;
   const b = $("pickSub"); if (b) b.onclick = () => { subSrc = "pick"; openSub(); track("subbar", "pick"); };
   bindVote(box);
+  if (today && date) voteCall(date).then(st => { if (st) paintVote(box, date, st); });
 }
 $("prev").onclick = () => show(idx + 1);   // mai veche
 $("next").onclick = () => show(idx - 1);   // mai noua
