@@ -14,6 +14,8 @@ import json
 import re
 import sys
 import urllib.request
+
+import build_picks
 from datetime import date
 from pathlib import Path
 
@@ -112,11 +114,16 @@ UI = {
            "privacy": ("Confidențialitate", "/confidentialitate.html"), "disc": "Informativ, nu este consultanță de investiții",
            "cta": "Deschide raportul interactiv", "archive_url": "/ro/", "prev": "Raportul anterior", "next": "Raportul următor",
            "charts": "Graficele orare interactive sunt în raportul de pe dailymarketlab.com."},
+    "de": {"today": "Bericht des Tages", "archive": "Alle Picks", "about": "Über uns", "about_url": "/ueber-uns.html",
+           "home": "/?lang=de", "other": "English", "terms": ("AGB", "/agb.html"),
+           "privacy": ("Datenschutz", "/datenschutz.html"), "disc": "Nur zur Information, keine Anlageberatung",
+           "cta": "Zum interaktiven Bericht", "archive_url": "/de/pick/", "prev": "Vorheriger Bericht", "next": "Nächster Bericht",
+           "charts": ""},
 }
 
 
 def page(lang: str, path: str, title: str, desc: str, body: str, alt: dict[str, str] | None = None,
-         other_url: str | None = None, ld: dict | None = None) -> str:
+         other_url: str | None = None, ld: dict | None = None, og_image: str | None = None) -> str:
     u = UI[lang]
     alts = "".join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{p}">\n' for l, p in (alt or {}).items())
     ldj = f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>\n' if ld else ""
@@ -133,7 +140,7 @@ def page(lang: str, path: str, title: str, desc: str, body: str, alt: dict[str, 
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:url" content="{SITE}{path}">
-<meta property="og:image" content="{SITE}/og.png">
+<meta property="og:image" content="{og_image or SITE + '/og.png'}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -319,7 +326,9 @@ def update_home_links(latest_en: str | None, latest_ro: str | None, weeklies_en:
     a, b = "<!--LATEST:start-->", "<!--LATEST:end-->"
     if a not in s:
         return
-    parts = ['<a href="/en/">Report archive</a>', '<a href="/ro/" hreflang="ro">Arhiva rapoartelor</a>']
+    parts = ['<a href="/en/">Report archive</a>', '<a href="/ro/" hreflang="ro">Arhiva rapoartelor</a>',
+             '<a href="/en/pick/">Every Pick of the Day</a>', '<a href="/ro/pick/" hreflang="ro">Toate pick-urile</a>',
+             '<a href="/de/pick/" hreflang="de">Alle Picks</a>']
     if latest_en:
         parts.append(f'<a href="{report_path(latest_en, "en")}">Market report {short_date(latest_en, "en")}</a>')
     if latest_ro:
@@ -385,6 +394,11 @@ def main() -> None:
     urls += [(report_path(d, "ro"), d, "never", "0.6") for d in ro_dates]
     urls += [(w["path"], w["week"], "never", "0.7") for w in w_en]
     urls += [(w["path"], w["week"], "never", "0.6") for w in w_ro]
+    try:
+        has_rep = {(d, "ro") for d in ro_dates} | {(d, "en") for d in en_dates}
+        urls += build_picks.build_all(sb, page, report_path, has_rep, SUPABASE_URL, ROOT)
+    except Exception as ex:  # paginile pick-urilor nu blocheaza restul
+        print("Pick of the Day: paginile nu au putut fi generate:", ex)
     build_sitemap(urls)
     print(f"Gata: {len(en_dates)} rapoarte EN, {len(ro_dates)} RO, {len(w_en)} + {len(w_ro)} pagini Weekly View, "
           f"{len(urls)} adrese in sitemap")
