@@ -115,17 +115,18 @@
   [hidden]{display:none!important}
   .pickbox{margin:0 0 14px}
   .duo{display:grid;grid-template-columns:1fr;gap:0 14px;align-items:stretch}
-  @media(min-width:900px){.duo:has(#pickBox:not([hidden])):has(#odyBox:not([hidden])){grid-template-columns:1fr 1fr;align-items:start}}
+  @media(min-width:900px){.duo:has(#pickBox:not([hidden])):has(#riskBox:not([hidden])){grid-template-columns:1fr 1fr;align-items:start}}
   /* telefon/tableta: Odyssey coboara dupa raport, ca cititorul sa ajunga direct de la Pick of the Day la raport */
-  @media(max-width:899px){#app:not([hidden]){display:flex;flex-direction:column}#app .duo{display:contents}#app .duoR{display:contents}#app .risk{margin:0 0 14px}#app .rnews{display:none}#app .ody{order:5;margin:14px 0 0}#app .pubdisc{order:6}}
+  @media(max-width:899px){#app:not([hidden]){display:flex;flex-direction:column}#app .duo{display:contents}#app .duoR{display:contents}#app .risk{margin:0 0 14px}#app .ody{order:5;margin:14px 0 0}#app .pubdisc{order:6}}
   .ody{margin:0 0 14px;border-radius:14px;padding:12px 14px;color:#fff;background:linear-gradient(135deg,#053b4a 0%,#0b6e80 60%,#1fb3b0 100%);display:flex;flex-direction:column;gap:6px;box-shadow:0 6px 18px rgba(11,110,128,.18)}
   .ody[hidden]{display:none}
   .duoR{display:flex;flex-direction:column;gap:14px;min-width:0;align-self:stretch;margin:0 0 14px}
   .duoR .ody{margin:0}
   .risk{background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--ink)}
   .risk[hidden]{display:none}
-  .duoR.fill .rnews{flex:1}
-  .duoR:not(.fill) #riskBox{flex:1}
+  #riskBox{display:flex;flex-direction:column;box-sizing:border-box}
+  #riskBox[hidden]{display:none}
+  #riskRows{flex:1;display:flex;flex-direction:column;justify-content:space-between}
   .risk h3{margin:0;font-size:16px;line-height:1.25}
   .risk .rsub{margin:3px 0 4px;font-size:12px;line-height:1.45;color:var(--muted)}
   .risk .rgrp{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:8px 0 1px}
@@ -403,11 +404,6 @@
       <div id="riskRows"></div>
       <div class="rlg"><span><i class="rdot" style="background:#16a34a"></i><span data-ro="normal" data-de="normal">normal</span></span><span><i class="rdot" style="background:#f59e0b"></i><span data-ro="peste normal · poziții mai mici" data-de="über normal · kleinere Positionen">above normal · smaller positions</span></span><span><i class="rdot" style="background:#dc2626"></i><span data-ro="stres · mai bine stai deoparte" data-de="Stress · besser abwarten">stress · better stay out</span></span></div>
       <div class="rnote" data-ro="Bara: mișcarea de azi față de normalul ultimului an (linia neagră = normal). Informativ, nu recomandare de investiții." data-de="Balken: heutige Bewegung im Vergleich zum Normalwert des letzten Jahres (schwarze Linie = normal). Nur zur Information, keine Anlageberatung.">Bar: today's move compared with the normal of the last year (black line = normal). For information only, not investment advice.</div>
-    </section>
-    <section class="risk rnews" id="riskNews" hidden aria-labelledby="rnT">
-      <h3 id="rnT" data-ro="Știrile zilei" data-de="Nachrichten des Tages">Today's news</h3>
-      <div id="riskNewsList"></div>
-      <a class="rmore" href="#newsT" data-ro="Toate știrile ↓" data-de="Alle Nachrichten ↓">All news ↓</a>
     </section>
     </div>
     </div>
@@ -784,7 +780,7 @@ function setMode(m) {
   $("pfBtn").classList.toggle("on", m === "pf"); $("vPf").classList.toggle("on", m === "pf");
   $("vPf").setAttribute("aria-selected", m === "pf");
   $("pf").hidden = m !== "pf"; document.querySelector(".frame").hidden = m === "pf";
-  if (m !== "daily") { $("pickBox").hidden = true; $("odyBox").hidden = true; }
+  if (m !== "daily") { $("pickBox").hidden = true; $("odyBox").hidden = true; $("riskBox").hidden = true; }
   $("roNote").hidden = true;
   $("vDaily").classList.toggle("on", m === "daily"); $("vWeekly").classList.toggle("on", m === "weekly");
   $("vDaily").setAttribute("aria-selected", m === "daily"); $("vWeekly").setAttribute("aria-selected", m === "weekly");
@@ -1063,9 +1059,9 @@ const RISK_GRP = [["Indici", L("Indices", "Indici", "Indizes")], ["Mărfuri", L(
 const RISK_COL = { g: "#16a34a", y: "#f59e0b", r: "#dc2626" };
 const dec1 = v => (RO || DE) ? v.toFixed(1).replace(".", ",") : v.toFixed(1);
 function renderRisk(summary, news, today) {
-  const box = $("riskBox"), nb = $("riskNews");
+  const box = $("riskBox");
   const rows = (summary || []).filter(x => x.m != null && x.vc);
-  if (!today || !rows.length) { box.hidden = true; nb.hidden = true; return; }
+  if (!today || !rows.length) { box.hidden = true; return; }
   let h = "";
   for (const [g, gl] of RISK_GRP) {
     const rs = rows.filter(x => x.g === g);
@@ -1079,32 +1075,19 @@ function renderRisk(summary, news, today) {
   }
   $("riskRows").innerHTML = h;
   box.hidden = false;
-  // primele știri: doar câte încap, ca coloana din dreapta să fie cât cardul pickului
-  const items = (news || []).slice(0, 6);
-  nb.hidden = !items.length;
-  $("riskNewsList").innerHTML = items.map(n => `<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}<small>${esc(n.source || "")}</small></a>`).join("");
   fitRight();
 }
-function fitRight() {
-  const pick = $("pickBox"), col = $("duoR"), nb = $("riskNews"), rb = $("riskBox");
-  if (!pick || !col || rb.hidden) return;
-  const links = [...nb.querySelectorAll("#riskNewsList a")];
-  links.forEach(a => a.hidden = false);
-  nb.style.display = links.length ? "" : "none";
-  col.classList.remove("fill");
-  if (window.innerWidth < 900) { nb.style.display = "none"; return; }   // pe telefon știrile sunt imediat mai jos
-  col.style.alignSelf = "start";               // masuram inaltimea naturala a coloanei
-  const target = pick.getBoundingClientRect().height;
-  let i = links.length;
-  while (i > 0 && col.getBoundingClientRect().height > target + 1) links[--i].hidden = true;
-  if (i === 0) nb.style.display = "none";
-  col.style.alignSelf = "";                    // apoi o intindem pana la baza cardului pickului
-  col.classList.toggle("fill", nb.style.display !== "none");
+function fitRight() {   // semaforul se intinde pana la baza cardului pickului; randurile se distribuie uniform
+  const pick = $("pickBox"), rb = $("riskBox");
+  if (!pick || rb.hidden) return;
+  rb.style.minHeight = "";
+  if (window.innerWidth < 900) return;
+  rb.style.minHeight = Math.round(pick.getBoundingClientRect().height) + "px";
 }
 try { new ResizeObserver(() => fitRight()).observe($("pickBox")); } catch (e) {}
 window.addEventListener("resize", () => fitRight());
 function renderPick(cardHtml, today, date) {
-  renderOdy();
+  $("odyBox").hidden = true;   // Odyssey doar pe pagina de produse (renderOdy ramane pentru mai tarziu)
   const box = $("pickBox");
   if (!cardHtml) { box.hidden = true; box.innerHTML = ""; return; }
   box.innerHTML = cardHtml + (today && date ? voteHtml(date) : "") + (today && !read("dm_sub") ? `<div class="pickcta"><span>${L("Get the Pick of the Day by email, every morning – free.",
