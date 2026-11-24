@@ -117,9 +117,32 @@
   .duo{display:grid;grid-template-columns:1fr;gap:0 14px;align-items:stretch}
   @media(min-width:900px){.duo:has(#pickBox:not([hidden])):has(#odyBox:not([hidden])){grid-template-columns:1fr 1fr;align-items:start}}
   /* telefon/tableta: Odyssey coboara dupa raport, ca cititorul sa ajunga direct de la Pick of the Day la raport */
-  @media(max-width:899px){#app:not([hidden]){display:flex;flex-direction:column}#app .duo{display:contents}#app .ody{order:5;margin:14px 0 0}#app .pubdisc{order:6}}
+  @media(max-width:899px){#app:not([hidden]){display:flex;flex-direction:column}#app .duo{display:contents}#app .duoR{display:contents}#app .risk{margin:0 0 14px}#app .rnews{display:none}#app .ody{order:5;margin:14px 0 0}#app .pubdisc{order:6}}
   .ody{margin:0 0 14px;border-radius:14px;padding:12px 14px;color:#fff;background:linear-gradient(135deg,#053b4a 0%,#0b6e80 60%,#1fb3b0 100%);display:flex;flex-direction:column;gap:6px;box-shadow:0 6px 18px rgba(11,110,128,.18)}
   .ody[hidden]{display:none}
+  .duoR{display:flex;flex-direction:column;gap:14px;min-width:0;align-self:stretch;margin:0 0 14px}
+  .duoR .ody{margin:0}
+  .risk{background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:var(--ink)}
+  .risk[hidden]{display:none}
+  .duoR.fill .rnews{flex:1}
+  .duoR:not(.fill) #riskBox{flex:1}
+  .risk h3{margin:0;font-size:16px;line-height:1.25}
+  .risk .rsub{margin:3px 0 4px;font-size:12px;line-height:1.45;color:var(--muted)}
+  .risk .rgrp{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:8px 0 1px}
+  .risk .rrow{display:grid;grid-template-columns:12px 1fr 58px 84px;align-items:center;gap:8px;padding:3px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .risk .rdot{display:inline-block;width:10px;height:10px;border-radius:50%}
+  .risk .rm{font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+  .risk .rbar{height:6px;border-radius:999px;background:var(--line);position:relative;overflow:hidden}
+  .risk .rbar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;opacity:.8}
+  .risk .rbar s{position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;background:var(--ink);opacity:.5}
+  .risk .rlg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--muted);margin-top:8px}
+  .risk .rlg>span{display:inline-flex;align-items:center;gap:5px}
+  .risk .rnote{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4}
+  .rnews a{display:block;color:var(--ink);text-decoration:none;font-weight:700;font-size:13.5px;line-height:1.35;padding:7px 0;border-bottom:1px solid var(--line)}
+  .rnews a:hover{text-decoration:underline}
+  .rnews a[hidden]{display:none}
+  .rnews a small{display:block;font-weight:500;color:var(--muted);font-size:11.5px;margin-top:2px}
+  .rnews a.rmore{border:0;color:var(--gold-ink,#b45309);font-size:13px;padding-top:8px}
   .ody .k{font-size:11px;font-weight:800;letter-spacing:.06em;color:#bdf3ee}
   .ody h3{margin:0;font-size:17px;line-height:1.25;color:#fff}
   .ody p{margin:0;font-size:14px;line-height:1.5;color:#e6fbf9}
@@ -372,7 +395,21 @@
     </section>
     <div class="duo">
     <section class="pickbox" id="pickBox" hidden aria-label="Pick of the Day"></section>
+    <div class="duoR" id="duoR">
     <aside class="ody" id="odyBox" hidden aria-label="Odyssey"></aside>
+    <section class="risk" id="riskBox" hidden aria-labelledby="riskT">
+      <h3 id="riskT" data-ro="Cât se mișcă piețele mâine" data-de="Wie stark sich die Märkte morgen bewegen">How much markets move tomorrow</h3>
+      <p class="rsub" data-ro="Mișcarea tipică pentru ziua următoare. Verificat pe istoric: prețul a rămas în acest interval în ~68% din zile. Spune <b>cât de mult</b>, nu <b>încotro</b>." data-de="Die typische Bewegung für den nächsten Tag. Historisch geprüft: Der Kurs blieb an ~68 % der Tage in dieser Spanne. Sie zeigt <b>wie stark</b>, nicht <b>wohin</b>.">The typical move for the next day. Checked on history: the price stayed inside this range on ~68% of days. It tells you <b>how much</b>, not <b>which way</b>.</p>
+      <div id="riskRows"></div>
+      <div class="rlg"><span><i class="rdot" style="background:#16a34a"></i><span data-ro="normal" data-de="normal">normal</span></span><span><i class="rdot" style="background:#f59e0b"></i><span data-ro="peste normal · poziții mai mici" data-de="über normal · kleinere Positionen">above normal · smaller positions</span></span><span><i class="rdot" style="background:#dc2626"></i><span data-ro="stres · mai bine stai deoparte" data-de="Stress · besser abwarten">stress · better stay out</span></span></div>
+      <div class="rnote" data-ro="Bara: mișcarea de azi față de normalul ultimului an (linia neagră = normal). Informativ, nu recomandare de investiții." data-de="Balken: heutige Bewegung im Vergleich zum Normalwert des letzten Jahres (schwarze Linie = normal). Nur zur Information, keine Anlageberatung.">Bar: today's move compared with the normal of the last year (black line = normal). For information only, not investment advice.</div>
+    </section>
+    <section class="risk rnews" id="riskNews" hidden aria-labelledby="rnT">
+      <h3 id="rnT" data-ro="Știrile zilei" data-de="Nachrichten des Tages">Today's news</h3>
+      <div id="riskNewsList"></div>
+      <a class="rmore" href="#newsT" data-ro="Toate știrile ↓" data-de="Alle Nachrichten ↓">All news ↓</a>
+    </section>
+    </div>
     </div>
     <div class="top">
       <section class="panel" aria-labelledby="sesT">
@@ -928,6 +965,7 @@ async function show(i) {
   showRoNote(DE ? !data.html_de : !RO && !data.html_en);
   const parts = splitPick((DE && data.html_de) || (!RO && data.html_en) || data.html);
   renderPick(parts.pick, idx === 0, date);
+  renderRisk(data.summary, data.news, idx === 0);
   $("view").srcdoc = frameHtml(parts.rest);
 }
 // Pick of the Day: cardul vine in raport (generat de robot); il mutam deasupra paginii, ca sa fie primul lucru vazut
@@ -1016,6 +1054,55 @@ function bindVote(box) {
     paintVote(box, date, st || { mine: v });
   });
 }
+// --- semaforul de risc: cât se mișcă piețele mâine (mișcarea tipică, nu direcția) + primele știri, în coloana din dreapta ---
+const RISK_NAME = { SP500: "SP500", DAX: "DAX", WTI: L("Oil (WTI)", "Petrol (WTI)", "Öl (WTI)"), GOLD: L("Gold", "Aur", "Gold"),
+  SILVER: L("Silver", "Argint", "Silber"), EURUSD: "EUR/USD", GBPUSD: "GBP/USD", USDJPY: "USD/JPY", NVIDIA: "Nvidia",
+  GOOGLE: "Google", MICROSOFT: "Microsoft", C3AI: "C3.ai", INFINEON: "Infineon", BET: "BET" };
+const RISK_GRP = [["Indici", L("Indices", "Indici", "Indizes")], ["Mărfuri", L("Commodities", "Mărfuri", "Rohstoffe")],
+  ["Valute", L("Currencies", "Valute", "Devisen")], ["Acțiuni", L("Stocks", "Acțiuni", "Aktien")]];
+const RISK_COL = { g: "#16a34a", y: "#f59e0b", r: "#dc2626" };
+const dec1 = v => (RO || DE) ? v.toFixed(1).replace(".", ",") : v.toFixed(1);
+function renderRisk(summary, news, today) {
+  const box = $("riskBox"), nb = $("riskNews");
+  const rows = (summary || []).filter(x => x.m != null && x.vc);
+  if (!today || !rows.length) { box.hidden = true; nb.hidden = true; return; }
+  let h = "";
+  for (const [g, gl] of RISK_GRP) {
+    const rs = rows.filter(x => x.g === g);
+    if (!rs.length) continue;
+    h += `<div class="rgrp">${gl}</div>` + rs.map(x => {
+      const w = Math.min(100, x.vx / 2 * 100);
+      const tip = L(`${dec1(x.vx)}× the normal of the last year`, `de ${dec1(x.vx)} ori normalul ultimului an`, `${dec1(x.vx)}-fach des Normalwerts des letzten Jahres`);
+      return `<div class="rrow" title="${esc(tip)}"><i class="rdot" style="background:${RISK_COL[x.vc]}"></i><span class="rn">${esc(RISK_NAME[x.k] || x.l)}</span>`
+        + `<span class="rm">±${dec1(x.m)}%</span><span class="rbar"><i style="width:${w}%;background:${RISK_COL[x.vc]}"></i><s></s></span></div>`;
+    }).join("");
+  }
+  $("riskRows").innerHTML = h;
+  box.hidden = false;
+  // primele știri: doar câte încap, ca coloana din dreapta să fie cât cardul pickului
+  const items = (news || []).slice(0, 6);
+  nb.hidden = !items.length;
+  $("riskNewsList").innerHTML = items.map(n => `<a href="${esc(n.link)}" target="_blank" rel="noopener">${esc(n.title)}<small>${esc(n.source || "")}</small></a>`).join("");
+  fitRight();
+}
+function fitRight() {
+  const pick = $("pickBox"), col = $("duoR"), nb = $("riskNews"), rb = $("riskBox");
+  if (!pick || !col || rb.hidden) return;
+  const links = [...nb.querySelectorAll("#riskNewsList a")];
+  links.forEach(a => a.hidden = false);
+  nb.style.display = links.length ? "" : "none";
+  col.classList.remove("fill");
+  if (window.innerWidth < 900) { nb.style.display = "none"; return; }   // pe telefon știrile sunt imediat mai jos
+  col.style.alignSelf = "start";               // masuram inaltimea naturala a coloanei
+  const target = pick.getBoundingClientRect().height;
+  let i = links.length;
+  while (i > 0 && col.getBoundingClientRect().height > target + 1) links[--i].hidden = true;
+  if (i === 0) nb.style.display = "none";
+  col.style.alignSelf = "";                    // apoi o intindem pana la baza cardului pickului
+  col.classList.toggle("fill", nb.style.display !== "none");
+}
+try { new ResizeObserver(() => fitRight()).observe($("pickBox")); } catch (e) {}
+window.addEventListener("resize", () => fitRight());
 function renderPick(cardHtml, today, date) {
   renderOdy();
   const box = $("pickBox");
