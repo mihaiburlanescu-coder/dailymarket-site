@@ -166,9 +166,21 @@
   .pickcta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 4px 0;font-size:14px;color:var(--muted)}
   .pickcta .acc{color:var(--ink);font-weight:700;font-size:13.5px;text-decoration:underline;text-underline-offset:3px}
   .pickcta button{background:var(--gold);color:#13223A;border:none;border-radius:999px;font-weight:800;padding:7px 14px;font-size:13.5px}
-  .pnaga{margin:10px 4px 0;font-size:13.5px}
-  .pnaga a{display:inline-block;background:#13223A;color:#fff;border-radius:999px;font-weight:800;padding:7px 14px;text-decoration:none}
-  .pnaga small{display:block;color:var(--muted);font-size:11px;line-height:1.45;margin-top:6px}
+  .nagaA{display:block;text-align:center;margin:12px 0 4px;background:#16a34a;color:#fff!important;font-weight:800;font-size:16px;
+    text-decoration:none!important;border-radius:12px;padding:13px 10px;box-shadow:0 4px 12px rgba(22,163,74,.35)}
+  .nagaA:hover{background:#15803d}
+  .nagaN{font-size:10.5px;color:#6b7280;text-align:center;line-height:1.4;margin:0 0 6px}
+  #nagaBar{display:none}
+  @media (max-width:700px){
+    #nagaBar.on{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#13223A;color:#fff;padding:10px 12px;align-items:center;gap:10px;
+      box-shadow:0 -4px 14px rgba(0,0,0,.25)}
+    #nagaBar .t{flex:1;font-size:13px;line-height:1.3;min-width:0}
+    #nagaBar .t b{color:#D9A441}
+    #nagaBar .t small{display:block;color:#9fb0c8;font-size:11px}
+    #nagaBar a{background:#16a34a;color:#fff;font-weight:800;text-decoration:none;border-radius:999px;padding:10px 14px;font-size:14px;white-space:nowrap}
+    #nagaBar button{background:none;border:0;color:#9fb0c8;font-size:20px;line-height:1;padding:4px 2px}
+    body.nagabar{padding-bottom:70px}
+  }
   .perks{margin:8px 0 14px;padding:0;list-style:none;display:grid;gap:7px;font-size:14px;color:var(--muted)}
   .perks li{position:relative;padding-left:22px;line-height:1.45}
   .perks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--up);font-weight:800}
@@ -1090,20 +1102,45 @@ function fitRight() {   // semaforul se intinde pana la baza cardului pickului; 
 }
 try { new ResizeObserver(() => fitRight()).observe($("pickBox")); } catch (e) {}
 window.addEventListener("resize", () => fitRight());
+// NAGA (afiliere): buton verde in cardul pick-ului (A) + bara fixa jos pe telefon (B), care se poate inchide pentru ziua respectiva
+function nagaPick(box, date) {
+  const svg = box.querySelector("svg");
+  const chart = box.querySelector(".pk-chart") || (svg ? svg.closest("div") : null);
+  if (chart && !box.querySelector(".nagaA")) {
+    const w = document.createElement("div");
+    w.innerHTML = `<a class="nagaA" href="${NAGA_URL}" target="_blank" rel="sponsored noopener">▶ ${esc(L("Open the position on NAGA", "Deschide poziția pe NAGA", "Position auf NAGA eröffnen"))}</a>`
+      + `<div class="nagaN">${esc(L("Affiliate link · CFDs carry a high risk; most retail investor accounts lose money. Not investment advice.",
+        "Link de afiliere · CFD-urile au risc ridicat; majoritatea conturilor de retail pierd bani. Nu e recomandare de investiții.",
+        "Affiliate-Link · CFDs bergen ein hohes Risiko; die meisten Kleinanlegerkonten verlieren Geld. Keine Anlageberatung."))}</div>`;
+    chart.parentNode.insertBefore(w, chart);
+    w.querySelector("a").onclick = () => track("naga", "card");
+  }
+  const nm = box.querySelector(".pk-name") || box.querySelector('span[style*="font-size:20px"]');
+  const vb = box.querySelector(".pk-verb") || (nm && nm.nextElementSibling);
+  const bar = $("nagaBar");
+  if (!bar || !nm || !vb) return;
+  if (read("dm_nagabar") === date) { bar.classList.remove("on"); document.body.classList.remove("nagabar"); return; }
+  bar.innerHTML = `<div class="t"><b>${esc(L("Today's pick", "Pick-ul de azi", "Pick des Tages"))}: ${esc(nm.textContent)} · ${esc(vb.textContent)}</b>`
+    + `<small>${esc(L("Affiliate link · CFDs = high risk", "Link de afiliere · CFD = risc ridicat", "Affiliate-Link · CFDs = hohes Risiko"))}</small></div>`
+    + `<a href="${NAGA_URL}" target="_blank" rel="sponsored noopener">${esc(L("Trade →", "Tranzacționează →", "Handeln →"))}</a>`
+    + `<button type="button" aria-label="${esc(L("Close", "Închide", "Schließen"))}">×</button>`;
+  bar.querySelector("a").onclick = () => track("naga", "bar");
+  bar.querySelector("button").onclick = () => { try { localStorage.setItem("dm_nagabar", date); } catch (e) {} bar.classList.remove("on"); document.body.classList.remove("nagabar"); track("naga", "bar-close"); };
+  bar.classList.add("on"); document.body.classList.add("nagabar");
+}
+function nagaOff() { const bar = $("nagaBar"); if (bar) bar.classList.remove("on"); document.body.classList.remove("nagabar"); }
 function renderPick(cardHtml, today, date) {
   $("odyBox").hidden = true;   // Odyssey doar pe pagina de produse (renderOdy ramane pentru mai tarziu)
   const box = $("pickBox");
+  nagaOff();
   if (!cardHtml) { box.hidden = true; box.innerHTML = ""; return; }
   box.innerHTML = cardHtml + (today && date ? voteHtml(date) : "") + (today && !read("dm_sub") ? `<div class="pickcta"><span>${L("Get the Pick of the Day by email, every morning – free.",
     "Primește Pick of the Day pe email, în fiecare dimineață – gratuit.")}</span><button type="button" id="pickSub">${L("Subscribe", "Abonează-te")}</button>`
     + `<a class="acc" href="${RO ? "acuratete.html" : DE ? "genauigkeit.html" : "accuracy.html"}">${L("How often are we right? →", "Cât de bine nimerim? →")}</a></div>` : "")
-    + (today ? `<div class="pnaga"><a id="pickNaga" href="${NAGA_URL}" target="_blank" rel="sponsored noopener">${L("Trade the idea on NAGA →", "Tranzacționează ideea pe NAGA →", "Die Idee auf NAGA handeln →")}</a>`
-      + `<small>${L("Affiliate link: Daily Market may receive a commission if you open an account. CFDs carry a high risk of losing money rapidly due to leverage; most retail investor accounts lose money. Not investment advice.",
-        "Link de afiliere: Daily Market poate primi un comision dacă îți deschizi cont. CFD-urile au risc ridicat de pierdere rapidă a banilor din cauza levierului; majoritatea conturilor de retail pierd bani. Nu e recomandare de investiții.",
-        "Affiliate-Link: Daily Market kann eine Provision erhalten, wenn Sie ein Konto eröffnen. CFDs bergen wegen der Hebelwirkung ein hohes Risiko schneller Geldverluste; die meisten Kleinanlegerkonten verlieren Geld. Keine Anlageberatung.")}</small></div>` : "");
+    ;
   box.hidden = false;
   const b = $("pickSub"); if (b) b.onclick = () => { subSrc = "pick"; openSub(); track("subbar", "pick"); };
-  const ng = $("pickNaga"); if (ng) ng.onclick = () => track("naga", "pick");
+  if (today) nagaPick(box, date);
   bindVote(box);
   if (today && date) voteCall(date).then(st => { if (st) paintVote(box, date, st); });
 }
@@ -1158,5 +1195,6 @@ sb.auth.onAuthStateChange((event, session) => {
 });
 }
 </script>
+<div id="nagaBar"></div>
 </body>
 </html>

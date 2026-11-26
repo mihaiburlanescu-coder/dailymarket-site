@@ -28,7 +28,7 @@ DAYS = {"ro": ["luni", "marți", "miercuri", "joi", "vineri", "sâmbătă", "dum
 NAGA_URL = "https://go.joinnaga.com/3HLZ7LT/BB33C5/"   # link de afiliere NAGA
 
 T = {
-    "ro": dict(naga_t="Tranzacționează ideea pe NAGA →", naga_n="Link de afiliere: Daily Market poate primi un comision dacă îți deschizi cont. CFD-urile au risc ridicat de pierdere rapidă a banilor din cauza levierului; majoritatea conturilor de retail pierd bani.", buy="cumpărare", sell="vânzare", BUY="CUMPĂRARE", SELL="VÂNZARE", entry="Intrare (închiderea)", target="Țintă", stop="Stop",
+    "ro": dict(naga_btn="Deschide poziția pe NAGA", naga_note="Link de afiliere · CFD-urile au risc ridicat; majoritatea conturilor de retail pierd bani. Nu e recomandare de investiții.", naga_today="Pick în curs", naga_risk="Link de afiliere · CFD = risc ridicat", naga_trade="Tranzacționează →", naga_close="Închide", naga_t="Tranzacționează ideea pe NAGA →", naga_n="Link de afiliere: Daily Market poate primi un comision dacă îți deschizi cont. CFD-urile au risc ridicat de pierdere rapidă a banilor din cauza levierului; majoritatea conturilor de retail pierd bani.", buy="cumpărare", sell="vânzare", BUY="CUMPĂRARE", SELL="VÂNZARE", entry="Intrare (închiderea)", target="Țintă", stop="Stop",
                horizon="Orizont", days5="5 zile", why="De ce această alegere", archive="Toate pick-urile", home="/?lang=ro",
                sub="/?lang=ro&sub=1", sub_t="Primește Pick of the Day pe email, în fiecare dimineață – gratuit",
                report="Raportul complet din acea zi", prev="Pick-ul anterior", next="Pick-ul următor",
@@ -43,7 +43,7 @@ T = {
                arch_desc=("În fiecare zi de bursă alegem o singură piață, cu intrare, țintă și stop pe 5 zile. Aici sunt toate, "
                           "cu rezultatul fiecăreia – inclusiv pierderile."),
                stats="{n} pick-uri încheiate: {w} pe plus ({p}%), rezultat mediu {avg}.", col_res="Rezultat"),
-    "en": dict(naga_t="Trade the idea on NAGA →", naga_n="Affiliate link: Daily Market may receive a commission if you open an account. CFDs carry a high risk of losing money rapidly due to leverage; most retail investor accounts lose money.", buy="buy", sell="sell", BUY="BUY", SELL="SELL", entry="Entry (close)", target="Target", stop="Stop", horizon="Horizon",
+    "en": dict(naga_btn="Open the position on NAGA", naga_note="Affiliate link · CFDs carry a high risk; most retail investor accounts lose money. Not investment advice.", naga_today="Open pick", naga_risk="Affiliate link · CFDs = high risk", naga_trade="Trade →", naga_close="Close", naga_t="Trade the idea on NAGA →", naga_n="Affiliate link: Daily Market may receive a commission if you open an account. CFDs carry a high risk of losing money rapidly due to leverage; most retail investor accounts lose money.", buy="buy", sell="sell", BUY="BUY", SELL="SELL", entry="Entry (close)", target="Target", stop="Stop", horizon="Horizon",
                days5="5 days", why="Why this pick", archive="All picks", home="/?lang=en", sub="/?lang=en&sub=1",
                sub_t="Get the Pick of the Day by email, every morning – free", report="The full report from that day",
                prev="Previous pick", next="Next pick", open_t="Open", closed_t="Closed", tgt_hit="target hit", stp_hit="stop hit",
@@ -57,7 +57,7 @@ T = {
                arch_desc=("Every trading day we choose one market, with an entry, a target and a stop over 5 days. Here they all are, "
                           "with the result of each one – losses included."),
                stats="{n} closed picks: {w} positive ({p}%), average result {avg}.", col_res="Result"),
-    "de": dict(naga_t="Die Idee auf NAGA handeln →", naga_n="Affiliate-Link: Daily Market kann eine Provision erhalten, wenn Sie ein Konto eröffnen. CFDs bergen wegen der Hebelwirkung ein hohes Risiko schneller Geldverluste; die meisten Kleinanlegerkonten verlieren Geld.", buy="Kauf", sell="Verkauf", BUY="KAUFEN", SELL="VERKAUFEN", entry="Einstieg (Schluss)", target="Ziel", stop="Stopp",
+    "de": dict(naga_btn="Position auf NAGA eröffnen", naga_note="Affiliate-Link · CFDs bergen ein hohes Risiko; die meisten Kleinanlegerkonten verlieren Geld. Keine Anlageberatung.", naga_today="Laufender Pick", naga_risk="Affiliate-Link · CFDs = hohes Risiko", naga_trade="Handeln →", naga_close="Schließen", naga_t="Die Idee auf NAGA handeln →", naga_n="Affiliate-Link: Daily Market kann eine Provision erhalten, wenn Sie ein Konto eröffnen. CFDs bergen wegen der Hebelwirkung ein hohes Risiko schneller Geldverluste; die meisten Kleinanlegerkonten verlieren Geld.", buy="Kauf", sell="Verkauf", BUY="KAUFEN", SELL="VERKAUFEN", entry="Einstieg (Schluss)", target="Ziel", stop="Stopp",
                horizon="Horizont", days5="5 Tage", why="Warum dieser Pick", archive="Alle Picks", home="/?lang=de", sub="/?lang=de&sub=1",
                sub_t="Den Pick of the Day jeden Morgen per E-Mail – kostenlos", report="Der vollständige Bericht von diesem Tag",
                prev="Vorheriger Pick", next="Nächster Pick", open_t="Offen", closed_t="Abgeschlossen", tgt_hit="Ziel erreicht",
@@ -113,6 +113,32 @@ CSS = """
 .pt .r{text-align:right;font-weight:800;white-space:nowrap}
 """
 
+
+
+def naga_btn(lang: str) -> str:
+    t = T[lang]
+    return (f'<a href="{NAGA_URL}" target="_blank" rel="sponsored noopener" style="display:block;text-align:center;margin:12px 0 4px;'
+            f'background:#16a34a;color:#fff;font-weight:800;font-size:16px;text-decoration:none;border-radius:12px;padding:13px 10px;'
+            f'box-shadow:0 4px 12px rgba(22,163,74,.35)">▶ {t["naga_btn"]}</a>'
+            f'<div style="font-size:10.5px;color:#6b7280;text-align:center;line-height:1.4;margin:0 0 8px">{t["naga_note"]}</div>')
+
+
+def naga_bar(p: dict, lang: str) -> str:
+    """Bara fixa jos, doar pe telefon, pentru pick-ul in curs; se inchide cu x (tinut minte pentru ziua pick-ului)."""
+    t = T[lang]
+    verb = t["BUY"] if p["side"] > 0 else t["SELL"]
+    nm = name(p["asset"], lang)
+    return (f'<style>#nb{{display:none}}@media (max-width:700px){{#nb.on{{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;'
+            f'background:#13223A;color:#fff;padding:10px 12px;align-items:center;gap:10px;box-shadow:0 -4px 14px rgba(0,0,0,.25)}}'
+            f'#nb .t{{flex:1;font-size:13px;line-height:1.3}}#nb .t b{{color:#D9A441}}#nb .t small{{display:block;color:#9fb0c8;font-size:11px}}'
+            f'#nb a{{background:#16a34a;color:#fff;font-weight:800;text-decoration:none;border-radius:999px;padding:10px 14px;font-size:14px;white-space:nowrap}}'
+            f'#nb button{{background:none;border:0;color:#9fb0c8;font-size:20px;padding:4px 2px}}body.nb{{padding-bottom:70px}}}}</style>'
+            f'<div id="nb"><div class="t"><b>{t["naga_today"]}: {nm} · {verb}</b><small>{t["naga_risk"]}</small></div>'
+            f'<a href="{NAGA_URL}" target="_blank" rel="sponsored noopener">{t["naga_trade"]}</a>'
+            f'<button type="button" aria-label="{t["naga_close"]}">×</button></div>'
+            f'<script>(function(){{var k="dm_nagabar",d="{p["day"]}",b=document.getElementById("nb");'
+            f'try{{if(localStorage.getItem(k)===d)return}}catch(e){{}}b.className="on";document.body.classList.add("nb");'
+            f'b.querySelector("button").onclick=function(){{try{{localStorage.setItem(k,d)}}catch(e){{}}b.className="";document.body.classList.remove("nb")}};}})();</script>')
 
 def fmt(v: float, lang: str) -> str:
     v = float(v)
@@ -219,12 +245,10 @@ def build_one(p: dict, lang: str, prev: dict | None, nxt: dict | None, page, rep
             f'<div><small>{t["target"]}</small><b style="color:#15803d">{fmt(p["target"], lang)}</b></div>'
             f'<div><small>{t["stop"]}</small><b style="color:#b91c1c">{fmt(p["stop"], lang)}</b></div>'
             f'<div><small>{t["horizon"]}</small><b>{t["days5"]}</b></div></div>'
-            f"{status_box(p, lang)}{chart}</div>"
-            f'<h2 class="sec">{t["why"]}</h2><ul class="why">{why}</ul>'
+            f"{status_box(p, lang)}{naga_btn(lang)}{chart}</div>"
+            + (naga_bar(p, lang) if p.get("status") == "open" else "")
+            + f'<h2 class="sec">{t["why"]}</h2><ul class="why">{why}</ul>'
             f'<a class="cta" href="{t["sub"]}" style="margin-top:14px">{t["sub_t"]}</a>'
-            f'<div style="margin:0 0 16px"><a href="{NAGA_URL}" target="_blank" rel="sponsored noopener" '
-            f'style="display:inline-block;background:#13223A;color:#fff;font-weight:700;text-decoration:none;border-radius:999px;padding:8px 16px">{t["naga_t"]}</a>'
-            f'<div style="font-size:12px;color:#6b7280;margin-top:6px;line-height:1.45">{t["naga_n"]}</div></div>'
             f'<p style="font-size:14px;margin:0"><a href="/{lang}/pick/">{t["archive"]}</a> · <a href="{t["acc"]}">{t["acc_t"]}</a>{rep}</p>'
             f"{nav}<p class=\"note\">{t['costs']}</p>")
     alt = {lg: path(p, lg) for lg in LANGS}
