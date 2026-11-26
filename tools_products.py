@@ -57,9 +57,9 @@ T = {
  "sig_title": "Un sistem intuitiv de semnale",
  "disc": "Informațiile de pe această pagină au caracter informativ și educativ și nu reprezintă consultanță de investiții sau o recomandare de a cumpăra ori vinde instrumente financiare. Tranzacționarea instrumentelor financiare, în special a celor cu efect de levier, implică un risc ridicat de pierdere a capitalului. Rezultatele trecute nu garantează rezultate viitoare.",
  "foot": '<a href="./?lang=ro">Înapoi la raport</a> · <a href="despre.html">Despre noi</a> · <a href="acuratete.html">Acuratețe</a> · <a href="termeni.html">Termeni și condiții</a> · <a href="confidentialitate.html">Confidențialitate</a> · <a href="mailto:contact@dailymarketlab.com">Contact</a> · <a href="products.html" lang="en" hreflang="en">English</a> · <a href="produkte.html" lang="de" hreflang="de">Deutsch</a>',
- "res": {"h": "Rezultate pentru investitori", "per": "Investitor care copiază Odyssey pe NAGA · 61 de tranzacții DAX · 2 iunie – 6 noiembrie 2026",
-  "kpi": [("+38,5%", "randament total"), ("75%", "tranzacții pe profit"), ("−7,9%", "drawdown maxim"), ("5 din 6", "luni pe profit")],
-  "note": "Rezultate calculate din istoricul real de tranzacționare al contului Odyssey, așa cum se execută pentru un cont care copiază prin NAGA. Nu includ comisionul de profit-sharing. Performanțele trecute nu garantează rezultate viitoare.",
+ "res": {"h": "Rezultate pentru investitori", "per": "Contul Odyssey · tranzacții DAX de la 1 septembrie 2026",
+  "kpi": [("…", "randament de la 1 septembrie"), ("…", "tranzacții pe profit"), ("…", "scădere maximă"), ("…", "luni pe profit")],
+  "note": "Calculat automat, din oră în oră, din tranzacțiile reale ale robotului Odyssey (fără alte tranzacții din cont), pe tranzacțiile închise. Un investitor care copiază prin NAGA poate avea rezultate puțin diferite (comisionul de profit-sharing, momentul intrării). Performanțele trecute nu garantează rezultate viitoare.",
   "pdf": "Prezentarea pentru investitori (PDF)"},
  "pdf": "Descarcă broșura (PDF)",
  "naga_cta": "Copiază Odyssey pe NAGA →",
@@ -113,9 +113,9 @@ T = {
  "sig_title": "An intuitive signal system",
  "disc": "The information on this page is for information and education only and is not investment advice or a recommendation to buy or sell financial instruments. Trading financial instruments, especially leveraged ones, carries a high risk of losing capital. Past results do not guarantee future results.",
  "foot": '<a href="./">Back to the report</a> · <a href="about.html">About us</a> · <a href="accuracy.html">Accuracy</a> · <a href="terms.html">Terms &amp; conditions</a> · <a href="privacy.html">Privacy</a> · <a href="mailto:contact@dailymarketlab.com">Contact</a> · <a href="produse.html" lang="ro" hreflang="ro">Română</a> · <a href="produkte.html" lang="de" hreflang="de">Deutsch</a>',
- "res": {"h": "Investor results", "per": "Investor copying Odyssey on NAGA · 61 DAX trades · 2 June – 6 November 2026",
-  "kpi": [("+38.5%", "total return"), ("75%", "winning trades"), ("−7.9%", "maximum drawdown"), ("5 of 6", "profitable months")],
-  "note": "Results calculated from the real trading history of the Odyssey account, as executed for an account copying via NAGA. Profit-sharing fees are not included. Past performance does not guarantee future results.",
+ "res": {"h": "Investor results", "per": "The Odyssey account · DAX trades since 1 September 2026",
+  "kpi": [("…", "return since 1 September"), ("…", "winning trades"), ("…", "maximum drawdown"), ("…", "profitable months")],
+  "note": "Calculated automatically every hour from the real trades of the Odyssey robot (no other trades on the account), on closed trades. An investor copying through NAGA may see slightly different results (profit-sharing fee, entry timing). Past performance does not guarantee future results.",
   "pdf": "Investor presentation (PDF, Romanian)"},
  "pdf": "Download the brochure (PDF)",
  "naga_cta": "Copy Odyssey on NAGA →",
@@ -169,9 +169,9 @@ T = {
  "sig_title": "Ein intuitives Signalsystem",
  "disc": "Die Informationen auf dieser Seite dienen der Information und Bildung und sind keine Anlageberatung oder Empfehlung zum Kauf oder Verkauf von Finanzinstrumenten. Der Handel mit Finanzinstrumenten, insbesondere mit Hebelprodukten, ist mit einem hohen Risiko des Kapitalverlusts verbunden. Frühere Ergebnisse sind keine Garantie für künftige Ergebnisse.",
  "foot": '<a href="./?lang=de">Zurück zum Bericht</a> · <a href="ueber-uns.html">Über uns</a> · <a href="genauigkeit.html">Trefferquote</a> · <a href="agb.html">AGB</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="impressum.html">Impressum</a> · <a href="mailto:contact@dailymarketlab.com">Kontakt</a> · <a href="products.html" lang="en" hreflang="en">English</a> · <a href="produse.html" lang="ro" hreflang="ro">Română</a>',
- "res": {"h": "Ergebnisse für Anleger", "per": "Anleger, der Odyssey auf NAGA kopiert · 61 DAX-Trades · 2. Juni – 6. November 2026",
-  "kpi": [("+38,5 %", "Gesamtrendite"), ("75 %", "Gewinn-Trades"), ("−7,9 %", "maximaler Rückgang"), ("5 von 6", "Monate im Plus")],
-  "note": "Ergebnisse berechnet aus der echten Handelshistorie des Odyssey-Kontos, so wie sie für ein über NAGA kopierendes Konto ausgeführt wird. Ohne Profit-Sharing-Gebühr. Frühere Ergebnisse sind keine Garantie für künftige.",
+ "res": {"h": "Ergebnisse für Anleger", "per": "Das Odyssey-Konto · DAX-Trades seit 1. September 2026",
+  "kpi": [("…", "Rendite seit 1. September"), ("…", "Gewinn-Trades"), ("…", "maximaler Rückgang"), ("…", "Monate im Gewinn")],
+  "note": "Stündlich automatisch berechnet aus den echten Trades des Odyssey-Roboters (ohne andere Trades auf dem Konto), auf Basis geschlossener Trades. Ein Anleger, der über NAGA kopiert, kann leicht abweichende Ergebnisse haben (Gewinnbeteiligung, Einstiegszeitpunkt). Frühere Ergebnisse sind keine Garantie für künftige.",
   "pdf": "Anlegerpräsentation (PDF, Rumänisch)"},
  "pdf": "Broschüre herunterladen (PDF, Rumänisch)",
  "naga_cta": "Odyssey auf NAGA kopieren →",
@@ -260,6 +260,30 @@ footer a{color:inherit}
 """
 
 
+ODY_JS = r"""<script>
+// Statisticile Odyssey, live din baza de date (contul real, actualizat din ora in ora de serviciul din MT5)
+(function () {
+  var lang = "{lang}", dec = function (v, n) { var x = Math.abs(v).toFixed(n); return lang === "en" ? x : x.replace(".", ","); };
+  var pct = function (v) { return (v > 0 ? "+" : v < 0 ? "−" : "") + dec(v, 1) + (lang === "de" ? " %" : "%"); };
+  fetch("https://atlxahrvzhzrzfhmwwen.supabase.co/rest/v1/rpc/odyssey_stats", {method: "POST", headers: {"apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0bHhhaHJ2emh6cnpmaG13d2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0ODk2MTUsImV4cCI6MjEwODA2NTYxNX0.1lOoTQP6CYoT-qDg2oGx6EbtJP9ag2CaCxmV3Bj3DhQ", "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0bHhhaHJ2emh6cnpmaG13d2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0ODk2MTUsImV4cCI6MjEwODA2NTYxNX0.1lOoTQP6CYoT-qDg2oGx6EbtJP9ag2CaCxmV3Bj3DhQ",
+    "Content-Type": "application/json"}, body: "{}"}).then(function (r) { return r.json(); }).then(function (d) {
+    if (!d || d.closed == null) return;
+    var set = function (i, t) { var e = document.getElementById("ok" + i); if (e) e.textContent = t; };
+    var mon = d.monthly || [], up = mon.filter(function (m) { return m.pct > 0; }).length;
+    set(0, pct(d.ret_pct));
+    set(1, d.win_pct + (lang === "de" ? " %" : "%"));
+    set(2, pct(d.maxdd_pct));
+    set(3, up + (lang === "ro" ? " din " : lang === "de" ? " von " : " of ") + mon.length);
+    var per = document.querySelector(".res .per");
+    if (per && d.updated) {
+      var dt = new Date(d.updated).toLocaleDateString(lang === "ro" ? "ro-RO" : lang === "de" ? "de-DE" : "en-GB", {day: "numeric", month: "long"});
+      per.textContent += " · " + d.closed + (lang === "ro" ? " tranzacții · actualizat " : lang === "de" ? " Trades · aktualisiert am " : " trades · updated ") + dt;
+    }
+  }).catch(function () {});
+})();
+</script>"""
+
+
 def page(lang: str) -> str:
     t = T[lang]
     secs, jump = [], []
@@ -282,7 +306,7 @@ def page(lang: str) -> str:
         res = ""
         if key == "odyssey":
             r = t["res"]
-            kp = "".join(f"<div><b>{v}</b>{lbl}</div>" for v, lbl in r["kpi"])
+            kp = "".join(f'<div><b id="ok{i}">{v}</b>{lbl}</div>' for i, (v, lbl) in enumerate(r["kpi"]))
             res = f'<div class="res"><h3>{r["h"]}</h3><p class="per">{r["per"]}</p><div class="kpi">{kp}</div><p class="note">{r["note"]}</p></div>'
             cta = (f'<a class="naga" href="{NAGA_URL}" target="_blank" rel="sponsored noopener">{t["naga_cta"]}</a>' + cta
                    + f'<a class="alt" href="Odyssey-Prezentare-Investitori.pdf" download>⬇ {r["pdf"]}</a>')
@@ -323,6 +347,7 @@ def page(lang: str) -> str:
 <p class="disc">{t["disc"]}</p>
 </main>
 <footer><div>{t["foot"]}</div></footer>
+{ODY_JS.replace("{lang}", lang)}
 </body>
 </html>
 """
