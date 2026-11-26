@@ -64,8 +64,10 @@ def header(lang: str, alt: dict[str, str] | None = None, active: str = "") -> st
     home = f"/?lang={lang}"
     p = PAGES
     nav = [("daily", home), ("weekly", home + "#weekly"), ("products", p["products"][lang]), ("accuracy", p["accuracy"][lang])]
-    links = "".join(f'<a href="{u}"{" class=\"on\"" if k == active else ""}>{t[k]}</a>' for k, u in nav)
-    langs = "".join(f'<a href="{(alt or {}).get(lg) or f"/?lang={lg}"}" hreflang="{lg}"{" class=\"on\"" if lg == lang else ""}>{lg.upper()}</a>'
+    on = ' class="on"'
+    links = "".join(f'<a href="{u}"{on if k == active else ""}>{t[k]}</a>' for k, u in nav)
+    alt = alt or {}
+    langs = "".join(f'<a href="{alt.get(lg) or "/?lang=" + lg}" hreflang="{lg}"{on if lg == lang else ""}>{lg.upper()}</a>'
                     for lg in ("ro", "en", "de"))
     return (f'<style>{CSS}</style><header class="dmh"><div class="dmb">'
             f'<a class="dml" href="{home}">{LOGO}Daily Market</a><div class="dms"></div>'
