@@ -63,6 +63,7 @@ T = {
   "pdf": "Prezentarea pentru investitori (PDF)"},
  "pdf": "Descarcă broșura (PDF)",
  "naga_cta": "Copiază Odyssey pe NAGA →",
+ "naga_pf": "Tranzacționează pe NAGA →",
  "naga_note": "Link de afiliere: Daily Market poate primi un comision de la NAGA dacă îți deschizi cont prin acest link. "
               "CFD-urile sunt instrumente complexe și au un risc ridicat de pierdere rapidă a banilor din cauza efectului de levier. "
               "Majoritatea conturilor investitorilor de retail pierd bani când tranzacționează CFD-uri. Gândește-te dacă înțelegi cum "
@@ -118,6 +119,7 @@ T = {
   "pdf": "Investor presentation (PDF, Romanian)"},
  "pdf": "Download the brochure (PDF)",
  "naga_cta": "Copy Odyssey on NAGA →",
+ "naga_pf": "Trade on NAGA →",
  "naga_note": "Affiliate link: Daily Market may receive a commission from NAGA if you open an account through this link. "
               "CFDs are complex instruments and come with a high risk of losing money rapidly due to leverage. "
               "Most retail investor accounts lose money when trading CFDs. Consider whether you understand how CFDs work "
@@ -173,6 +175,7 @@ T = {
   "pdf": "Anlegerpräsentation (PDF, Rumänisch)"},
  "pdf": "Broschüre herunterladen (PDF, Rumänisch)",
  "naga_cta": "Odyssey auf NAGA kopieren →",
+ "naga_pf": "Auf NAGA handeln →",
  "naga_note": "Affiliate-Link: Daily Market kann eine Provision von NAGA erhalten, wenn Sie über diesen Link ein Konto eröffnen. "
               "CFDs sind komplexe Instrumente und gehen wegen der Hebelwirkung mit einem hohen Risiko schneller Geldverluste einher. "
               "Die meisten Kleinanlegerkonten verlieren beim Handel mit CFDs Geld. Überlegen Sie, ob Sie verstehen, wie CFDs funktionieren, "
@@ -272,7 +275,8 @@ def page(lang: str) -> str:
                 wide = " wide" if (feats.index((h, p)) == len(feats) - 1 and len(feats) % 2 == 1) else ""
                 fh.append(f'<div class="feat{wide}"><h3><i></i>{h}</h3><p>{p}</p></div>')
         if key == "portfolio":
-            cta = f'<a href="{t["pf_url"]}">{t["cta_pf"]}</a>'
+            cta = (f'<a href="{t["pf_url"]}">{t["cta_pf"]}</a>'
+                   f'<a class="naga" href="{NAGA_URL}" target="_blank" rel="sponsored noopener">{t["naga_pf"]}</a>')
         else:
             cta = f'<a href="mailto:contact@dailymarketlab.com?subject={t["mail_subj"]}{name.title()}">{t["cta_contact"]}</a>'
         res = ""
@@ -288,7 +292,7 @@ def page(lang: str) -> str:
 <div class="grid">{''.join(fh)}</div>
 {res}
 <div class="adv"><div class="k">{adv[0]}</div><div class="t">{adv[1]}</div><p>{adv[2]}</p><div class="s">{adv[3]}</div></div>
-<div class="cta">{cta}</div>{f'<p class="aff">{t["naga_note"]}</p>' if key == "odyssey" else ""}</div></section>""")
+<div class="cta">{cta}</div>{f'<p class="aff">{t["naga_note"]}</p>' if key in ("odyssey", "portfolio") else ""}</div></section>""")
     other = "en" if lang == "ro" else "ro"
     return f"""<!doctype html>
 <html lang="{lang}">
