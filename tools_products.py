@@ -287,7 +287,7 @@ ODY_JS = r"""<script>
 def page(lang: str) -> str:
     t = T[lang]
     secs, jump = [], []
-    for key, tag, name, sub, intro, feats, adv in t["products"]:
+    for key, tag, name, sub, intro, feats, adv in sorted(t["products"], key=lambda x: x[0] == "athena"):   # Athena ultima
         jump.append(f'<a href="#{key}">{name.title() if key != "portfolio" else name.split()[0].title() if lang == "ro" else "Portfolio"}</a>')
         fh = []
         for h, p in feats:
@@ -308,8 +308,7 @@ def page(lang: str) -> str:
             r = t["res"]
             kp = "".join(f'<div><b id="ok{i}">{v}</b>{lbl}</div>' for i, (v, lbl) in enumerate(r["kpi"]))
             res = f'<div class="res"><h3>{r["h"]}</h3><p class="per">{r["per"]}</p><div class="kpi">{kp}</div><p class="note">{r["note"]}</p></div>'
-            cta = (f'<a class="naga" href="{NAGA_URL}" target="_blank" rel="sponsored noopener">{t["naga_cta"]}</a>' + cta
-                   + f'<a class="alt" href="Odyssey-Prezentare-Investitori.pdf" download>⬇ {r["pdf"]}</a>')
+            cta = f'<a class="naga" href="{NAGA_URL}" target="_blank" rel="sponsored noopener">{t["naga_cta"]}</a>' + cta
         secs.append(f"""<section class="prod {key}" id="{key}">
 <div class="hero"><span class="tag">{tag}</span><h2>{name}</h2><div class="sub">{sub}</div><div class="em">{EMBLEM[key]}</div></div>
 <div class="body"><div class="intro">{''.join(f'<p>{x}</p>' for x in intro)}</div>
