@@ -74,6 +74,18 @@ main{max-width:980px;margin:0 auto;padding:28px 16px 40px;display:grid;gap:28px}
 .kpi b{display:block;font-size:24px;line-height:1.2;color:#0e9aa0;font-weight:800}
 .res .note{color:var(--muted);font-size:12.5px;margin:12px 0 0;max-width:none}
 .cta a.alt{background:var(--card)!important;color:var(--ink);border:1px solid var(--line)}
+.askf{margin-top:14px;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:10px;max-width:560px}
+.askf[hidden]{display:none}
+.askf h4{margin:0;font-size:16px}
+.askf label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:600}
+.askf input,.askf textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.askf textarea{min-height:90px;resize:vertical}
+.askf .ck{display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:12.5px}
+.askf .ck input{margin-top:2px}
+.askf .hp{position:absolute;left:-5000px}
+.askf button{justify-self:start;background:#13223A;color:#fff;border:0;border-radius:10px;font-weight:800;font-size:15px;padding:11px 20px;cursor:pointer}
+.askf .msg{font-size:14px;font-weight:600}
+.askf .msg.ok{color:#15803d}.askf .msg.err{color:#b91c1c}
 .pdf{text-align:center}
 .pdf a{display:inline-block;font-weight:700;color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--card);padding:11px 20px;border-radius:10px}
 .disc{color:var(--muted);font-size:13px;max-width:none}
@@ -92,7 +104,32 @@ footer a{color:inherit}
 <script src="/ga.js" defer></script>
 </head>
 <body>
-<header><a href="./"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#D9A441"/><rect x="7" y="13" width="4" height="12" rx="1" fill="#13223A"/><rect x="14" y="7" width="4" height="18" rx="1" fill="#13223A"/><rect x="21" y="16" width="4" height="9" rx="1" fill="#13223A"/></svg>Daily Market</a></header>
+<style>
+header.dmh{background:#13223A;color:#fff}
+.dmh .dmb{max-width:1080px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dmh a{display:inline-flex;align-items:center;width:auto;max-width:none;margin:0;gap:0;font-stretch:100%;text-decoration:none;color:inherit;line-height:1.3}
+.dmh .dml{gap:10px;color:#fff;font-weight:800;font-size:21px;font-stretch:125%;padding:0}
+.dmh .dms{flex:1}
+.dmh .dmn{display:flex;gap:2px}
+.dmh .dmn a{color:#C9D5E6;font-weight:600;font-size:15px;padding:8px 12px;border-radius:8px}
+.dmh .dmn a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.dmh .dmn a.on{color:#fff;box-shadow:inset 0 -2px 0 #D9A441;border-radius:0}
+.dmh .dmp{color:#D9A441;border:1px solid #D9A441;font-weight:700;font-size:15px;border-radius:999px;padding:7px 15px}
+.dmh .dmp:hover{background:rgba(217,164,65,.14)}
+.dmh .dmu{background:#D9A441;color:#13223A;font-weight:700;font-size:15px;border-radius:999px;padding:8px 16px}
+.dmh .dmg{display:flex;gap:4px}
+.dmh .dmg a{color:#C9D5E6;border:1px solid rgba(255,255,255,.28);font-weight:700;font-size:12.5px;border-radius:999px;padding:6px 9px;letter-spacing:.4px}
+.dmh .dmg a.on{color:#13223A;background:#C9D5E6;border-color:#C9D5E6}
+@media (max-width:760px){
+ .dmh .dmb{padding:10px 14px;gap:8px}
+ .dmh .dml{font-size:19px}
+ .dmh .dmp,.dmh .dmu{padding:6px 11px;font-size:13px}
+ .dmh .dmn{order:5;flex:1 0 100%;margin:2px -4px 0}
+ .dmh .dmn a{flex:1 1 auto;justify-content:center;padding:9px 5px;font-size:13.5px;white-space:nowrap}
+ .dmh .dmg{order:4}
+ .dmh .dmg a{padding:5px 7px;font-size:11.5px}
+}
+</style><header class="dmh"><div class="dmb"><a class="dml" href="/?lang=en"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#D9A441"/><rect x="7" y="13" width="4" height="12" rx="1" fill="#13223A"/><rect x="14" y="7" width="4" height="18" rx="1" fill="#13223A"/><rect x="21" y="16" width="4" height="9" rx="1" fill="#13223A"/></svg>Daily Market</a><div class="dms"></div><nav class="dmn"><a href="/?lang=en">Daily Report</a><a href="/?lang=en#weekly">Weekly View</a><a href="/products.html" class="on">Products</a><a href="/accuracy.html">Accuracy</a></nav><a class="dmp" href="/?lang=en#portofoliu">Portfolio</a><a class="dmu" href="/?lang=en&amp;sub=1">Subscribe</a><div class="dmg"><a href="/produse.html" hreflang="ro">RO</a><a href="/products.html" hreflang="en" class="on">EN</a><a href="/produkte.html" hreflang="de">DE</a></div></div></header>
 <div class="top"><div class="bars"><i style="height:70px"></i><i style="height:120px"></i><i style="height:46px"></i></div>
 <div class="in"><h1>Our <span>products</span></h1><p>Tools built to turn the complexity of financial markets into clear, disciplined, data-driven decisions.</p><div class="jump"><a href="#odyssey">Odyssey</a><a href="#portfolio">Portfolio</a><a href="#athena">Athena</a></div></div></div>
 <main>
@@ -102,7 +139,7 @@ footer a{color:inherit}
 <div class="grid"><div class="feat"><h3><i></i>One market, deeply understood</h3><p>The DAX is one of Europe's most dynamic indices: fast moves, high volatility, daily opportunities. Odyssey was built exclusively for this market and tuned to its rhythm. Specialisation is its edge.</p></div><div class="feat"><h3><i></i>Trading without emotions</h3><p>Fear, greed, haste or the urge to win back a loss are a trader's biggest traps. Odyssey has none of them. It executes every decision by clear, consistent rules, from the first trade of the day to the last.</p></div><div class="feat"><h3><i></i>Capital protection comes first</h3><p>Every position has its risk defined from the moment of entry. Position size is calculated automatically, gains are protected along the way and losses are capped.</p></div><div class="feat"><h3><i></i>Always alert, never tired</h3><p>Odyssey watches the market without a break for the whole session and reacts in real time, without delay. You get on with your day; it gets on with the job.</p></div><div class="feat wide"><h3><i></i>Tested in real conditions</h3><p>Odyssey is not a lab experiment. It runs on a live account, in real market conditions, and is continuously evaluated and improved based on its results.</p></div></div>
 <div class="res"><h3>Investor results</h3><p class="per">The Odyssey account · DAX trades since 1 September 2026</p><div class="kpi"><div><b id="ok0">…</b>return since 1 September</div><div><b id="ok1">…</b>winning trades</div><div><b id="ok2">…</b>maximum drawdown</div><div><b id="ok3">…</b>profitable months</div></div><p class="note">Calculated automatically every hour from the real trades of the Odyssey robot (no other trades on the account), on closed trades. An investor copying through NAGA may see slightly different results (profit-sharing fee, entry timing). Past performance does not guarantee future results.</p></div>
 <div class="adv"><div class="k">The Odyssey Advantage</div><div class="t">One market. One robot. Zero emotions.</div><p>Odyssey does not promise guaranteed profits – no market offers them. Its mission is to bring the discipline, speed and consistency of an automated system to where most traders lose because of emotions.</p><div class="s">Odyssey — Automated Discipline for the DAX.</div></div>
-<div class="cta"><a class="naga" href="https://go.joinnaga.com/3HLZ7LT/BB33C5/" target="_blank" rel="sponsored noopener">Copy Odyssey on NAGA →</a><a href="mailto:contact@dailymarketlab.com?subject=Details%20about%20Odyssey">Ask for details</a></div><p class="aff">Affiliate link: Daily Market may receive a commission from NAGA if you open an account through this link. CFDs are complex instruments and come with a high risk of losing money rapidly due to leverage. Most retail investor accounts lose money when trading CFDs. Consider whether you understand how CFDs work and whether you can afford to take the high risk of losing your money.</p></div></section><section class="prod portfolio" id="portfolio">
+<div class="cta"><a class="naga" href="https://go.joinnaga.com/3HLZ7LT/BB33C5/" target="_blank" rel="sponsored noopener">Copy Odyssey on NAGA →</a><a href="#ask-odyssey" class="ask" data-p="odyssey">Ask for details</a></div><form class="askf" id="ask-odyssey" data-p="odyssey" data-lang="en" novalidate hidden><h4>Ask for details about Odyssey</h4><label>Name<input name="name" autocomplete="name" maxlength="120"></label><label>Email *<input name="email" type="email" autocomplete="email" required maxlength="200"></label><label>Phone (optional)<input name="phone" type="tel" autocomplete="tel" maxlength="40"></label><label>Message (optional)<textarea name="message" maxlength="2000"></textarea></label><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><label class="ck"><input type="checkbox" name="consent"> <span>I agree that Daily Market may use the details above only to reply to this request.</span></label><button type="submit">Send</button><div class="msg" role="status"></div><script type="application/json" class="t">{"ok":"Thank you! We have received your request and will reply by email within 2 working days.","err_email":"Please enter a valid email address.","err_ck":"Please tick the consent box so we can reply.","err":"We could not send your request. Please try again in a few minutes or write to contact@dailymarketlab.com."}</script></form><p class="aff">Affiliate link: Daily Market may receive a commission from NAGA if you open an account through this link. CFDs are complex instruments and come with a high risk of losing money rapidly due to leverage. Most retail investor accounts lose money when trading CFDs. Consider whether you understand how CFDs work and whether you can afford to take the high risk of losing your money.</p></div></section><section class="prod portfolio" id="portfolio">
 <div class="hero"><span class="tag">Monthly Trend Portfolio</span><h2>DAILY MARKET PORTFOLIO</h2><div class="sub">Patience. Balance. Transparency.</div><div class="em"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 50l14-14 10 8 22-24" fill="none" stroke="#13223A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M44 20h10v10" fill="none" stroke="#D9A441" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="36" r="3.5" fill="#D9A441"/><circle cx="32" cy="44" r="3.5" fill="#D9A441"/></svg></div></div>
 <div class="body"><div class="intro"><p>The Daily Market Portfolio is a medium-term investment strategy, run by fixed rules and rebuilt once a month. It does not react to every headline and is not carried away by daily noise. It looks for the market's strong directions and follows them patiently.</p></div>
 <div class="grid"><div class="feat"><h3><i></i>Built on trends, not noise</h3><p>Markets go through long periods of rising and falling. The portfolio identifies the markets with the clearest, most stable direction and builds its positions only there.</p></div><div class="feat"><h3><i></i>Diversified across asset classes</h3><p>Stock indices, gold, silver, oil, currencies and technology stocks. The portfolio can profit from rises and falls alike – it does not depend on a single market or direction.</p></div><div class="feat"><h3><i></i>Risk, carefully spread</h3><p>No position dominates the portfolio. Volatile markets get a smaller weight, calmer ones a larger weight. Every position has a protective level checked every hour.</p></div><div class="feat"><h3><i></i>Renewed every month</h3><p>At the start of each month the portfolio is fully re-assessed: strong positions stay, those that lost strength leave, and new opportunities take their place.</p></div><div class="feat wide"><h3><i></i>Full transparency</h3><p>Public from day one. Every entry, every exit and every result – win or loss – is visible on dailymarketlab.com. Nothing is hidden and nothing is rewritten after the fact.</p></div></div>
@@ -114,7 +151,7 @@ footer a{color:inherit}
 <div class="grid"><div class="feat"><h3><i></i>Beyond traditional analysis</h3><p>Unlike conventional tools that focus on historical price action, Athena draws on information from the options market, combining quantitative analysis with artificial intelligence and machine learning.</p></div><div class="feat"><h3><i></i>Intelligence turned into action</h3><p>Athena tracks multiple financial instruments – stocks, indices, commodities and other asset classes – giving a structured, consistent view of the markets it monitors.</p></div><div class="feat wide"><h3><i></i>An intuitive signal system</h3><div class="sig"><div><b style="color:#15803d">BUY</b>An opportunity favouring a buy position.</div><div><b style="color:#c2362f">SELL</b>An opportunity favouring a sell position.</div><div><b style="color:#6b7280">SKIP</b>No opportunity meeting the selection criteria.</div></div><p>Every signal comes with confidence indicators, so it can be weighed against your own risk profile.</p></div><div class="feat"><h3><i></i>Built for markets that keep changing</h3><p>Adaptability, continuous evaluation and statistical discipline, with no reliance on subjective interpretation or emotional reactions. A modular architecture allows more instruments to be added and integration into automated workflows.</p></div></div>
 
 <div class="adv"><div class="k">The Athena Advantage</div><div class="t">Less noise. More clarity. Data-driven decisions.</div><p>Athena does not promise to predict the future of financial markets. Its mission is to turn their complexity into an information edge – an additional tool for identifying, assessing and prioritising opportunities.</p><div class="s">Athena — Turning Market Complexity into Actionable Intelligence.</div></div>
-<div class="cta"><a href="mailto:contact@dailymarketlab.com?subject=Details%20about%20Athena">Ask for details</a></div></div></section>
+<div class="cta"><a href="#ask-athena" class="ask" data-p="athena">Ask for details</a></div><form class="askf" id="ask-athena" data-p="athena" data-lang="en" novalidate hidden><h4>Ask for details about Athena</h4><label>Name<input name="name" autocomplete="name" maxlength="120"></label><label>Email *<input name="email" type="email" autocomplete="email" required maxlength="200"></label><label>Phone (optional)<input name="phone" type="tel" autocomplete="tel" maxlength="40"></label><label>Message (optional)<textarea name="message" maxlength="2000"></textarea></label><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><label class="ck"><input type="checkbox" name="consent"> <span>I agree that Daily Market may use the details above only to reply to this request.</span></label><button type="submit">Send</button><div class="msg" role="status"></div><script type="application/json" class="t">{"ok":"Thank you! We have received your request and will reply by email within 2 working days.","err_email":"Please enter a valid email address.","err_ck":"Please tick the consent box so we can reply.","err":"We could not send your request. Please try again in a few minutes or write to contact@dailymarketlab.com."}</script></form></div></section>
 <div class="pdf"><a href="Daily-Market-Produse.pdf" download>⬇ Download the brochure (PDF)</a></div>
 <p class="disc">The information on this page is for information and education only and is not investment advice or a recommendation to buy or sell financial instruments. Trading financial instruments, especially leveraged ones, carries a high risk of losing capital. Past results do not guarantee future results.</p>
 </main>
@@ -139,6 +176,36 @@ footer a{color:inherit}
       per.textContent += " · " + d.closed + (lang === "ro" ? " tranzacții · actualizat " : lang === "de" ? " Trades · aktualisiert am " : " trades · updated ") + dt;
     }
   }).catch(function () {});
+})();
+</script><script>
+// Formularul "Cere detalii": se deschide la clic, trimite cererea catre Daily Market (functia contact)
+(function () {
+  document.querySelectorAll("a.ask").forEach(function (a) {
+    a.addEventListener("click", function (ev) {
+      ev.preventDefault();
+      var f = document.getElementById("ask-" + a.getAttribute("data-p")); if (!f) return;
+      f.hidden = !f.hidden; if (!f.hidden) { var i = f.querySelector("input[name=name]"); if (i) i.focus(); }
+    });
+  });
+  if (location.hash.indexOf("#ask-") === 0) { var f0 = document.getElementById(location.hash.slice(1)); if (f0) f0.hidden = false; }
+  document.querySelectorAll("form.askf").forEach(function (f) {
+    var T = JSON.parse(f.querySelector("script.t").textContent), m = f.querySelector(".msg"), b = f.querySelector("button");
+    f.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var v = function (n) { return (f.elements[n].value || "").trim(); };
+      var say = function (t, ok) { m.textContent = t; m.className = "msg " + (ok ? "ok" : "err"); };
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v("email"))) return say(T.err_email);
+      if (!f.elements.consent.checked) return say(T.err_ck);
+      b.disabled = true;
+      fetch("https://atlxahrvzhzrzfhmwwen.supabase.co/functions/v1/contact", {method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({product: f.getAttribute("data-p"), lang: f.getAttribute("data-lang"), name: v("name"), email: v("email"),
+          phone: v("phone"), message: v("message"), website: v("website"), consent: true})})
+        .then(function (r) { return r.json().catch(function () { return {}; }); })
+        .then(function (d) { if (d && d.ok) { say(T.ok, true); f.querySelectorAll("input,textarea,button").forEach(function (e) { e.disabled = true; }); }
+                             else { say(T.err); b.disabled = false; } })
+        .catch(function () { say(T.err); b.disabled = false; });
+    });
+  });
 })();
 </script>
 </body>

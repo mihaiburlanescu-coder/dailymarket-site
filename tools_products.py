@@ -2,6 +2,8 @@
 """Genereaza paginile „Produsele noastre” (produse.html) si „Our products” (products.html). Ruleaza: python3 tools_products.py"""
 from pathlib import Path
 
+from tools_menu import header as menu_header, PAGES
+
 LOGO = ('<svg width="{s}" height="{s}" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#D9A441"/>'
         '<rect x="7" y="13" width="4" height="12" rx="1" fill="#13223A"/><rect x="14" y="7" width="4" height="18" rx="1" fill="#13223A"/>'
         '<rect x="21" y="16" width="4" height="9" rx="1" fill="#13223A"/></svg>')
@@ -243,6 +245,18 @@ main{max-width:980px;margin:0 auto;padding:28px 16px 40px;display:grid;gap:28px}
 .kpi b{display:block;font-size:24px;line-height:1.2;color:#0e9aa0;font-weight:800}
 .res .note{color:var(--muted);font-size:12.5px;margin:12px 0 0;max-width:none}
 .cta a.alt{background:var(--card)!important;color:var(--ink);border:1px solid var(--line)}
+.askf{margin-top:14px;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:10px;max-width:560px}
+.askf[hidden]{display:none}
+.askf h4{margin:0;font-size:16px}
+.askf label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:600}
+.askf input,.askf textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.askf textarea{min-height:90px;resize:vertical}
+.askf .ck{display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:12.5px}
+.askf .ck input{margin-top:2px}
+.askf .hp{position:absolute;left:-5000px}
+.askf button{justify-self:start;background:#13223A;color:#fff;border:0;border-radius:10px;font-weight:800;font-size:15px;padding:11px 20px;cursor:pointer}
+.askf .msg{font-size:14px;font-weight:600}
+.askf .msg.ok{color:#15803d}.askf .msg.err{color:#b91c1c}
 .pdf{text-align:center}
 .pdf a{display:inline-block;font-weight:700;color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--card);padding:11px 20px;border-radius:10px}
 .disc{color:var(--muted);font-size:13px;max-width:none}
@@ -284,6 +298,73 @@ ODY_JS = r"""<script>
 </script>"""
 
 
+FORM_T = {
+    "ro": dict(h="Cere detalii despre {p}", name="Nume", email="Email *", phone="Telefon (opțional)", msg="Mesaj (opțional)",
+               ck="Sunt de acord ca Daily Market să folosească datele de mai sus doar ca să îmi răspundă la această cerere.",
+               send="Trimite", ok="Mulțumim! Am primit cererea și îți răspundem pe email în cel mult 2 zile lucrătoare.",
+               err_email="Scrie o adresă de email validă.", err_ck="Bifează acordul ca să-ți putem răspunde.",
+               err="Nu am putut trimite cererea. Încearcă din nou peste câteva minute sau scrie-ne la contact@dailymarketlab.com."),
+    "en": dict(h="Ask for details about {p}", name="Name", email="Email *", phone="Phone (optional)", msg="Message (optional)",
+               ck="I agree that Daily Market may use the details above only to reply to this request.",
+               send="Send", ok="Thank you! We have received your request and will reply by email within 2 working days.",
+               err_email="Please enter a valid email address.", err_ck="Please tick the consent box so we can reply.",
+               err="We could not send your request. Please try again in a few minutes or write to contact@dailymarketlab.com."),
+    "de": dict(h="Details zu {p} anfragen", name="Name", email="E-Mail *", phone="Telefon (optional)", msg="Nachricht (optional)",
+               ck="Ich bin einverstanden, dass Daily Market die obigen Angaben nur zur Beantwortung dieser Anfrage verwendet.",
+               send="Senden", ok="Vielen Dank! Wir haben Ihre Anfrage erhalten und antworten innerhalb von 2 Werktagen per E-Mail.",
+               err_email="Bitte geben Sie eine gültige E-Mail-Adresse ein.", err_ck="Bitte setzen Sie das Häkchen, damit wir antworten können.",
+               err="Die Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es in ein paar Minuten erneut oder schreiben Sie an contact@dailymarketlab.com."),
+}
+PNAME = {"odyssey": "Odyssey", "athena": "Athena"}
+
+
+def ask_form(key: str, lang: str) -> str:
+    f = FORM_T[lang]
+    return (f'<form class="askf" id="ask-{key}" data-p="{key}" data-lang="{lang}" novalidate hidden>'
+            f'<h4>{f["h"].format(p=PNAME.get(key, key))}</h4>'
+            f'<label>{f["name"]}<input name="name" autocomplete="name" maxlength="120"></label>'
+            f'<label>{f["email"]}<input name="email" type="email" autocomplete="email" required maxlength="200"></label>'
+            f'<label>{f["phone"]}<input name="phone" type="tel" autocomplete="tel" maxlength="40"></label>'
+            f'<label>{f["msg"]}<textarea name="message" maxlength="2000"></textarea></label>'
+            f'<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">'
+            f'<label class="ck"><input type="checkbox" name="consent"> <span>{f["ck"]}</span></label>'
+            f'<button type="submit">{f["send"]}</button><div class="msg" role="status"></div>'
+            f'<script type="application/json" class="t">{{"ok":"{f["ok"]}","err_email":"{f["err_email"]}","err_ck":"{f["err_ck"]}","err":"{f["err"]}"}}</script></form>')
+
+
+ASK_JS = r"""<script>
+// Formularul "Cere detalii": se deschide la clic, trimite cererea catre Daily Market (functia contact)
+(function () {
+  document.querySelectorAll("a.ask").forEach(function (a) {
+    a.addEventListener("click", function (ev) {
+      ev.preventDefault();
+      var f = document.getElementById("ask-" + a.getAttribute("data-p")); if (!f) return;
+      f.hidden = !f.hidden; if (!f.hidden) { var i = f.querySelector("input[name=name]"); if (i) i.focus(); }
+    });
+  });
+  if (location.hash.indexOf("#ask-") === 0) { var f0 = document.getElementById(location.hash.slice(1)); if (f0) f0.hidden = false; }
+  document.querySelectorAll("form.askf").forEach(function (f) {
+    var T = JSON.parse(f.querySelector("script.t").textContent), m = f.querySelector(".msg"), b = f.querySelector("button");
+    f.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var v = function (n) { return (f.elements[n].value || "").trim(); };
+      var say = function (t, ok) { m.textContent = t; m.className = "msg " + (ok ? "ok" : "err"); };
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v("email"))) return say(T.err_email);
+      if (!f.elements.consent.checked) return say(T.err_ck);
+      b.disabled = true;
+      fetch("https://atlxahrvzhzrzfhmwwen.supabase.co/functions/v1/contact", {method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({product: f.getAttribute("data-p"), lang: f.getAttribute("data-lang"), name: v("name"), email: v("email"),
+          phone: v("phone"), message: v("message"), website: v("website"), consent: true})})
+        .then(function (r) { return r.json().catch(function () { return {}; }); })
+        .then(function (d) { if (d && d.ok) { say(T.ok, true); f.querySelectorAll("input,textarea,button").forEach(function (e) { e.disabled = true; }); }
+                             else { say(T.err); b.disabled = false; } })
+        .catch(function () { say(T.err); b.disabled = false; });
+    });
+  });
+})();
+</script>"""
+
+
 def page(lang: str) -> str:
     t = T[lang]
     secs, jump = [], []
@@ -302,7 +383,7 @@ def page(lang: str) -> str:
             cta = (f'<a href="{t["pf_url"]}">{t["cta_pf"]}</a>'
                    f'<a class="naga" href="{NAGA_URL}" target="_blank" rel="sponsored noopener">{t["naga_pf"]}</a>')
         else:
-            cta = f'<a href="mailto:contact@dailymarketlab.com?subject={t["mail_subj"]}{name.title()}">{t["cta_contact"]}</a>'
+            cta = f'<a href="#ask-{key}" class="ask" data-p="{key}">{t["cta_contact"]}</a>'
         res = ""
         if key == "odyssey":
             r = t["res"]
@@ -315,7 +396,7 @@ def page(lang: str) -> str:
 <div class="grid">{''.join(fh)}</div>
 {res}
 <div class="adv"><div class="k">{adv[0]}</div><div class="t">{adv[1]}</div><p>{adv[2]}</p><div class="s">{adv[3]}</div></div>
-<div class="cta">{cta}</div>{f'<p class="aff">{t["naga_note"]}</p>' if key in ("odyssey", "portfolio") else ""}</div></section>""")
+<div class="cta">{cta}</div>{ask_form(key, lang) if key != "portfolio" else ""}{f'<p class="aff">{t["naga_note"]}</p>' if key in ("odyssey", "portfolio") else ""}</div></section>""")
     other = "en" if lang == "ro" else "ro"
     return f"""<!doctype html>
 <html lang="{lang}">
@@ -337,7 +418,7 @@ def page(lang: str) -> str:
 <script src="/ga.js" defer></script>
 </head>
 <body>
-<header><a href="{t["home"]}">{LOGO.format(s=26)}Daily Market</a></header>
+{menu_header(lang, PAGES["products"], "products")}
 <div class="top"><div class="bars"><i style="height:70px"></i><i style="height:120px"></i><i style="height:46px"></i></div>
 <div class="in"><h1>{t["h1"]}</h1><p>{t["lead"]}</p><div class="jump">{''.join(jump)}</div></div></div>
 <main>
@@ -346,7 +427,7 @@ def page(lang: str) -> str:
 <p class="disc">{t["disc"]}</p>
 </main>
 <footer><div>{t["foot"]}</div></footer>
-{ODY_JS.replace("{lang}", lang)}
+{ODY_JS.replace("{lang}", lang)}{ASK_JS}
 </body>
 </html>
 """

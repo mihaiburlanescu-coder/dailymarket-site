@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Genereaza paginile „Acuratețe” (acuratete.html) si „Accuracy” (accuracy.html).
 Cifrele vin live din Supabase (functia publica dm_accuracy), deci pagina se actualizeaza singura. Ruleaza: python3 tools_accuracy.py"""
+from tools_menu import header as menu_header, PAGES
 import re
 from pathlib import Path
 
@@ -236,7 +237,7 @@ def page(lg: str) -> str:
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
 <style>{CSS}</style><script src="/ga.js" defer></script></head><body>
-<header><a href="{t["home"]}">{LOGO}Daily Market</a></header>
+{menu_header(lg, PAGES["accuracy"], "accuracy")}
 <div class="top"><div class="in"><h1>{t["h1"]}</h1><p>{t["lead"]}</p><div class="upd" id="upd">{t["loading"]}</div></div></div>
 <main>
 {card(t["r_t"], t["r_tag"], t["r_p"], "rLive", t["r_h"], '<div class="big" id="rBig"></div>')}<div class="chart" id="rChart"></div></section>

@@ -952,7 +952,8 @@ async function showPf() {
     The portfolio is not an investment recommendation. Past results, including those of the test, do not guarantee future results.</p></div>`}`;
 }
 $("pfBtn").onclick = () => { showPf(); $("pf").scrollIntoView({ behavior: "smooth", block: "start" }); };
-try { if (location.hash === "#portfolio" || location.hash === "#portofoliu") setTimeout(() => $("pfBtn").click(), 400); } catch (e) {}  // link direct spre portofoliu (pagina Produse)
+try { if (location.hash === "#portfolio" || location.hash === "#portofoliu") setTimeout(() => $("pfBtn").click(), 400); } catch (e) {}
+try { if (location.hash === "#weekly") setTimeout(() => $("nWeekly").click(), 600); } catch (e) {}  // link din meniul paginilor secundare  // link direct spre portofoliu (pagina Produse)
 $("vPf").onclick = showPf;
 async function show(i) {
   setMode("daily");

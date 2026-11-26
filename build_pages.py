@@ -9,6 +9,7 @@ Pagini noi: se genereaza doar ce lipseste + ultimele zile (care se pot actualiza
 """
 from __future__ import annotations
 
+from tools_menu import header as menu_header
 import html
 import json
 import re
@@ -149,9 +150,7 @@ def page(lang: str, path: str, title: str, desc: str, body: str, alt: dict[str, 
 {ldj}<script src="/ga.js" defer></script>
 </head>
 <body>
-<header><div class="hb"><a class="logo" href="{u['home']}">{LOGO}Daily Market</a>
-<nav><a href="{u['home']}">{u['today']}</a><a href="{u['archive_url']}">{u['archive']}</a><a href="{u['about_url']}">{u['about']}</a>
-<a class="lang" href="{other}" hreflang="{'ro' if lang == 'en' else 'en'}">{u['other']}</a></nav></div></header>
+{menu_header(lang, alt)}
 <main>
 {body}
 </main>
