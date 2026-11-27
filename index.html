@@ -353,7 +353,7 @@
   <!-- AUTENTIFICARE -->
   <section id="auth" class="auth card" hidden>
     <h1 id="authTitle">Sign in</h1>
-    <p class="sub" data-ro="Raport zilnic: SP500 · DAX · VIX · WTI · GOLD · SILVER · EUR/USD · GBP/USD · USD/JPY · NVIDIA · GOOGLE · MICROSOFT · C3.AI · INFINEON" data-de="Tagesbericht: SP500 · DAX · VIX · WTI · GOLD · SILBER · EUR/USD · GBP/USD · USD/JPY · NVIDIA · GOOGLE · MICROSOFT · C3.AI · INFINEON">Daily report: SP500 · DAX · VIX · WTI · GOLD · SILVER · EUR/USD · GBP/USD · USD/JPY · NVIDIA · GOOGLE · MICROSOFT · C3.AI · INFINEON</p>
+    <p class="sub" data-ro="Raport zilnic: SP500 · NASDAQ100 · DAX · VIX · WTI · GOLD · SILVER · EUR/USD · GBP/USD · USD/JPY · NVIDIA · GOOGLE · MICROSOFT · C3.AI · INFINEON" data-de="Tagesbericht: SP500 · NASDAQ100 · DAX · VIX · WTI · GOLD · SILBER · EUR/USD · GBP/USD · USD/JPY · NVIDIA · GOOGLE · MICROSOFT · C3.AI · INFINEON">Daily report: SP500 · NASDAQ100 · DAX · VIX · WTI · GOLD · SILVER · EUR/USD · GBP/USD · USD/JPY · NVIDIA · GOOGLE · MICROSOFT · C3.AI · INFINEON</p>
     <div class="tabs">
       <button id="tLogin" class="on" type="button" data-ro="Autentificare" data-de="Anmelden">Sign in</button>
       <button id="tSignup" type="button" data-ro="Cont nou" data-de="Neues Konto">New account</button>
@@ -1069,7 +1069,7 @@ function bindVote(box) {
   });
 }
 // --- semaforul de risc: cât se mișcă piețele mâine (mișcarea tipică, nu direcția) + primele știri, în coloana din dreapta ---
-const RISK_NAME = { SP500: "SP500", DAX: "DAX", WTI: L("Oil (WTI)", "Petrol (WTI)", "Öl (WTI)"), GOLD: L("Gold", "Aur", "Gold"),
+const RISK_NAME = { SP500: "SP500", NASDAQ100: "Nasdaq 100", DAX: "DAX", WTI: L("Oil (WTI)", "Petrol (WTI)", "Öl (WTI)"), GOLD: L("Gold", "Aur", "Gold"),
   SILVER: L("Silver", "Argint", "Silber"), EURUSD: "EUR/USD", GBPUSD: "GBP/USD", USDJPY: "USD/JPY", NVIDIA: "Nvidia",
   GOOGLE: "Google", MICROSOFT: "Microsoft", C3AI: "C3.ai", INFINEON: "Infineon", BET: "BET" };
 const RISK_GRP = [["Indici", L("Indices", "Indici", "Indizes")], ["Mărfuri", L("Commodities", "Mărfuri", "Rohstoffe")],

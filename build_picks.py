@@ -16,7 +16,7 @@ NAME = {
     "en": {"WTI": "Oil (WTI)", "GOLD": "Gold", "SILVER": "Silver"},
     "de": {"WTI": "Öl (WTI)", "GOLD": "Gold", "SILVER": "Silber"},
 }
-LABEL = {"EURUSD": "EUR/USD", "GBPUSD": "GBP/USD", "USDJPY": "USD/JPY", "NVIDIA": "Nvidia", "GOOGLE": "Google", "MICROSOFT": "Microsoft",
+LABEL = {"NASDAQ100": "Nasdaq 100", "EURUSD": "EUR/USD", "GBPUSD": "GBP/USD", "USDJPY": "USD/JPY", "NVIDIA": "Nvidia", "GOOGLE": "Google", "MICROSOFT": "Microsoft",
          "C3AI": "C3.ai", "INFINEON": "Infineon"}
 MON = {"ro": ["ianuarie", "februarie", "martie", "aprilie", "mai", "iunie", "iulie", "august", "septembrie", "octombrie", "noiembrie", "decembrie"],
        "en": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],

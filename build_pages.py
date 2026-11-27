@@ -32,7 +32,7 @@ MON_RO = ["ianuarie", "februarie", "martie", "aprilie", "mai", "iunie", "iulie",
           "noiembrie", "decembrie"]
 DAY_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 DAY_RO = ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminică"]
-ASSET_SLUG = {"SP500": ("sp500", "sp500"), "DAX": ("dax", "dax"), "VIX": ("vix", "vix"), "WTI": ("oil-wti", "petrol-wti"),
+ASSET_SLUG = {"SP500": ("sp500", "sp500"), "NASDAQ100": ("nasdaq100", "nasdaq100"), "DAX": ("dax", "dax"), "VIX": ("vix", "vix"), "WTI": ("oil-wti", "petrol-wti"),
               "GOLD": ("gold", "aur"), "SILVER": ("silver", "argint"), "EURUSD": ("eurusd", "eurusd"),
               "GBPUSD": ("gbpusd", "gbpusd"), "USDJPY": ("usdjpy", "usdjpy"), "NVIDIA": ("nvidia", "nvidia"),
               "GOOGLE": ("google", "google"), "MICROSOFT": ("microsoft", "microsoft"), "C3AI": ("c3ai", "c3ai"), "INFINEON": ("infineon", "infineon")}
