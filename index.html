@@ -166,10 +166,11 @@
   .pickcta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 4px 0;font-size:14px;color:var(--muted)}
   .pickcta .acc{color:var(--ink);font-weight:700;font-size:13.5px;text-decoration:underline;text-underline-offset:3px}
   .pickcta button{background:var(--gold);color:#13223A;border:none;border-radius:999px;font-weight:800;padding:7px 14px;font-size:13.5px}
-  .nagaA{display:block;text-align:center;margin:12px 0 4px;background:#16a34a;color:#fff!important;font-weight:800;font-size:16px;
-    text-decoration:none!important;border-radius:12px;padding:13px 10px;box-shadow:0 4px 12px rgba(22,163,74,.35)}
+  #pickBox .pk-name,#pickBox span[style*="font-size:20px"]{color:#13223A!important}   /* cardul pick-ului are fundal deschis si in modul intunecat */
+  .nagaA{display:inline-block;margin:10px 0 2px;background:#16a34a;color:#fff!important;font-weight:700;font-size:13.5px;
+    text-decoration:none!important;border-radius:999px;padding:7px 14px}
   .nagaA:hover{background:#15803d}
-  .nagaN{font-size:10.5px;color:#6b7280;text-align:center;line-height:1.4;margin:0 0 6px}
+  .nagaN{font-size:10.5px;color:#6b7280;line-height:1.4;margin:0 0 6px}
   #nagaBar{display:none}
   @media (max-width:700px){
     #nagaBar.on{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#13223A;color:#fff;padding:10px 12px;align-items:center;gap:10px;
@@ -1109,7 +1110,7 @@ function nagaPick(box, date) {
   const chart = box.querySelector(".pk-chart") || (svg ? svg.closest("div") : null);
   if (chart && !box.querySelector(".nagaA")) {
     const w = document.createElement("div");
-    w.innerHTML = `<a class="nagaA" href="${NAGA_URL}" target="_blank" rel="sponsored noopener">▶ ${esc(L("Open the position on NAGA", "Deschide poziția pe NAGA", "Position auf NAGA eröffnen"))}</a>`
+    w.innerHTML = `<a class="nagaA" href="${NAGA_URL}" target="_blank" rel="sponsored noopener">${esc(L("Open the position on NAGA", "Deschide poziția pe NAGA", "Position auf NAGA eröffnen"))}</a>`
       + `<div class="nagaN">${esc(L("Affiliate link · CFDs carry a high risk; most retail investor accounts lose money. Not investment advice.",
         "Link de afiliere · CFD-urile au risc ridicat; majoritatea conturilor de retail pierd bani. Nu e recomandare de investiții.",
         "Affiliate-Link · CFDs bergen ein hohes Risiko; die meisten Kleinanlegerkonten verlieren Geld. Keine Anlageberatung."))}</div>`;

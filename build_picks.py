@@ -117,10 +117,10 @@ CSS = """
 
 def naga_btn(lang: str) -> str:
     t = T[lang]
-    return (f'<a href="{NAGA_URL}" target="_blank" rel="sponsored noopener" style="display:block;text-align:center;margin:12px 0 4px;'
-            f'background:#16a34a;color:#fff;font-weight:800;font-size:16px;text-decoration:none;border-radius:12px;padding:13px 10px;'
-            f'box-shadow:0 4px 12px rgba(22,163,74,.35)">▶ {t["naga_btn"]}</a>'
-            f'<div style="font-size:10.5px;color:#6b7280;text-align:center;line-height:1.4;margin:0 0 8px">{t["naga_note"]}</div>')
+    return (f'<a href="{NAGA_URL}" target="_blank" rel="sponsored noopener" style="display:inline-block;margin:10px 0 2px;'
+            f'background:#16a34a;color:#fff;font-weight:700;font-size:13.5px;text-decoration:none;border-radius:999px;padding:7px 14px">'
+            f'{t["naga_btn"]}</a>'
+            f'<div style="font-size:10.5px;color:#6b7280;line-height:1.4;margin:0 0 8px">{t["naga_note"]}</div>')
 
 
 def naga_bar(p: dict, lang: str) -> str:
